@@ -29,11 +29,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("." . "~/.emacs.d/backups"))))
- '(custom-safe-themes
-   (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
  '(delete-old-versions t)
  '(global-linum-mode t)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(vc-make-backup-files t)
@@ -118,6 +116,21 @@
 
 ;; Nice package to automatically disassemble java .class files
 (use-package autodisass-java-bytecode)
+
+(use-package lsp-mode
+  :config
+  (with-eval-after-load 'lsp-mode
+    (require 'lsp-flycheck))
+  (require 'lsp-mode)
+  )
+
+(use-package lsp-rust
+  :config
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+    (require 'lsp-rust))
+  )
+
 
 ;(use-package ocodo-svg-modelines
 ;  :config
