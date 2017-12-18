@@ -74,6 +74,7 @@
 (use-package minimap
   :config
   (require 'minimap)
+  (setq minimap-window-location 'right)
   (global-set-key [f9] 'minimap-mode)
   )
 
