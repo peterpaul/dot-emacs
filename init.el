@@ -55,14 +55,6 @@
   (auto-package-update-maybe)
   (setq auto-package-update-delete-old-versions t))
 
-;; Nice mode line, with nice theme
-;(use-package smart-mode-line-powerline-theme
-;  :config (setq sml/theme 'powerline))
-(use-package smart-mode-line
-  :config
-  (display-time-mode)
-  (sml/setup))
-
 ;; Code completion
 (use-package company
   :config (add-hook 'after-init-hook 'global-company-mode))
@@ -79,17 +71,23 @@
   (global-set-key (kbd "M-y") 'helm-show-kill-ring))
 
 ;; Minimap
+(use-package minimap
+  :config
+  (require 'minimap)
+  (global-set-key [f9] 'minimap-mode)
+  )
+
 (use-package sublimity
   :config
   (require 'sublimity)
   (require 'sublimity-scroll)
-  (require 'sublimity-map)
-  (setq sublimity-map-size 20)
-  (setq sublimity-map-fraction 0.3)
-  (setq sublimity-map-text-scale -7)
+;  (require 'sublimity-map)
+;  (setq sublimity-map-size 20)
+;  (setq sublimity-map-fraction 0.3)
+;  (setq sublimity-map-text-scale -7)
   ;(require 'sublimity-attractive)
   (sublimity-mode 1)
-  (sublimity-map-set-delay 0)
+;  (sublimity-map-set-delay 0)
   )
 
 ;; Use custom theme
@@ -131,7 +129,8 @@
     (require 'lsp-rust))
   )
 
-
-;(use-package ocodo-svg-modelines
-;  :config
-;  (ocodo-svg-modelines-init))
+(use-package neotree
+  :config
+  (require 'neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  )
