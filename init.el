@@ -32,6 +32,9 @@
  '(delete-old-versions t)
  '(global-linum-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages
+   (quote
+    (spaceline solaire-mode vagrant ansible-vault ansible-doc ansible term-projectile projectile-ripgrep projectile rg ripgrep ag multiple-cursors dashboard dracula-theme use-package sublimity neotree multi-term monokai-theme minimap markdown-toc markdown-preview-mode magit lsp-rust json-mode helm discover-my-major company-ansible bash-completion autodisass-java-bytecode auto-package-update auto-compile)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(vc-make-backup-files t)
@@ -82,22 +85,18 @@
   :config
   (require 'sublimity)
   (require 'sublimity-scroll)
-;  (require 'sublimity-map)
-;  (setq sublimity-map-size 20)
-;  (setq sublimity-map-fraction 0.3)
-;  (setq sublimity-map-text-scale -7)
-  ;(require 'sublimity-attractive)
+					;  (require 'sublimity-map)
+					;  (setq sublimity-map-size 20)
+					;  (setq sublimity-map-fraction 0.3)
+					;  (setq sublimity-map-text-scale -7)
+					;(require 'sublimity-attractive)
   (sublimity-mode 1)
-;  (sublimity-map-set-delay 0)
+					;  (sublimity-map-set-delay 0)
   )
-
-;; Use custom theme
-(use-package dracula-theme
-  :config (load-theme 'dracula t))
 
 ;; Multi terminal emulation
 (use-package multi-term
-    :config (require 'multi-term))
+  :config (require 'multi-term))
 
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
@@ -163,6 +162,66 @@
 (use-package ansible-vault)
 
 (use-package vagrant)
+
+;; Use custom theme
+;;(use-package dracula-theme
+;;  :config (load-theme 'dracula t))
+(use-package doom-themes
+  :config
+  (require 'doom-themes)
+
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+	doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
+  ;; may have their own settings.
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+
+  ;; Enable custom neotree theme
+  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+  )
+
+(use-package solaire-mode
+  :config
+  (require 'solaire-mode)
+
+  ;; brighten buffers (that represent real files)
+  (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
+  ;; To enable solaire-mode unconditionally for certain modes:
+  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
+
+  ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
+  ;; itself off every time Emacs reverts the file
+  (add-hook 'after-revert-hook #'turn-on-solaire-mode)
+
+  ;; highlight the minibuffer when it is activated:
+  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+
+  ;; if the bright and dark background colors are the wrong way around, use this
+  ;; to switch the backgrounds of the `default` and `solaire-default-face` faces.
+  ;; This should be used *after* you load the active theme!
+  ;;
+  ;; NOTE: This is necessary for themes in the doom-themes package!
+  (solaire-mode-swap-bg)
+  )
+
+;; NOTE must run `M-x all-the-icons-install-fonts`
+(use-package all-the-icons)
+
+(use-package spaceline)
+(use-package spaceline-config
+  :ensure
+  spaceline
+  :config
+  (spaceline-helm-mode 1)
+  (spaceline-spacemacs-theme))
 
 ;; Start server if not running
 (load "server")
