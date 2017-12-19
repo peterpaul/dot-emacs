@@ -45,3 +45,9 @@ flycheck_*.el
 .dir-locals.el
 
 .last-package-update-day
+
+# dashboard files
+recentf
+
+# multiple cursors
+/.mc-lists.el

@@ -42,7 +42,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro")))))
+ '(default ((t (:family "Source Code Variable")))))
 
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
@@ -92,8 +92,8 @@
   )
 
 ;; Use custom theme
-(use-package monokai-theme
-  :config (load-theme 'monokai t))
+(use-package dracula-theme
+  :config (load-theme 'dracula t))
 
 ;; Multi terminal emulation
 (use-package multi-term
@@ -135,3 +135,35 @@
   (require 'neotree)
   (global-set-key [f8] 'neotree-toggle)
   )
+
+(use-package dashboard
+  :config
+  (require 'dashboard)
+  (dashboard-setup-startup-hook)
+  )
+
+(use-package multiple-cursors
+  :config
+  (require 'multiple-cursors)
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  )
+
+(use-package ag)
+(use-package ripgrep)
+(use-package rg)
+(use-package projectile)
+(use-package projectile-ripgrep)
+(use-package term-projectile)  
+
+(use-package ansible)
+(use-package ansible-doc)
+(use-package ansible-vault)
+
+(use-package vagrant)
+
+;; Start server if not running
+(load "server")
+(unless (server-running-p) (server-start))
