@@ -168,6 +168,11 @@
 
 (use-package vagrant)
 
+(use-package jdee
+  :config
+  (setq jdee-server-dir "~/.emacs.d/jdee-server")
+  )
+
 ;; Use custom theme
 ;;(use-package dracula-theme
 ;;  :config (load-theme 'dracula t))

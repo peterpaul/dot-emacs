@@ -51,3 +51,9 @@ recentf
 
 # multiple cursors
 /.mc-lists.el
+
+# JDEE files and directories
+/jdee-server/
+/jdee-server-src/
+/abbrev_defs
+/semanticdb/
