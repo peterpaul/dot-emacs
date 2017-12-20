@@ -45,7 +45,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Variable")))))
+ '(default ((t (:family "Source Code Variable"))))
+ '(minimap-active-region-background ((t (:background "DodgerBlue4")))))
 
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
@@ -69,7 +70,8 @@
 
 ;; Helm for minibuffer completion
 (use-package helm
-  :config (helm-mode 1)
+  :config
+  (helm-mode 1)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "M-y") 'helm-show-kill-ring))
 
@@ -77,21 +79,22 @@
 (use-package minimap
   :config
   (require 'minimap)
-  (setq minimap-window-location 'right)
   (global-set-key [f9] 'minimap-mode)
+  :init
+  (setq minimap-window-location 'right)
   )
 
 (use-package sublimity
   :config
   (require 'sublimity)
   (require 'sublimity-scroll)
-					;  (require 'sublimity-map)
-					;  (setq sublimity-map-size 20)
-					;  (setq sublimity-map-fraction 0.3)
-					;  (setq sublimity-map-text-scale -7)
-					;(require 'sublimity-attractive)
+;;  (require 'sublimity-map)
+;;  (setq sublimity-map-size 20)
+;;  (setq sublimity-map-fraction 0.3)
+;;  (setq sublimity-map-text-scale -7)
+;;  (require 'sublimity-attractive)
   (sublimity-mode 1)
-					;  (sublimity-map-set-delay 0)
+;;  (sublimity-map-set-delay 0)
   )
 
 ;; Multi terminal emulation
@@ -111,6 +114,8 @@
 (use-package discover-my-major
   :config (global-set-key (kbd "C-h C-m") 'discover-my-major)
   (global-set-key (kbd "C-h M-m") 'discover-my-mode))
+
+(use-package discover)
 
 ;; Nice package to automatically disassemble java .class files
 (use-package autodisass-java-bytecode)
