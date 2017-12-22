@@ -11,6 +11,8 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
+(add-to-list 'package-archives '("sc" . "http://joseito.republika.pl/sunrise-commander/"))
+
 (package-initialize) ;; You might already have this line
 
 (setq use-package-verbose t)
@@ -32,9 +34,6 @@
  '(delete-old-versions t)
  '(global-linum-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages
-   (quote
-    (spaceline solaire-mode vagrant ansible-vault ansible-doc ansible term-projectile projectile-ripgrep projectile rg ripgrep ag multiple-cursors dashboard dracula-theme use-package sublimity neotree multi-term monokai-theme minimap markdown-toc markdown-preview-mode magit lsp-rust json-mode helm discover-my-major company-ansible bash-completion autodisass-java-bytecode auto-package-update auto-compile)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(vc-make-backup-files t)
@@ -168,6 +167,10 @@
 
 (use-package vagrant)
 
+(use-package sunrise-commander)
+(use-package sunrise-x-buttons)
+(use-package sunrise-x-modeline)
+
 (use-package jdee
   :config
   (setq jdee-server-dir "~/.emacs.d/jdee-server")
@@ -224,6 +227,7 @@
 
 ;; NOTE must run `M-x all-the-icons-install-fonts`
 (use-package all-the-icons)
+(use-package all-the-icons-dired)
 
 (use-package spaceline)
 (use-package spaceline-config
