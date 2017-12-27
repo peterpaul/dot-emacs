@@ -64,8 +64,19 @@
 
 ;; Additional completion packages
 (use-package company-ansible)
+(use-package company-lsp)
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode 1)
+  (eval-after-load 'company
+  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  )
+(use-package company-web)
 
 (use-package magit)
+
+(use-package flycheck)
+;;(use-package flycheck-rust)
 
 ;; Helm for minibuffer completion
 (use-package helm
@@ -73,6 +84,16 @@
   (helm-mode 1)
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "M-y") 'helm-show-kill-ring))
+
+(use-package helm-ag)
+(use-package helm-company)
+(use-package helm-flycheck
+  :config
+  (global-flycheck-mode))
+(use-package helm-mode-manager)
+(use-package helm-mt)
+(use-package helm-projectile)
+
 
 ;; Minimap
 (use-package minimap
@@ -132,6 +153,7 @@
     (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
     (require 'lsp-rust))
   )
+(use-package cargo)
 
 (use-package neotree
   :config
@@ -159,7 +181,7 @@
 (use-package rg)
 (use-package projectile)
 (use-package projectile-ripgrep)
-(use-package term-projectile)  
+(use-package term-projectile)
 
 (use-package ansible)
 (use-package ansible-doc)
@@ -236,6 +258,8 @@
   :config
   (spaceline-helm-mode 1)
   (spaceline-spacemacs-theme))
+
+(use-package 2048-game)
 
 ;; Start server if not running
 (load "server")
