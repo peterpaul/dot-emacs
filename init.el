@@ -34,6 +34,9 @@
  '(delete-old-versions t)
  '(global-linum-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages
+   (quote
+    (2048-game spaceline all-the-icons-dired solaire-mode doom-themes jdee sunrise-x-modeline sunrise-x-buttons sunrise-commander vagrant ansible-vault ansible-doc ansible term-projectile projectile-ripgrep rg ripgrep ag multiple-cursors dashboard neotree cargo lsp-rust autodisass-java-bytecode discover discover-my-major bash-completion json-mode markdown-toc markdown-preview-mode markdown-mode sublimity minimap helm-projectile helm-mt helm-mode-manager helm-flycheck helm-company helm-ag helm magit company-web company-quickhelp company-lsp company-ansible company auto-package-update auto-compile use-package)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(vc-make-backup-files t)
@@ -57,146 +60,6 @@
   :config
   (auto-package-update-maybe)
   (setq auto-package-update-delete-old-versions t))
-
-;; Code completion
-(use-package company
-  :config (add-hook 'after-init-hook 'global-company-mode))
-
-;; Additional completion packages
-(use-package company-ansible)
-(use-package company-lsp)
-(use-package company-quickhelp
-  :config
-  (company-quickhelp-mode 1)
-  (eval-after-load 'company
-  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-  )
-(use-package company-web)
-
-(use-package magit)
-
-(use-package flycheck)
-;;(use-package flycheck-rust)
-
-;; Helm for minibuffer completion
-(use-package helm
-  :config
-  (helm-mode 1)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring))
-
-(use-package helm-ag)
-(use-package helm-company)
-(use-package helm-flycheck
-  :config
-  (global-flycheck-mode))
-(use-package helm-mode-manager)
-(use-package helm-mt)
-(use-package helm-projectile)
-
-
-;; Minimap
-(use-package minimap
-  :config
-  (require 'minimap)
-  (global-set-key [f9] 'minimap-mode)
-  :init
-  (setq minimap-window-location 'right)
-  )
-
-(use-package sublimity
-  :config
-  (require 'sublimity)
-  (require 'sublimity-scroll)
-;;  (require 'sublimity-map)
-;;  (setq sublimity-map-size 20)
-;;  (setq sublimity-map-fraction 0.3)
-;;  (setq sublimity-map-text-scale -7)
-;;  (require 'sublimity-attractive)
-  (sublimity-mode 1)
-;;  (sublimity-map-set-delay 0)
-  )
-
-;; Multi terminal emulation
-(use-package multi-term
-  :config (require 'multi-term))
-
-(use-package markdown-mode)
-(use-package markdown-preview-mode)
-(use-package markdown-toc)
-(use-package json-mode)
-
-;; Bash completion setup
-(use-package bash-completion
-  :config (require 'bash-completion)
-  (bash-completion-setup))
-
-(use-package discover-my-major
-  :config (global-set-key (kbd "C-h C-m") 'discover-my-major)
-  (global-set-key (kbd "C-h M-m") 'discover-my-mode))
-
-(use-package discover)
-
-;; Nice package to automatically disassemble java .class files
-(use-package autodisass-java-bytecode)
-
-(use-package lsp-mode
-  :config
-  (with-eval-after-load 'lsp-mode
-    (require 'lsp-flycheck))
-  (require 'lsp-mode)
-  )
-
-(use-package lsp-rust
-  :config
-  (with-eval-after-load 'lsp-mode
-    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
-    (require 'lsp-rust))
-  )
-(use-package cargo)
-
-(use-package neotree
-  :config
-  (require 'neotree)
-  (global-set-key [f8] 'neotree-toggle)
-  )
-
-(use-package dashboard
-  :config
-  (require 'dashboard)
-  (dashboard-setup-startup-hook)
-  )
-
-(use-package multiple-cursors
-  :config
-  (require 'multiple-cursors)
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  )
-
-(use-package ag)
-(use-package ripgrep)
-(use-package rg)
-(use-package projectile)
-(use-package projectile-ripgrep)
-(use-package term-projectile)
-
-(use-package ansible)
-(use-package ansible-doc)
-(use-package ansible-vault)
-
-(use-package vagrant)
-
-(use-package sunrise-commander)
-(use-package sunrise-x-buttons)
-(use-package sunrise-x-modeline)
-
-(use-package jdee
-  :config
-  (setq jdee-server-dir "~/.emacs.d/jdee-server")
-  )
 
 ;; Use custom theme
 ;;(use-package dracula-theme
@@ -258,6 +121,145 @@
   :config
   (spaceline-helm-mode 1)
   (spaceline-spacemacs-theme))
+
+(use-package dashboard
+  :config
+  (require 'dashboard)
+  (dashboard-setup-startup-hook)
+  )
+
+;; Minimap
+(use-package minimap
+  :config
+  (require 'minimap)
+  (global-set-key [f9] 'minimap-mode)
+  :init
+  (setq minimap-window-location 'right)
+  )
+
+(use-package sublimity
+  :config
+  (require 'sublimity)
+  (require 'sublimity-scroll)
+;;  (require 'sublimity-map)
+;;  (setq sublimity-map-size 20)
+;;  (setq sublimity-map-fraction 0.3)
+;;  (setq sublimity-map-text-scale -7)
+;;  (require 'sublimity-attractive)
+  (sublimity-mode 1)
+;;  (sublimity-map-set-delay 0)
+  )
+
+(use-package neotree
+  :config
+  (require 'neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  )
+
+;; Code completion
+(use-package company
+  :config (add-hook 'after-init-hook 'global-company-mode))
+
+;; Additional completion packages
+(use-package company-ansible)
+(use-package company-lsp)
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode 1)
+  (eval-after-load 'company
+  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  )
+(use-package company-web)
+
+(use-package magit)
+
+(use-package flycheck)
+;;(use-package flycheck-rust)
+
+;; Helm for minibuffer completion
+(use-package helm
+  :config
+  (helm-mode 1)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring))
+
+(use-package helm-ag)
+(use-package helm-company)
+(use-package helm-flycheck
+  :config
+  (global-flycheck-mode))
+(use-package helm-mode-manager)
+(use-package helm-mt)
+(use-package helm-projectile)
+
+;; Multi terminal emulation
+(use-package multi-term
+  :config (require 'multi-term))
+
+(use-package markdown-mode)
+(use-package markdown-preview-mode)
+(use-package markdown-toc)
+(use-package json-mode)
+
+;; Bash completion setup
+(use-package bash-completion
+  :config (require 'bash-completion)
+  (bash-completion-setup))
+
+(use-package discover-my-major
+  :config (global-set-key (kbd "C-h C-m") 'discover-my-major)
+  (global-set-key (kbd "C-h M-m") 'discover-my-mode))
+
+(use-package discover)
+
+;; Nice package to automatically disassemble java .class files
+(use-package autodisass-java-bytecode)
+
+(use-package lsp-mode
+  :config
+  (with-eval-after-load 'lsp-mode
+    (require 'lsp-flycheck))
+  (require 'lsp-mode)
+  )
+
+(use-package lsp-rust
+  :config
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+    (require 'lsp-rust))
+  )
+(use-package cargo)
+
+(use-package multiple-cursors
+  :config
+  (require 'multiple-cursors)
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  )
+
+(use-package ag)
+(use-package ripgrep)
+(use-package rg)
+(use-package projectile)
+(use-package projectile-ripgrep)
+(use-package term-projectile)
+
+(use-package ansible)
+(use-package ansible-doc)
+(use-package ansible-vault)
+
+(use-package vagrant)
+
+(use-package sunrise-commander)
+(use-package sunrise-x-buttons)
+(use-package sunrise-x-modeline)
+
+(use-package jdee
+  :config
+  (setq jdee-server-dir "~/.emacs.d/jdee-server")
+  )
 
 (use-package 2048-game)
 
