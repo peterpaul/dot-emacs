@@ -60,6 +60,8 @@
 (use-package auto-package-update
   :config
   (auto-package-update-maybe)
+  (setq auto-package-update-interval 1)
+  (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t))
 
 ;; Use custom theme
