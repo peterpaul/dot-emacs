@@ -37,9 +37,10 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (exwm 2048-game spaceline all-the-icons-dired solaire-mode doom-themes jdee sunrise-x-modeline sunrise-x-buttons sunrise-commander vagrant ansible-vault ansible-doc ansible term-projectile projectile-ripgrep rg ripgrep ag multiple-cursors dashboard neotree cargo lsp-rust autodisass-java-bytecode discover discover-my-major bash-completion json-mode markdown-toc markdown-preview-mode markdown-mode sublimity minimap helm-projectile helm-mt helm-mode-manager helm-flycheck helm-company helm-ag helm magit company-web company-quickhelp company-lsp company-ansible company auto-package-update auto-compile use-package)))
+    (restart-emacs exwm 2048-game spaceline all-the-icons-dired solaire-mode doom-themes jdee sunrise-x-modeline sunrise-x-buttons sunrise-commander vagrant ansible-vault ansible-doc ansible term-projectile projectile-ripgrep rg ripgrep ag multiple-cursors dashboard neotree cargo lsp-rust autodisass-java-bytecode discover discover-my-major bash-completion json-mode markdown-toc markdown-preview-mode markdown-mode sublimity minimap helm-projectile helm-mt helm-mode-manager helm-flycheck helm-company helm-ag helm magit company-web company-quickhelp company-lsp company-ansible company auto-package-update auto-compile use-package)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
+ '(tramp-syntax (quote default) nil (tramp))
  '(vc-make-backup-files t)
  '(version-control t))
 
@@ -261,6 +262,8 @@
 (use-package ansible-vault)
 
 (use-package vagrant)
+
+(use-package restart-emacs)
 
 (use-package sunrise-commander)
 (use-package sunrise-x-buttons)
