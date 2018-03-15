@@ -35,12 +35,8 @@
  '(delete-old-versions t)
  '(global-linum-mode t)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages
-   (quote
-    (restart-emacs exwm 2048-game spaceline all-the-icons-dired solaire-mode doom-themes jdee sunrise-x-modeline sunrise-x-buttons sunrise-commander vagrant ansible-vault ansible-doc ansible term-projectile projectile-ripgrep rg ripgrep ag multiple-cursors dashboard neotree cargo lsp-rust autodisass-java-bytecode discover discover-my-major bash-completion json-mode markdown-toc markdown-preview-mode markdown-mode sublimity minimap helm-projectile helm-mt helm-mode-manager helm-flycheck helm-company helm-ag helm magit company-web company-quickhelp company-lsp company-ansible company auto-package-update auto-compile use-package)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
- '(tramp-syntax (quote default) nil (tramp))
  '(vc-make-backup-files t)
  '(version-control t))
 
@@ -123,7 +119,6 @@
   :ensure
   spaceline
   :config
-  (spaceline-helm-mode 1)
   (spaceline-spacemacs-theme))
 
 (use-package dashboard
@@ -196,21 +191,31 @@
 (use-package flycheck)
 ;;(use-package flycheck-rust)
 
-;; Helm for minibuffer completion
-(use-package helm
-  :config
-  (helm-mode 1)
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring))
+(use-package counsel)
 
-(use-package helm-ag)
-(use-package helm-company)
-(use-package helm-flycheck
+(use-package ivy
   :config
-  (global-flycheck-mode))
-(use-package helm-mode-manager)
-(use-package helm-mt)
-(use-package helm-projectile)
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+)
+
 
 ;; Multi terminal emulation
 (use-package multi-term
@@ -237,9 +242,13 @@
 
 (use-package lsp-mode
   :config
-  (with-eval-after-load 'lsp-mode
-    (require 'lsp-flycheck))
   (require 'lsp-mode)
+  )
+
+(use-package lsp-ui
+  :config
+  (require 'lsp-ui)
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   )
 
 (use-package lsp-rust
