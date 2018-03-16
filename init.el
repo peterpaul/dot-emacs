@@ -37,7 +37,6 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
- '(tramp-syntax (quote default) nil (tramp))
  '(vc-make-backup-files t)
  '(version-control t))
 
@@ -190,6 +189,8 @@
 
 (use-package magit)
 
+(use-package monky)
+
 (use-package flycheck)
 ;;(use-package flycheck-rust)
 
@@ -234,9 +235,12 @@
 
 (use-package lsp-mode
   :config
-  (with-eval-after-load 'lsp-mode
-    (require 'lsp-flycheck))
   (require 'lsp-mode)
+  )
+
+(use-package lsp-ui
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   )
 
 (use-package lsp-rust
