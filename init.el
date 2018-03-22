@@ -239,6 +239,12 @@
 
 (use-package discover)
 
+(use-package which-key
+  :config
+  (require 'which-key)
+  (which-key-mode)
+  )
+
 ;; Nice package to automatically disassemble java .class files
 (use-package autodisass-java-bytecode)
 
@@ -288,6 +294,8 @@
 (use-package sunrise-commander)
 (use-package sunrise-x-buttons)
 (use-package sunrise-x-modeline)
+
+(use-package x509-mode)
 
 (use-package jdee
   :config
