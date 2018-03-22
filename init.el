@@ -169,6 +169,7 @@
   :config
   (require 'neotree)
   (global-set-key [f8] 'neotree-toggle)
+  (setq neo-window-fixed-size nil)
   )
 
 ;; Code completion
@@ -303,6 +304,8 @@
   )
 
 (use-package 2048-game)
+
+(load "~/.emacs.d/eshell-customize.el")
 
 ;; Start server if not running
 (load "server")
