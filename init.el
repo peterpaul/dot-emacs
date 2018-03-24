@@ -110,16 +110,43 @@
   (solaire-mode-swap-bg)
   )
 
-;; NOTE must run `M-x all-the-icons-install-fonts`
-(use-package all-the-icons)
-(use-package all-the-icons-dired)
+(when (display-graphic-p)
+  ;; NOTE must run `M-x all-the-icons-install-fonts`
+  (use-package all-the-icons)
+  (use-package all-the-icons-dired
+    :config
+    (all-the-icons-dired-mode)
+    )
 
-(use-package spaceline)
-(use-package spaceline-config
-  :ensure
-  spaceline
-  :config
-  (spaceline-spacemacs-theme))
+  (use-package spaceline)
+  (use-package spaceline-config
+    :ensure
+    spaceline
+    ;;:config
+    ;;(spaceline-spacemacs-theme)
+    )
+
+  (use-package spaceline-all-the-icons 
+    :after spaceline
+    :config
+    (spaceline-all-the-icons-theme)
+    (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
+    (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
+    (spaceline-all-the-icons--setup-neotree)         ;; Enable Neotree mode line
+    (setq spaceline-all-the-icons-separator-type (quote wave))
+    )
+  )
+
+;; Minimap
+(when (display-graphic-p)
+  (use-package minimap
+    :config
+    (require 'minimap)
+    (global-set-key [f9] 'minimap-mode)
+    :init
+    (setq minimap-window-location 'right)
+    )
+  )
 
 (use-package dashboard
   :config
@@ -130,39 +157,10 @@
 ;;
 (use-package org
   :config
-    (global-set-key "\C-cl" 'org-store-link)
-     (global-set-key "\C-ca" 'org-agenda)
-     (global-set-key "\C-cc" 'org-capture)
-     (global-set-key "\C-cb" 'org-iswitchb)
-     )
-
-(use-package exwm
-  :config
-  (require 'exwm)
-  (require 'exwm-config)
-  (exwm-config-default)
-  )
-
-;; Minimap
-(use-package minimap
-  :config
-  (require 'minimap)
-  (global-set-key [f9] 'minimap-mode)
-  :init
-  (setq minimap-window-location 'right)
-  )
-
-(use-package sublimity
-  :config
-  (require 'sublimity)
-  (require 'sublimity-scroll)
-;;  (require 'sublimity-map)
-;;  (setq sublimity-map-size 20)
-;;  (setq sublimity-map-fraction 0.3)
-;;  (setq sublimity-map-text-scale -7)
-;;  (require 'sublimity-attractive)
-  (sublimity-mode 1)
-;;  (sublimity-map-set-delay 0)
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
   )
 
 (use-package neotree
@@ -183,7 +181,7 @@
   :config
   (company-quickhelp-mode 1)
   (eval-after-load 'company
-  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+    '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
   )
 (use-package company-web)
 
@@ -198,27 +196,30 @@
 
 (use-package ivy
   :config
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-)
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+  )
 
+(when (display-graphic-p)
+  (use-package all-the-icons-ivy)
+  )
 
 ;; Multi terminal emulation
 (use-package multi-term
@@ -293,8 +294,10 @@
 (use-package restart-emacs)
 
 (use-package sunrise-commander)
-(use-package sunrise-x-buttons)
-(use-package sunrise-x-modeline)
+(when (display-graphic-p)
+  (use-package sunrise-x-buttons)
+  (use-package sunrise-x-modeline)
+  )
 
 (use-package x509-mode)
 
@@ -305,7 +308,17 @@
 
 (use-package 2048-game)
 
+(when (display-graphic-p)
+  (use-package exwm
+    :config
+    (require 'exwm)
+    (require 'exwm-config)
+    (exwm-config-default)
+    )
+  )
+
 (load "~/.emacs.d/eshell-customize.el")
+(load "~/.emacs.d/move-lines.el")
 
 ;; Start server if not running
 (load "server")
