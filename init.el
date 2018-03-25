@@ -193,6 +193,9 @@
 ;;(use-package flycheck-rust)
 
 (use-package counsel)
+(use-package counsel-tramp
+  :after counsel
+  )
 
 (use-package ivy
   :config
