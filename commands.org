@@ -1,7 +1,62 @@
 * Documentation
 
-|-------+------------------------|
-| Keys  | Description            |
-|-------+------------------------|
-| C-h r | Opens the emacs editor |
-|-------+------------------------|
+|-------+----------------------------|
+| Keys  | Description                |
+|-------+----------------------------|
+| C-h r | Opens the emacs editor     |
+|-------+----------------------------|
+
+
+* Self Documentation[fn::taken from: https://www.emacswiki.org/emacs/SelfDocumentation]
+
+Emacs is an [[extensible]] self-documenting editor.  A lot of the
+knowledge the user can be supplied with comes from documentation
+strings, or "DocStrings" among the code.  Emacs also provides
+hypertext documentation in InfoMode.  You can also query 
+many of Emacs's primitives and values with AproposMode.
+
+Ask Emacs itself about anything you see in it: a [[command]], a [[key sequence]], a menu item, or a term used in the documentation.
+
+Here's how you can use Emacs to teach you Emacs.
+
+# The key sequence `C-h k' provides help about a command.
+# Use `C-h k' to have Emacs tell you about the related help commands `C-h f', `C-h v', `C-h w', `C-h m', `C-h b', `C-h a', `C-h k', and more. That is, type `C-h k', then type a key sequence you want to learn about.
+# Use `C-h f', `C-h v', `C-h a', and so on to learn about everything Emacsian!
+
+You can access nearly ''all Emacs help'' through `C-h C-h' (command `help-for-help').
+
+Here are some hints:
+
+- ~C-h a~ -- look for a [[command]], unless preceded by `C-u' (`universal-argument'), in which case non-interactive functions are looked up too
+- ~C-h i d m Emacs~ -- open the EmacsManual in InfoMode; search the indexes using ~i~, or search the complete text using ~s~
+- ~C-h k~ -- followed by a [[key]] will tell you what that key accomplishes in the current context
+- ~C-h c~ -- shows, in the [[echo area]], the command bound to a given key
+- ~M-x apropos-documentation~ -- search the [[doc string]]s of functions and [[variable]]s -- see AproposMode
+- ~C-h F~ -- bring up the Emacs FAQ -- search using ~i~ and ~s~ (see also the online version: OnlineResources)
+- ~M-x apropos~ -- search all function and variable names -- see AproposMode
+- ~C-h p~ -- check whether there is an appropriate package to load
+- ~C-h m~ -- show help on the current mode
+
+If you can remember the key prefix of some command, typing
+~C-h~ after the prefix shows you all commands with this
+prefix (unless the prefix and ~C-h~ together is bound to
+one of the commands).
+
+For instance, if you can remember that ~C-x r~ is the
+prefix for various [[register]] commands, then typing ~C-x r C-h~ will give you the full list of all commands beginning with
+~C-x r~ (which also happens to include some for managing
+rectangles).
+
+''For more information on obtaining help in Emacs, see EmacsNewbie.''
+
+== Extending Self-Documentation ==
+
+A few tricks for extending the self-documentation of new functions and
+tools are :
+
+- Using `quoted' terms in DocStrings to identify related
+  functions.  (from CodingStyle)
+
+- For Modes, refer to [[Manual:Keys in Documentation]]
+  for hints on writing documentation strings so that `C-h m'
+  (`describe-mode') shows the mode's keymap.
