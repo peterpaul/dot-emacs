@@ -303,11 +303,13 @@
 (use-package 2048-game)
 
 (when (display-graphic-p)
-  (use-package exwm
-    :config
-    (require 'exwm)
-    (require 'exwm-config)
-    (exwm-config-default)
+  (if (y-or-n-p-with-timeout "Start EXWM?" 3 nil)
+      (use-package exwm
+	:config
+	(require 'exwm)
+	(require 'exwm-config)
+	(exwm-config-default)
+	)
     )
   )
 
