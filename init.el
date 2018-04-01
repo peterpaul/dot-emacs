@@ -134,26 +134,28 @@
     )
   )
 
+(use-package neotree
+  :config
+  (require 'neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-window-fixed-size nil)
+  )
+
 (use-package dashboard
   :config
   (require 'dashboard)
   (dashboard-setup-startup-hook)
   )
 
-;;
+(use-package lastpass)
+
+;; Org
 (use-package org
   :config
   (global-set-key "\C-cl" 'org-store-link)
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
-  )
-
-(use-package neotree
-  :config
-  (require 'neotree)
-  (global-set-key [f8] 'neotree-toggle)
-  (setq neo-window-fixed-size nil)
   )
 
 ;; Code completion
