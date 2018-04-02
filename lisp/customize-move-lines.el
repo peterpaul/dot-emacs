@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 
 ;; (defun move-line-up ()
 ;;   (interactive)
@@ -32,3 +33,6 @@
 
 (global-set-key (kbd "M-<up>") 'move-line-up)
 (global-set-key (kbd "M-<down>") 'move-line-down)
+
+(provide 'customize-move-lines)
+;;; customize-move-lines ends here

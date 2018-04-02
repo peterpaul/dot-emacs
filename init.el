@@ -28,6 +28,9 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 
@@ -40,6 +43,13 @@
   (setq auto-package-update-interval 1)
   (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t))
+
+;; Enable all-the-icons
+(when (display-graphic-p)
+  ;; NOTE must run `M-x all-the-icons-install-fonts`
+  (use-package all-the-icons)
+  (use-package all-the-icons-dired)
+  )
 
 ;; Use custom theme
 ;;(use-package dracula-theme
@@ -90,37 +100,8 @@
   (solaire-mode-swap-bg)
   )
 
-(when (display-graphic-p)
-  ;; NOTE must run `M-x all-the-icons-install-fonts`
-  (use-package all-the-icons)
-  (use-package all-the-icons-dired
-    :config
-    (all-the-icons-dired-mode)
-    )
-
-  (defvar use-fancy-spaceline (y-or-n-p-with-timeout "Use fancy spaceline-all-the-icons?" 3 nil))
-  
-  (use-package spaceline)
-  (use-package spaceline-config
-    :ensure
-    spaceline
-    :config
-    (unless use-fancy-spaceline
-      (spaceline-spacemacs-theme)
-      )
-    )
-
-  (when use-fancy-spaceline
-    (use-package spaceline-all-the-icons
-      :after spaceline
-      :config
-      (spaceline-all-the-icons-theme)
-      (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
-      (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
-      (spaceline-all-the-icons--setup-neotree)         ;; Enable Neotree mode line
-      (setq spaceline-all-the-icons-separator-type (quote wave))
-      )
-    )
+(use-package customize-modeline
+  :load-path "lisp"
   )
 
 ;; Minimap
@@ -315,11 +296,12 @@
     )
   )
 
-(load "~/.emacs.d/eshell-customize.el")
-(load "~/.emacs.d/move-lines.el")
-
-(when (file-exists-p custom-file)
-  (load custom-file))
+(use-package customize-eshell
+  :load-path "lisp"
+  )
+(use-package customize-move-lines
+  :load-path "lisp"
+  )
 
 ;; Start server if not running
 (load "server")
