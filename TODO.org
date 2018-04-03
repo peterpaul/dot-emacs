@@ -19,3 +19,8 @@
 - jdee
 - jdee-server
 - discover-my-major
+- erc: IRC for emacs
+- anzu: 
+- eyebrowse: global minor mode to manage windows and configuration
+- persp-mode: https://github.com/Bad-ptr/persp-mode.el
+- org-pomodoro: https://github.com/lolownia/org-pomodoro

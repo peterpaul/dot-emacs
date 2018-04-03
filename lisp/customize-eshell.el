@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'dash)
 (require 's)
 
@@ -74,4 +76,5 @@
 ;; Enable the new eshell prompt
 (setq eshell-prompt-function 'esh-prompt-func)
 
-(provide 'eshell-customize)
+(provide 'customize-eshell)
+;;; customize-eshell ends here

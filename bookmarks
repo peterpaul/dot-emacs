@@ -3,10 +3,10 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("elisp tutorial"
- (front-context-string . "\n2 Practicing Ev")
- (rear-context-string . "ssing,  Up: Top\n")
- (position . 87910)
+ (front-context-string . "\n4 A Few Buffer-")
+ (rear-context-string . "efuns,  Up: Top\n")
+ (position . 161444)
  (filename . "/usr/share/info/eintr")
- (info-node . "Practicing Evaluation")
+ (info-node . "Buffer Walk Through")
  (handler . Info-bookmark-jump))
 )

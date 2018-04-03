@@ -28,6 +28,9 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 
@@ -40,6 +43,13 @@
   (setq auto-package-update-interval 1)
   (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t))
+
+;; Enable all-the-icons
+(when (display-graphic-p)
+  ;; NOTE must run `M-x all-the-icons-install-fonts`
+  (use-package all-the-icons)
+  (use-package all-the-icons-dired)
+  )
 
 ;; Use custom theme
 ;;(use-package dracula-theme
@@ -90,37 +100,8 @@
   (solaire-mode-swap-bg)
   )
 
-(when (display-graphic-p)
-  ;; NOTE must run `M-x all-the-icons-install-fonts`
-  (use-package all-the-icons)
-  (use-package all-the-icons-dired
-    :config
-    (all-the-icons-dired-mode)
-    )
-
-  (defvar use-fancy-spaceline (y-or-n-p-with-timeout "Use fancy spaceline-all-the-icons?" 3 nil))
-  
-  (use-package spaceline)
-  (use-package spaceline-config
-    :ensure
-    spaceline
-    :config
-    (unless use-fancy-spaceline
-      (spaceline-spacemacs-theme)
-      )
-    )
-
-  (when use-fancy-spaceline
-    (use-package spaceline-all-the-icons
-      :after spaceline
-      :config
-      (spaceline-all-the-icons-theme)
-      (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
-      (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
-      (spaceline-all-the-icons--setup-neotree)         ;; Enable Neotree mode line
-      (setq spaceline-all-the-icons-separator-type (quote wave))
-      )
-    )
+(use-package customize-modeline
+  :load-path "lisp"
   )
 
 ;; Minimap
@@ -134,26 +115,28 @@
     )
   )
 
+(use-package neotree
+  :config
+  (require 'neotree)
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-window-fixed-size nil)
+  )
+
 (use-package dashboard
   :config
   (require 'dashboard)
   (dashboard-setup-startup-hook)
   )
 
-;;
+(use-package lastpass)
+
+;; Org
 (use-package org
   :config
   (global-set-key "\C-cl" 'org-store-link)
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
-  )
-
-(use-package neotree
-  :config
-  (require 'neotree)
-  (global-set-key [f8] 'neotree-toggle)
-  (setq neo-window-fixed-size nil)
   )
 
 ;; Code completion
@@ -303,19 +286,22 @@
 (use-package 2048-game)
 
 (when (display-graphic-p)
-  (use-package exwm
-    :config
-    (require 'exwm)
-    (require 'exwm-config)
-    (exwm-config-default)
+  (if (y-or-n-p-with-timeout "Start EXWM?" 3 nil)
+      (use-package exwm
+	:config
+	(require 'exwm)
+	(require 'exwm-config)
+	(exwm-config-default)
+	)
     )
   )
 
-(load "~/.emacs.d/eshell-customize.el")
-(load "~/.emacs.d/move-lines.el")
-
-(when (file-exists-p custom-file)
-  (load custom-file))
+(use-package customize-eshell
+  :load-path "lisp"
+  )
+(use-package customize-move-lines
+  :load-path "lisp"
+  )
 
 ;; Start server if not running
 (load "server")
