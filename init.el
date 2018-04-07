@@ -16,6 +16,18 @@
 
 (package-initialize) ;; You might already have this line
 
+(if (require 'quelpa nil t)
+    (quelpa-self-upgrade)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
+    (eval-buffer)))
+
+(quelpa
+ '(quelpa-use-package
+   :fetcher github
+   :repo "quelpa/quelpa-use-package"))
+(require 'quelpa-use-package)
+
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
 
@@ -107,11 +119,16 @@
 ;; Minimap
 (when (display-graphic-p)
   (use-package minimap
+    :quelpa
+    ((minimap :fetcher github :repo "dengste/minimap") :upgrade t)
     :config
     (require 'minimap)
     (global-set-key [f9] 'minimap-mode)
     :init
     (setq minimap-window-location 'right)
+    :custom-face
+    (minimap-active-region-background ((t (:background "#4C566A"))))
+    (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))
     )
   )
 
