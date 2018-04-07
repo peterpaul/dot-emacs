@@ -56,6 +56,10 @@
   (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t))
 
+;; Set default font
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    )
 ;; Enable all-the-icons
 (when (display-graphic-p)
   ;; NOTE must run `M-x all-the-icons-install-fonts`
