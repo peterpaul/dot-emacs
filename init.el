@@ -58,6 +58,33 @@
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
                     )
+
+(use-package pretty-mode
+  :config
+  (global-pretty-mode t)
+  (global-prettify-symbols-mode 1)
+
+  ;; (pretty-deactivate-groups
+  ;;  '(:equality :ordering :ordering-double :ordering-triple
+  ;; 	       :arrows :arrows-twoheaded :punctuation
+  ;; 	       :logic :sets))
+
+  (pretty-activate-groups
+   '(:sub-and-superscripts
+     :greek
+     :arithmetic-nary
+     :equality
+     :ordering
+     :ordering-double
+     :ordering-triple
+     :arrows
+     :arrows-twoheaded
+     :punctuation
+     :logic
+     :sets
+     ))
+  )
+
 ;; Enable all-the-icons
 (when (display-graphic-p)
   ;; NOTE must run `M-x all-the-icons-install-fonts`
