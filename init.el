@@ -12,8 +12,6 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
-(add-to-list 'package-archives '("sc" . "http://joseito.republika.pl/sunrise-commander/"))
-
 (package-initialize) ;; You might already have this line
 
 (if (require 'quelpa nil t)
@@ -286,10 +284,17 @@
 
 (use-package restart-emacs)
 
-(use-package sunrise-commander)
-(when (display-graphic-p)
-  (use-package sunrise-x-buttons)
-  (use-package sunrise-x-modeline)
+(use-package sunrise-commander
+  :quelpa
+  ((sunrise-commander
+    :fetcher github
+    :repo "escherdragon/sunrise-commander")
+   :upgrade t)
+  :config
+  (when (display-graphic-p)
+    (require 'sunrise-x-buttons)
+    (require 'sunrise-x-modeline)
+    )
   )
 
 (use-package diredfl
