@@ -66,6 +66,12 @@
   )
 
 ;; Use custom theme
+
+(use-package nord-theme
+  :config
+  (load-theme 'nord t)
+  )
+
 ;;(use-package dracula-theme
 ;;  :config (load-theme 'dracula t))
 (use-package doom-themes
