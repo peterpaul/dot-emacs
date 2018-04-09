@@ -12,9 +12,19 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
-(add-to-list 'package-archives '("sc" . "http://joseito.republika.pl/sunrise-commander/"))
-
 (package-initialize) ;; You might already have this line
+
+(if (require 'quelpa nil t)
+    (quelpa-self-upgrade)
+  (with-temp-buffer
+    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
+    (eval-buffer)))
+
+(quelpa
+ '(quelpa-use-package
+   :fetcher github
+   :repo "quelpa/quelpa-use-package"))
+(require 'quelpa-use-package)
 
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
@@ -44,6 +54,37 @@
   (setq auto-package-update-prompt-before-update t)
   (setq auto-package-update-delete-old-versions t))
 
+;; Set default font
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    )
+
+(use-package pretty-mode
+  :config
+  (global-pretty-mode t)
+  (global-prettify-symbols-mode 1)
+
+  ;; (pretty-deactivate-groups
+  ;;  '(:equality :ordering :ordering-double :ordering-triple
+  ;; 	       :arrows :arrows-twoheaded :punctuation
+  ;; 	       :logic :sets))
+
+  (pretty-activate-groups
+   '(:sub-and-superscripts
+     :greek
+     :arithmetic-nary
+     :equality
+     :ordering
+     :ordering-double
+     :ordering-triple
+     :arrows
+     :arrows-twoheaded
+     :punctuation
+     :logic
+     :sets
+     ))
+  )
+
 ;; Enable all-the-icons
 (when (display-graphic-p)
   ;; NOTE must run `M-x all-the-icons-install-fonts`
@@ -52,6 +93,12 @@
   )
 
 ;; Use custom theme
+
+(use-package nord-theme
+  :config
+  (load-theme 'nord t)
+  )
+
 ;;(use-package dracula-theme
 ;;  :config (load-theme 'dracula t))
 (use-package doom-themes
@@ -107,11 +154,16 @@
 ;; Minimap
 (when (display-graphic-p)
   (use-package minimap
+    :quelpa
+    ((minimap :fetcher github :repo "dengste/minimap") :upgrade t)
     :config
     (require 'minimap)
     (global-set-key [f9] 'minimap-mode)
     :init
     (setq minimap-window-location 'right)
+    :custom-face
+    (minimap-active-region-background ((t (:background "#4C566A"))))
+    (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))
     )
   )
 
@@ -265,10 +317,17 @@
 
 (use-package restart-emacs)
 
-(use-package sunrise-commander)
-(when (display-graphic-p)
-  (use-package sunrise-x-buttons)
-  (use-package sunrise-x-modeline)
+(use-package sunrise-commander
+  :quelpa
+  ((sunrise-commander
+    :fetcher github
+    :repo "escherdragon/sunrise-commander")
+   :upgrade t)
+  :config
+  (when (display-graphic-p)
+    (require 'sunrise-x-buttons)
+    (require 'sunrise-x-modeline)
+    )
   )
 
 (use-package diredfl
