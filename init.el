@@ -312,6 +312,7 @@
 (use-package ansible)
 (use-package ansible-doc)
 (use-package ansible-vault)
+(use-package yaml-mode)
 
 (use-package vagrant)
 
@@ -353,6 +354,12 @@
 	(exwm-config-default)
 	)
     )
+  )
+
+(use-package shell-pop
+  :config
+  (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
+  (setq shell-pop-universal-key "C-c t")
   )
 
 (use-package customize-eshell
