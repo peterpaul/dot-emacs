@@ -356,15 +356,16 @@
     )
   )
 
+(use-package customize-eshell
+  :load-path "lisp"
+  )
+
 (use-package shell-pop
   :config
   (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
   (setq shell-pop-universal-key "C-c t")
   )
 
-(use-package customize-eshell
-  :load-path "lisp"
-  )
 (use-package customize-move-lines
   :load-path "lisp"
   )
