@@ -335,7 +335,7 @@
   (diredfl-global-mode)
   )
 
-(use-package x509-mode)
+;;(use-package x509-mode)
 
 (use-package jdee
   :config
@@ -358,11 +358,16 @@
 (use-package customize-eshell
   :load-path "lisp"
   )
+
 (use-package customize-move-lines
   :load-path "lisp"
   )
 
 (use-package macros
+  :load-path "lisp"
+  )
+
+(use-package x509-certificate
   :load-path "lisp"
   )
 
