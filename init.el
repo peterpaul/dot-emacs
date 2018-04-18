@@ -370,6 +370,10 @@
   :load-path "lisp"
   )
 
+(use-package macros
+  :load-path "lisp"
+  )
+
 ;; Start server if not running
 (load "server")
 (unless (server-running-p) (server-start))
