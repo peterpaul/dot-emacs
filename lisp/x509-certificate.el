@@ -77,8 +77,8 @@
     map)
   "Keymap for X.509 Certificate major mode")
 
-(add-to-list 'auto-mode-alist '("\\.\\(der\\|crt\\|pem\\)$" . x509-certificate-mode))
-(add-to-list 'magic-mode-alist '("-----BEGIN CERTIFICATE-----" . x509-certificate-mode))
+;; (add-to-list 'auto-mode-alist '("\\.\\(der\\|crt\\|pem\\)$" . x509-certificate-mode))
+;; (add-to-list 'magic-mode-alist '("-----BEGIN CERTIFICATE-----" . x509-certificate-mode))
 
 (defun x509-certificate-mode ()
   "Major mode for viewing X.509 certificates"
@@ -101,4 +101,26 @@
   ;; Perform the initial parse of the buffer
   (x509-certificate-parse))
 
-(provide 'x509-certificate-mode)
+(defun x509-view-region-as-x509-certificate ()
+  "Try to view the region as x509 certificate"
+  (interactive)
+  (let* ((old-buffer (current-buffer))
+	 (regionp (region-active-p))
+         (beg (and regionp (region-beginning)))
+         (end (and regionp (region-end)))
+	 (cert-buffer (get-buffer-create (format "*certificate from %s*" (buffer-name)))))
+    (copy-to-buffer cert-buffer beg end)
+    (save-excursion
+      (with-current-buffer cert-buffer
+	(barf-if-buffer-read-only)
+	(set-mark (point-max))
+	(goto-char (point-min))
+	(delete-trailing-whitespace 0 nil)
+	(insert "-----BEGIN CERTIFICATE-----\n")
+	(goto-char (point-max))
+	(insert "\n-----END CERTIFICATE-----\n")
+	(x509-certificate-mode)
+	(switch-to-buffer-other-window cert-buffer)
+	))))
+
+(provide 'x509-certificate)
