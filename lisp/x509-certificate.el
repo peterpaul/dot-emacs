@@ -113,9 +113,7 @@
     (save-excursion
       (with-current-buffer cert-buffer
 	(barf-if-buffer-read-only)
-	(set-mark (point-max))
 	(goto-char (point-min))
-	(delete-trailing-whitespace 0 nil)
 	(insert "-----BEGIN CERTIFICATE-----\n")
 	(goto-char (point-max))
 	(insert "\n-----END CERTIFICATE-----\n")
