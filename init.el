@@ -356,6 +356,11 @@
     )
   )
 
+(use-package symon
+  :config
+  (symon-mode)
+  )
+
 (use-package customize-eshell
   :load-path "lisp"
   )

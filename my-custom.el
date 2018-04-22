@@ -18,4 +18,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Source Code Pro"))))
- '(minimap-active-region-background ((t (:background "DodgerBlue4")))))
+ '(minimap-active-region-background ((t (:background "#4C566A"))))
+ '(minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440")))))

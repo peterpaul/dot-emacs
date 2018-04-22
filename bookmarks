@@ -1,12 +1,12 @@
-;;;; Emacs Bookmark Format Version 1 ;;;;
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*- 
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("elisp tutorial"
- (front-context-string . "\n5 A Few More Co")
- (rear-context-string . "rough,  Up: Top\n")
- (position . 189523)
+ (front-context-string . "\n5.5 ‘optional’ ")
+ (rear-context-string . "p: More Complex\n")
+ (position . 224071)
  (filename . "/usr/share/info/eintr")
- (info-node . "More Complex")
+ (info-node . "optional Exercise")
  (handler . Info-bookmark-jump))
 )

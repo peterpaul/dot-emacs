@@ -1,26 +1,28 @@
 * Interesting packages
-- multiple-cursors
-- helm
+- ag
+- aHg
+- anzu: 
+- company-box: https://github.com/sebastiencs/company-box
 - company-mode
 - discover
-- magit
-- aHg
-- symon
-- projectile
-- use-package
-- yasnippet
-- eyebrowse
-- smartparens
-- flycheck
-- smex
-- ag
-- nxml
-- tramp
-- jdee
-- jdee-server
 - discover-my-major
 - erc: IRC for emacs
-- anzu: 
 - eyebrowse: global minor mode to manage windows and configuration
-- persp-mode: https://github.com/Bad-ptr/persp-mode.el
+- flycheck
+- helm
+- jdee
+- jdee-server
+- magit
+- multiple-cursors
+- nxml
 - org-pomodoro: https://github.com/lolownia/org-pomodoro
+- persp-mode: https://github.com/Bad-ptr/persp-mode.el
+- projectile
+- ranger: https://github.com/ralesi/ranger.el
+- sidebar: https://github.com/sebastiencs/sidebar.el
+- smartparens
+- smex
+- symon
+- tramp
+- use-package
+- yasnippet
