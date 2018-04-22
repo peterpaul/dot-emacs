@@ -336,7 +336,7 @@
   (diredfl-global-mode)
   )
 
-;;(use-package x509-mode)
+(use-package x509-mode)
 
 (use-package jdee
   :config
