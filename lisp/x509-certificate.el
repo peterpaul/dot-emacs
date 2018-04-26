@@ -77,8 +77,8 @@
     map)
   "Keymap for X.509 Certificate major mode")
 
-;; (add-to-list 'auto-mode-alist '("\\.\\(der\\|crt\\|pem\\)$" . x509-certificate-mode))
-;; (add-to-list 'magic-mode-alist '("-----BEGIN CERTIFICATE-----" . x509-certificate-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(der\\|crt\\|pem\\)$" . x509-certificate-mode))
+(add-to-list 'magic-mode-alist '("-----BEGIN CERTIFICATE-----" . x509-certificate-mode))
 
 (defun x509-certificate-mode ()
   "Major mode for viewing X.509 certificates"
