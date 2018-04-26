@@ -201,8 +201,8 @@
 (use-package company-quickhelp
   :config
   (company-quickhelp-mode 1)
-  (eval-after-load 'company
-    '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
   )
 (use-package company-web)
 
