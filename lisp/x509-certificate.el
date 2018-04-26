@@ -148,15 +148,14 @@
   "Try to view the xml element under the point as x509 certificate"
   (interactive
    (list (point)))
-  (save-excursion
-    (let ((beg (or (when (search-backward ">" nil t)
-		    (forward-char 1)
-		    (point))
-		  (point-min)))
-	  (end (or (when (search-forward "<" nil t)
-		    (backward-char 1)
-		    (point))
-		  (point-max))))
-      (x509-view-region-as-x509-certificate beg end))))
+  (let ((beg (or (save-excursion (when (search-backward ">" nil t)
+				  (forward-char 1)
+				  (point)))
+		(point-min)))
+	(end (or (save-excursion (when (search-forward "<" nil t)
+				  (backward-char 1)
+				  (point)))
+		(point-max))))
+    (x509-view-region-as-x509-certificate beg end)))
 
 (provide 'x509-certificate)
