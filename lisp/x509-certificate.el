@@ -109,7 +109,7 @@
       (replace-match replacement nil nil))))
 
 (defun x509--prepare-buffer ()
-  "Removes all leading and trailing spaces and empty lines from current buffer."
+  "Removes all leading and trailing spaces per line and removes all empty lines from current buffer."
   (x509--replace-all  "^[[:blank:]]+" "")
   (x509--replace-all  "[[:blank:]]+$" "")
   (x509--replace-all  "
