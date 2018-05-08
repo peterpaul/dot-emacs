@@ -1,5 +1,6 @@
 * Interesting packages
 - ag
+- aggressive-indent-mode: https://github.com/Malabarba/aggressive-indent-mode
 - aHg
 - anzu: 
 - company-box: https://github.com/sebastiencs/company-box
@@ -12,6 +13,7 @@
 - helm
 - jdee
 - jdee-server
+- lsp-intellij: https://github.com/Ruin0x11/lsp-intellij
 - magit
 - multiple-cursors
 - nxml
@@ -26,3 +28,9 @@
 - tramp
 - use-package
 - yasnippet
+
+* Interesting emacs sites
+- https://emacs.zeef.com/ehartc
+
+* Ergodox layouts
+- https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
