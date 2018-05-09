@@ -324,6 +324,8 @@
   (with-eval-after-load 'lsp-mode
     (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
     (require 'lsp-rust))
+  (add-hook 'rust-mode-hook #'lsp-rust-enable)
+  (add-hook 'rust-mode-hook #'flycheck-mode)
   )
 (use-package cargo)
 
