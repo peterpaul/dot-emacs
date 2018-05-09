@@ -390,6 +390,10 @@
     )
   )
 
+;; (use-package docker
+;;   :ensure t
+;;   )
+
 (use-package symon
   :config
   (symon-mode)
@@ -397,6 +401,11 @@
 
 (use-package customize-eshell
   :load-path "lisp"
+  )
+
+(use-package popwin
+  :config
+  (popwin-mode 1)
   )
 
 (use-package shell-pop
