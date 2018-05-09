@@ -40,4 +40,5 @@
 
 * Ergodox layouts
 - https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
+- https://configure.ergodox-ez.com/keyboard_layouts/qanejd/edit: Added qwerty and cadet shift
 
