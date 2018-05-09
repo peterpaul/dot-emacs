@@ -1,5 +1,6 @@
 * Interesting packages
 - ag
+- aggressive-indent-mode: https://github.com/Malabarba/aggressive-indent-mode
 - aHg
 - anzu: 
 - boon: ergonomics, modal editing package: https://github.com/jyp/boon
@@ -13,6 +14,7 @@
 - helm
 - jdee
 - jdee-server
+- lsp-intellij: https://github.com/Ruin0x11/lsp-intellij
 - magit
 - multiple-cursors
 - nxml
@@ -32,3 +34,10 @@
 
 * Interesting tools
 - editorconfig: http://editorconfig.org/
+
+* Interesting emacs sites
+- https://emacs.zeef.com/ehartc
+
+* Ergodox layouts
+- https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
+
