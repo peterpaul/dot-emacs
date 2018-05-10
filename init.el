@@ -12,7 +12,7 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
-(package-initialize) ;; You might already have this line
+(package-initialize)
 
 (if (require 'quelpa nil t)
     (quelpa-self-upgrade)
@@ -329,6 +329,8 @@
   )
 (use-package cargo)
 
+(use-package expand-region)
+
 (use-package multiple-cursors
   :config
   (require 'multiple-cursors)
@@ -396,24 +398,24 @@
 ;;   :ensure t
 ;;   )
 
-(use-package symon
-  :config
-  (symon-mode)
-  )
+;; (use-package symon
+;;   :config
+;;   (symon-mode)
+;;   )
 
-(use-package customize-eshell
-  :load-path "lisp"
-  )
-
-(use-package popwin
-  :config
-  (popwin-mode 1)
-  )
+;; (use-package popwin
+;;   :config
+;;   (popwin-mode 1)
+;;   )
 
 (use-package shell-pop
   :config
   (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
   (setq shell-pop-universal-key "C-c t")
+  )
+
+(use-package customize-eshell
+  :load-path "lisp"
   )
 
 (use-package customize-move-lines
