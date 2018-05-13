@@ -1,4 +1,29 @@
 ;;; -*- lexical-binding: t; -*-
+;; Upon startup, write message with startup details
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+
+;; Temporarily change garbage collection settings, and disable file-name-handler
+(let ((gc-cons-threshold-backup gc-cons-threshold)
+      (gc-cons-percentage-backup gc-cons-percentage)
+      file-name-handler-alist-backup file-name-handler-alist)
+  ;; Change garback collector settings and file-name-handler
+  (setq gc-cons-threshold 402653184
+	gc-cons-percentage 0.6
+	file-name-handler-alist nil)
+  ;; Then restore it as late as possible
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (message "Restored original settings")
+	      (setq gc-cons-threshold gc-cons-threshold-backup
+		    gc-cons-percentage gc-cons-percentage-backup
+		    file-name-handler-alist file-name-handler-alist-backup))))
+
 (require 'package) ;; You might already have this line
 
 (setq package-enable-at-startup nil)
@@ -160,7 +185,7 @@
 (when (display-graphic-p)
   (use-package minimap
     :quelpa
-    ((minimap :fetcher github :repo "dengste/minimap") :upgrade t)
+    (minimap :fetcher github :repo "dengste/minimap")
     :config
     (require 'minimap)
     (global-set-key [f9] 'minimap-mode)
@@ -358,10 +383,9 @@
 
 (use-package sunrise-commander
   :quelpa
-  ((sunrise-commander
-    :fetcher github
-    :repo "escherdragon/sunrise-commander")
-   :upgrade t)
+  (sunrise-commander
+   :fetcher github
+   :repo "escherdragon/sunrise-commander")
   :config
   (when (display-graphic-p)
     (require 'sunrise-x-buttons)
