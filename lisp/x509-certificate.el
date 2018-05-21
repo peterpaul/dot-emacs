@@ -112,7 +112,7 @@
     (while (re-search-forward search-regexp nil t)
       (replace-match replacement nil nil))))
 
-(defun x509--prepare-buffer ()
+(defun x509--prepare-certificate-buffer ()
   "Removes all leading and trailing spaces per line and removes all empty lines from current buffer."
   (x509--replace-all  "^[[:blank:]]+" "")
   (x509--replace-all  "[[:blank:]]+$" "")
@@ -125,7 +125,8 @@
   (interactive
    (list (region-beginning) (region-end)))
   (save-excursion
-    (let ((cert-buffer (get-buffer-create (format "*certificate from '%s'*" (buffer-name)))))
+    (let ((cert-buffer (get-buffer-create
+			(format "*certificate from '%s'*" (buffer-name)))))
       (copy-to-buffer cert-buffer beg end)
       (with-current-buffer cert-buffer
 	(barf-if-buffer-read-only)
@@ -133,13 +134,10 @@
 	(insert "-----BEGIN CERTIFICATE-----\n")
 	(goto-char (point-max))
 	(insert "\n-----END CERTIFICATE-----\n")
-	(x509--prepare-buffer)
+	(x509--prepare-certificate-buffer)
 	(deactivate-mark)
-	;; (x509-certificate-mode)
 	(x509-viewcert (format "x509 -text -noout -inform %s"
-			       (x509--buffer-encoding)))
-	)
-      ;; (switch-to-buffer cert-buffer)
+			       (x509--buffer-encoding))))
       (kill-buffer cert-buffer)
       )))
 
@@ -147,13 +145,15 @@
   "Try to view the xml element under the point as x509 certificate"
   (interactive
    (list (point)))
-  (let ((beg (or (save-excursion (when (search-backward ">" nil t)
-				  (forward-char 1)
-				  (point)))
+  (let ((beg (or (save-excursion
+		  (when (search-backward ">" nil t)
+		    (forward-char 1)
+		    (point)))
 		(point-min)))
-	(end (or (save-excursion (when (search-forward "<" nil t)
-				  (backward-char 1)
-				  (point)))
+	(end (or (save-excursion
+		  (when (search-forward "<" nil t)
+		    (backward-char 1)
+		    (point)))
 		(point-max))))
     (x509-view-region-as-x509-certificate beg end)))
 

@@ -12,7 +12,7 @@
 (let ((gc-cons-threshold-backup gc-cons-threshold)
       (gc-cons-percentage-backup gc-cons-percentage)
       file-name-handler-alist-backup file-name-handler-alist)
-  ;; Change garback collector settings and file-name-handler
+  ;; Change garbage collector settings and file-name-handler
   (setq gc-cons-threshold 402653184
 	gc-cons-percentage 0.6
 	file-name-handler-alist nil)
