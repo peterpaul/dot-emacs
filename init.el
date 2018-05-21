@@ -221,6 +221,16 @@
   (global-set-key "\C-cb" 'org-iswitchb)
   )
 
+;; yasnippet
+(use-package yasnippet
+  :config
+  (require 'yasnippet)
+  (yas/load-directory "~/.emacs.d/snippets")
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  :after (yasnippet))
+  
 ;; Code completion
 (use-package company
   :config (add-hook 'after-init-hook 'global-company-mode))
