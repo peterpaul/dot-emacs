@@ -177,6 +177,9 @@
   (solaire-mode-swap-bg)
   )
 
+(use-package guru-mode
+  :hook prog-mode)
+
 (use-package customize-modeline
   :load-path "lisp"
   )
