@@ -111,11 +111,12 @@
   )
 
 ;; Enable all-the-icons
-(when (display-graphic-p)
-  ;; NOTE must run `M-x all-the-icons-install-fonts`
-  (use-package all-the-icons)
-  (use-package all-the-icons-dired)
-  )
+;; NOTE must run `M-x all-the-icons-install-fonts`
+(use-package all-the-icons
+  :if (display-graphic-p))
+(use-package all-the-icons-dired
+  :if (display-graphic-p))
+
 
 ;; Use custom theme
 
@@ -185,19 +186,17 @@
   )
 
 ;; Minimap
-(when (display-graphic-p)
-  (use-package minimap
-    :quelpa
-    (minimap :fetcher github :repo "dengste/minimap")
-    :config
-    (require 'minimap)
-    (global-set-key [f9] 'minimap-mode)
-    :init
-    (setq minimap-window-location 'right)
-    :custom-face
-    (minimap-active-region-background ((t (:background "#4C566A"))))
-    (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))
-    )
+(use-package minimap
+  :if (display-graphic-p)
+  :quelpa
+  (minimap :fetcher github :repo "dengste/minimap")
+  :config
+  (global-set-key [f9] 'minimap-mode)
+  :init
+  (setq minimap-window-location 'right)
+  :custom-face
+  (minimap-active-region-background ((t (:background "#4C566A"))))
+  (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))
   )
 
 (use-package neotree
@@ -284,8 +283,8 @@
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
   )
 
-(when (display-graphic-p)
-  (use-package all-the-icons-ivy)
+(use-package all-the-icons-ivy
+  :if (display-graphic-p)
   )
 
 ;; Multi terminal emulation
@@ -420,15 +419,13 @@
 
 (use-package 2048-game)
 
-(when (display-graphic-p)
-  (if (y-or-n-p-with-timeout "Start EXWM?" 3 nil)
-      (use-package exwm
-	:config
-	(require 'exwm)
-	(require 'exwm-config)
-	(exwm-config-default)
-	)
-    )
+(use-package exwm
+  :if (and (display-graphic-p)
+	 (y-or-n-p-with-timeout "Start EXWM?" 3 nil))
+  :config
+  (require 'exwm)
+  (require 'exwm-config)
+  (exwm-config-default)
   )
 
 ;; (use-package docker
