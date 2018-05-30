@@ -283,6 +283,17 @@
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
   )
 
+(use-package avy
+  :bind (("C-:" . avy-goto-char)
+	 ("C-'" . avy-goto-char2)
+	 ("M-g f" . avy-goto-line)
+	 ("M-g w" . avy-goto-word-1)
+	 ("M-g e" . avy-goto-word-0)
+	 ("C-c C-j" . avy-resume))
+  :config
+  (avy-setup-default)
+  )
+
 (use-package all-the-icons-ivy
   :if (display-graphic-p)
   )
