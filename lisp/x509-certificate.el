@@ -116,9 +116,7 @@
   "Removes all leading and trailing spaces per line and removes all empty lines from current buffer."
   (x509--replace-all  "^[[:blank:]]+" "")
   (x509--replace-all  "[[:blank:]]+$" "")
-  (x509--replace-all  "
-+" "
-"))
+  (x509--replace-all  "\n+" "\n"))
 
 (defun x509-view-region-as-x509-certificate (beg end)
   "Try to view the region as x509 certificate"
@@ -136,7 +134,7 @@
 	(insert "\n-----END CERTIFICATE-----\n")
 	(x509--prepare-certificate-buffer)
 	(deactivate-mark)
-	(x509-viewcert (format "x509 -text -noout -inform %s"
+	(x509-viewcert (format "x509 -sha256 -fingerprint -text -noout -inform %s"
 			       (x509--buffer-encoding))))
       (kill-buffer cert-buffer)
       )))
