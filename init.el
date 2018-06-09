@@ -265,6 +265,7 @@
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
+  (setq ivy-count-format "%d/%d ")
   (global-set-key "\C-s" 'swiper)
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   (global-set-key (kbd "<f6>") 'ivy-resume)
@@ -301,6 +302,30 @@
 ;; Multi terminal emulation
 (use-package multi-term
   :config (require 'multi-term))
+
+(use-package xterm-color
+  :config
+  (setq comint-output-filter-functions
+	(remove 'ansi-color-process-output comint-output-filter-functions))
+
+  (add-hook 'shell-mode-hook
+	    (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+
+  ;; Also set TERM accordingly (xterm-256color)
+
+  ;; You can also use it with eshell (and thus get color output from system ls):
+
+  (require 'eshell)
+
+  (add-hook 'eshell-before-prompt-hook
+	    (lambda ()
+	      (setq xterm-color-preserve-properties t)))
+
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+
+  ;;  Don't forget to setenv TERM xterm-256color
+  )
 
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
@@ -473,6 +498,8 @@
 
 (use-package x509-certificate
   :load-path "lisp"
+  :bind (("C-x x x" . x509-view-xml-element-as-x509-certificate)
+         ("C-x x r" . x509-view-region-as-x509-certificate))
   )
 
 ;; Start server if not running
