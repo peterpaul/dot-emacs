@@ -496,8 +496,11 @@
   :load-path "lisp"
   )
 
-(use-package x509-certificate
-  :load-path "lisp"
+(use-package x509-certificate-region
+  :quelpa
+  (x509-certificate-region
+   :fetcher github
+   :repo "peterpaul/x509-certificate-region.el")
   :bind (("C-x x x" . x509-view-xml-element-as-x509-certificate)
          ("C-x x r" . x509-view-region-as-x509-certificate))
   )
