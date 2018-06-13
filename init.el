@@ -203,7 +203,8 @@
   :config
   (require 'neotree)
   (global-set-key [f8] 'neotree-toggle)
-  (setq neo-window-fixed-size nil)
+  :custom
+  (neo-window-fixed-size nil)
   )
 
 (use-package dashboard
