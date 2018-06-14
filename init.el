@@ -29,7 +29,7 @@
 (setq package-enable-at-startup nil)
 
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
+		  (not (gnutls-available-p))))
        (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
   (add-to-list 'package-archives (cons "melpa" url) t))
 
@@ -39,17 +39,17 @@
 
 (package-initialize)
 
-(if (require 'quelpa nil t)
-    (quelpa-self-upgrade)
-  (with-temp-buffer
-    (url-insert-file-contents "https://raw.github.com/quelpa/quelpa/master/bootstrap.el")
-    (eval-buffer)))
+(unless (package-installed-p 'quelpa)
+  (package-refresh-contents)
+  (package-install 'quelpa))
+(require 'quelpa)
 
 (quelpa
  '(quelpa-use-package
    :fetcher github
    :repo "quelpa/quelpa-use-package"))
-(require 'quelpa-use-package)
+(eval-when-compile
+  (require 'quelpa-use-package))
 
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
@@ -119,34 +119,22 @@
 
 
 ;; Use custom theme
-
-(use-package nord-theme
-  :config
-  (load-theme 'nord t)
-  )
-
-;;(use-package dracula-theme
-;;  :config (load-theme 'dracula t))
 (use-package doom-themes
   :config
-  (require 'doom-themes)
-
+  (progn
+    ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
+    ;; may have their own settings.
+    (load-theme 'doom-nord t)
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme
+    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+  :custom
   ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-	doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
-  ;; may have their own settings.
-  (load-theme 'doom-nord t)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-
-  ;; Enable custom neotree theme
-  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
-
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
+  (doom-themes-enable-bold t "Enable bold universally")    ; if nil, bold is universally disabled
+  (doom-themes-enable-italic t "Enable italics universally") ; if nil, italics is universally disabled
   )
 
 (use-package org-bullets
@@ -233,7 +221,7 @@
 
 (use-package yasnippet-snippets
   :after (yasnippet))
-  
+
 ;; Code completion
 (use-package company
   :config (add-hook 'after-init-hook 'global-company-mode))
