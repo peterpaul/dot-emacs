@@ -12,9 +12,13 @@
   ;;   )
   
   ;; (defvar use-fancy-spaceline (y-or-n-p-with-timeout "Use fancy spaceline-all-the-icons?" 3 nil))
-  (defvar use-fancy-spaceline t)
-  
-  (use-package spaceline)
+  (defvar use-fancy-spaceline nil)
+
+  (use-package spaceline
+    :ensure t
+    :config
+    (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main)))))
+
   (use-package spaceline-config
     :ensure
     spaceline
