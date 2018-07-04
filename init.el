@@ -74,10 +74,10 @@
 ;; Checks for package update
 (use-package auto-package-update
   :config
-  (auto-package-update-maybe)
-  (setq auto-package-update-interval 1)
-  (setq auto-package-update-prompt-before-update t)
-  (setq auto-package-update-delete-old-versions t))
+  (progn (auto-package-update-maybe)
+	 (setq auto-package-update-interval 1)
+	 (setq auto-package-update-prompt-before-update t)
+	 (setq auto-package-update-delete-old-versions t)))
 
 ;; Set default font
 (set-face-attribute 'default nil
@@ -86,29 +86,28 @@
 
 (use-package pretty-mode
   :config
-  (global-pretty-mode t)
-  (global-prettify-symbols-mode 1)
+  (progn (global-pretty-mode t)
+	 (global-prettify-symbols-mode 1)
 
-  ;; (pretty-deactivate-groups
-  ;;  '(:equality :ordering :ordering-double :ordering-triple
-  ;; 	       :arrows :arrows-twoheaded :punctuation
-  ;; 	       :logic :sets))
+	 ;; (pretty-deactivate-groups
+	 ;;  '(:equality :ordering :ordering-double :ordering-triple
+	 ;; 	       :arrows :arrows-twoheaded :punctuation
+	 ;; 	       :logic :sets))
 
-  (pretty-activate-groups
-   '(:sub-and-superscripts
-     :greek
-     :arithmetic-nary
-     :equality
-     :ordering
-     :ordering-double
-     :ordering-triple
-     :arrows
-     :arrows-twoheaded
-     :punctuation
-     :logic
-     :sets
-     ))
-  )
+	 (pretty-activate-groups
+	  '(:sub-and-superscripts
+	    :greek
+	    :arithmetic-nary
+	    :equality
+	    :ordering
+	    :ordering-double
+	    :ordering-triple
+	    :arrows
+	    :arrows-twoheaded
+	    :punctuation
+	    :logic
+	    :sets
+	    ))))
 
 ;; Enable all-the-icons
 ;; NOTE must run `M-x all-the-icons-install-fonts`
@@ -144,27 +143,28 @@
 
 (use-package solaire-mode
   :config
-  (require 'solaire-mode)
+  (progn
+    (require 'solaire-mode)
 
-  ;; brighten buffers (that represent real files)
-  (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
-  ;; To enable solaire-mode unconditionally for certain modes:
-  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
+    ;; brighten buffers (that represent real files)
+    (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
+    ;; To enable solaire-mode unconditionally for certain modes:
+    (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
 
-  ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
-  ;; itself off every time Emacs reverts the file
-  (add-hook 'after-revert-hook #'turn-on-solaire-mode)
+    ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
+    ;; itself off every time Emacs reverts the file
+    (add-hook 'after-revert-hook #'turn-on-solaire-mode)
 
-  ;; highlight the minibuffer when it is activated:
-  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+    ;; highlight the minibuffer when it is activated:
+    (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
 
-  ;; if the bright and dark background colors are the wrong way around, use this
-  ;; to switch the backgrounds of the `default` and `solaire-default-face` faces.
-  ;; This should be used *after* you load the active theme!
-  ;;
-  ;; NOTE: This is necessary for themes in the doom-themes package!
-  (solaire-mode-swap-bg)
-  )
+    ;; if the bright and dark background colors are the wrong way around, use this
+    ;; to switch the backgrounds of the `default` and `solaire-default-face` faces.
+    ;; This should be used *after* you load the active theme!
+    ;;
+    ;; NOTE: This is necessary for themes in the doom-themes package!
+    (solaire-mode-swap-bg)
+    ))
 
 (use-package guru-mode
   :hook prog-mode)
@@ -184,12 +184,10 @@
   (setq minimap-window-location 'right)
   :custom-face
   (minimap-active-region-background ((t (:background "#4C566A"))))
-  (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))
-  )
+  (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440")))))
 
 (use-package neotree
   :config
-  (require 'neotree)
   (global-set-key [f8] 'neotree-toggle)
   :custom
   (neo-window-fixed-size nil)
@@ -206,18 +204,18 @@
 ;; Org
 (use-package org
   :config
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-cb" 'org-iswitchb)
+  (progn (global-set-key "\C-cl" 'org-store-link)
+	 (global-set-key "\C-ca" 'org-agenda)
+	 (global-set-key "\C-cc" 'org-capture)
+	 (global-set-key "\C-cb" 'org-iswitchb))
   )
 
 ;; yasnippet
 (use-package yasnippet
   :config
-  (require 'yasnippet)
-  (yas/load-directory "~/.emacs.d/snippets")
-  (yas-global-mode 1))
+  (progn
+    (yas-load-directory "~/.emacs.d/snippets")
+    (yas-global-mode 1)))
 
 (use-package yasnippet-snippets
   :after (yasnippet))
@@ -231,10 +229,11 @@
 (use-package company-lsp)
 (use-package company-quickhelp
   :config
-  (company-quickhelp-mode 1)
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-  )
+  (progn (company-quickhelp-mode 1)
+	 (with-eval-after-load 'company
+	   (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+	 ))
+
 (use-package company-web)
 
 (use-package magit)
@@ -251,27 +250,28 @@
 
 (use-package ivy
   :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  (setq ivy-count-format "%d/%d ")
-  (global-set-key "\C-s" 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key (kbd "<f6>") 'ivy-resume)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-  )
+  (progn
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-count-format "%d/%d ")
+    (global-set-key "\C-s" 'swiper)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "<f6>") 'ivy-resume)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+    (global-set-key (kbd "<f1> l") 'counsel-find-library)
+    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    (global-set-key (kbd "C-c j") 'counsel-git-grep)
+    (global-set-key (kbd "C-c k") 'counsel-ag)
+    (global-set-key (kbd "C-x l") 'counsel-locate)
+    (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+    ))
 
 (use-package avy
   :bind (("C-:" . avy-goto-char)
@@ -294,27 +294,28 @@
 
 (use-package xterm-color
   :config
-  (setq comint-output-filter-functions
-	(remove 'ansi-color-process-output comint-output-filter-functions))
+  (progn
+    (setq comint-output-filter-functions
+	  (remove 'ansi-color-process-output comint-output-filter-functions))
 
-  (add-hook 'shell-mode-hook
-	    (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+    (add-hook 'shell-mode-hook
+	      (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
-  ;; Also set TERM accordingly (xterm-256color)
+    ;; Also set TERM accordingly (xterm-256color)
 
-  ;; You can also use it with eshell (and thus get color output from system ls):
+    ;; You can also use it with eshell (and thus get color output from system ls):
 
-  (require 'eshell)
+    (require 'eshell)
 
-  (add-hook 'eshell-before-prompt-hook
-	    (lambda ()
-	      (setq xterm-color-preserve-properties t)))
+    (add-hook 'eshell-before-prompt-hook
+	      (lambda ()
+		(setq xterm-color-preserve-properties t)))
 
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
-  (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+    (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+    (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
 
-  ;;  Don't forget to setenv TERM xterm-256color
-  )
+    ;;  Don't forget to setenv TERM xterm-256color
+    ))
 
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
@@ -328,79 +329,75 @@
 
 (use-package discover-my-major
   :config
-  (global-set-key (kbd "C-h C-m") 'discover-my-major)
-  (global-set-key (kbd "C-h M-m") 'discover-my-mode)
-  )
+  (progn
+    (global-set-key (kbd "C-h C-m") 'discover-my-major)
+    (global-set-key (kbd "C-h M-m") 'discover-my-mode)))
 
 (use-package discover)
 
 (use-package which-key
   :config
-  (require 'which-key)
   (which-key-mode)
   )
 
 (use-package helpful
   :config
-  ;; Note that the built-in `describe-function' includes both functions
-  ;; and macros. `helpful-function' is functions only, so we provide
-  ;; `helpful-callable' as a drop-in replacement.
-  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (progn
+    ;; Note that the built-in `describe-function' includes both functions
+    ;; and macros. `helpful-function' is functions only, so we provide
+    ;; `helpful-callable' as a drop-in replacement.
+    (global-set-key (kbd "C-h f") #'helpful-callable)
 
-  (global-set-key (kbd "C-h v") #'helpful-variable)
-  (global-set-key (kbd "C-h k") #'helpful-key)
-  ;; Lookup the current symbol at point. C-c C-d is a common keybinding
-  ;; for this in lisp modes.
-  (global-set-key (kbd "C-c C-d") #'helpful-at-point)
+    (global-set-key (kbd "C-h v") #'helpful-variable)
+    (global-set-key (kbd "C-h k") #'helpful-key)
+    ;; Lookup the current symbol at point. C-c C-d is a common keybinding
+    ;; for this in lisp modes.
+    (global-set-key (kbd "C-c C-d") #'helpful-at-point)
 
-  ;; Look up *F*unctions (excludes macros).
-  ;;
-  ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
-  ;; already links to the manual, if a function is referenced there.
-  (global-set-key (kbd "C-h F") #'helpful-function)
+    ;; Look up *F*unctions (excludes macros).
+    ;;
+    ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
+    ;; already links to the manual, if a function is referenced there.
+    (global-set-key (kbd "C-h F") #'helpful-function)
 
-  ;; Look up *C*ommands.
-  ;;
-  ;; By default, C-h C is bound to describe `describe-coding-system'. I
-  ;; don't find this very useful, but it's frequently useful to only
-  ;; look at interactive functions.
-  (global-set-key (kbd "C-h C") #'helpful-command)
-  )
+    ;; Look up *C*ommands.
+    ;;
+    ;; By default, C-h C is bound to describe `describe-coding-system'. I
+    ;; don't find this very useful, but it's frequently useful to only
+    ;; look at interactive functions.
+    (global-set-key (kbd "C-h C") #'helpful-command)))
 
 ;; Nice package to automatically disassemble java .class files
 (use-package autodisass-java-bytecode)
 
-(use-package lsp-mode
-  :config
-  (require 'lsp-mode)
-  )
+(use-package lsp-mode)
 
 (use-package lsp-ui
   :config
-  (require 'lsp-ui)
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  )
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package lsp-rust
   :config
-  (with-eval-after-load 'lsp-mode
-    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
-    (require 'lsp-rust))
-  (add-hook 'rust-mode-hook #'lsp-rust-enable)
-  (add-hook 'rust-mode-hook #'flycheck-mode)
-  )
+  (progn
+    (with-eval-after-load 'lsp-mode
+      (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+      (require 'lsp-rust))
+    (add-hook 'rust-mode-hook #'lsp-rust-enable)
+    (add-hook 'rust-mode-hook #'flycheck-mode)
+    ))
+
 (use-package cargo)
 
 (use-package expand-region)
 
 (use-package multiple-cursors
   :config
-  (require 'multiple-cursors)
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  )
+  (progn
+    (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+    ))
 
 (use-package ag)
 (use-package ripgrep)
@@ -448,10 +445,10 @@
   :if (and (display-graphic-p)
 	 (y-or-n-p-with-timeout "Start EXWM?" 3 nil))
   :config
-  (require 'exwm)
-  (require 'exwm-config)
-  (exwm-config-default)
-  )
+  (progn
+    (require 'exwm-config)
+    (exwm-config-default)
+    ))
 
 ;; (use-package docker
 ;;   :ensure t
@@ -469,8 +466,9 @@
 
 (use-package shell-pop
   :config
-  (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
-  (setq shell-pop-universal-key "C-c t")
+  (progn
+    (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
+    (setq shell-pop-universal-key "C-c t"))
   )
 
 (use-package customize-eshell
