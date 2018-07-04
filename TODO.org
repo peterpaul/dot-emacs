@@ -38,8 +38,11 @@
 
 * Interesting emacs sites
 - https://emacs.zeef.com/ehartc
+- http://emacs-fu.blogspot.com/2012/03/social-networking-with-bitlbee-and-erc.html
+  - guide to setup erc with bitlbee (to connect to hipchat/google-talk/etc.)
 
 * Ergodox layouts
 - https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
 - https://configure.ergodox-ez.com/keyboard_layouts/qanejd/edit: Added qwerty and cadet shift
 - https://configure.ergodox-ez.com/keyboard_layouts/kejzzo/edit: Simplify and put dash on the expected position
+
