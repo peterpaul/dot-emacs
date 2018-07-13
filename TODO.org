@@ -40,6 +40,7 @@
 - https://emacs.zeef.com/ehartc
 - http://emacs-fu.blogspot.com/2012/03/social-networking-with-bitlbee-and-erc.html
   - guide to setup erc with bitlbee (to connect to hipchat/google-talk/etc.)
+- https://writequit.org/articles/working-with-logs-in-emacs.html
 
 * Ergodox layouts
 - https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
