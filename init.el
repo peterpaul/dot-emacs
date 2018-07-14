@@ -44,6 +44,8 @@
   (package-install 'quelpa))
 (require 'quelpa)
 
+(setq quelpa-use-package-inhibit-loading-quelpa nil)
+
 (quelpa
  '(quelpa-use-package
    :fetcher github
