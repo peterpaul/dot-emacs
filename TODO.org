@@ -42,6 +42,10 @@
   - guide to setup erc with bitlbee (to connect to hipchat/google-talk/etc.)
 - https://writequit.org/articles/working-with-logs-in-emacs.html
 - https://caiorss.github.io/Emacs-Elisp-Programming/Eshell.html
+- http://www.wilfred.me.uk/blog/2018/01/06/the-emacs-guru-guide-to-key-bindings/
+
+* Interesting emacs commands
+** view-lossage
 
 * Ergodox layouts
 - https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
