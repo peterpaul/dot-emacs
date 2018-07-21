@@ -1,54 +1,54 @@
 * Interesting packages
-- ag
-- aggressive-indent-mode: https://github.com/Malabarba/aggressive-indent-mode
-- aHg
-- anzu: 
-- boon: ergonomics, modal editing package: https://github.com/jyp/boon
-- company-box: https://github.com/sebastiencs/company-box
-- company-mode
-- discover
-- discover-my-major
-- erc: IRC for emacs
-- eyebrowse: global minor mode to manage windows and configuration
-- flycheck
-- helm
-- jdee
-- jdee-server
-- lsp-intellij: https://github.com/Ruin0x11/lsp-intellij
-- magit
-- multiple-cursors
-- nxml
-- org-pomodoro: https://github.com/lolownia/org-pomodoro
-- persp-mode: https://github.com/Bad-ptr/persp-mode.el
-- projectile
-- quickrun: https://github.com/syohex/emacs-quickrun
-- ranger: https://github.com/ralesi/ranger.el
-- sidebar: https://github.com/sebastiencs/sidebar.el
-- smartparens
-- smex
-- symon
-- tramp
-- use-package
-- wgrep: https://github.com/mhayashi1120/Emacs-wgrep
-- yasnippet
+** ag
+** aggressive-indent-mode: https://github.com/Malabarba/aggressive-indent-mode
+** aHg
+** anzu: 
+** boon: ergonomics, modal editing package: https://github.com/jyp/boon
+** company-box: https://github.com/sebastiencs/company-box
+** company-mode
+** discover
+** discover-my-major
+** erc: IRC for emacs
+** eyebrowse: global minor mode to manage windows and configuration
+** flycheck
+** helm
+** jdee
+** jdee-server
+** lsp-intellij: https://github.com/Ruin0x11/lsp-intellij
+** magit
+** multiple-cursors
+** nxml
+** org-pomodoro: https://github.com/lolownia/org-pomodoro
+** persp-mode: https://github.com/Bad-ptr/persp-mode.el
+** projectile
+** quickrun: https://github.com/syohex/emacs-quickrun
+** ranger: https://github.com/ralesi/ranger.el
+** sidebar: https://github.com/sebastiencs/sidebar.el
+** smartparens
+** smex
+** symon
+** tramp
+** use-package
+** wgrep: https://github.com/mhayashi1120/Emacs-wgrep
+** yasnippet
 
 * Interesting tools
-- editorconfig: http://editorconfig.org/
-- keysnail: emacs keybindings for Firefox: https://github.com/mooz/keysnail/wiki
+** editorconfig: http://editorconfig.org/
+** keysnail: emacs keybindings for Firefox: https://github.com/mooz/keysnail/wiki
 
 * Interesting emacs sites
-- https://emacs.zeef.com/ehartc
-- http://emacs-fu.blogspot.com/2012/03/social-networking-with-bitlbee-and-erc.html
-  - guide to setup erc with bitlbee (to connect to hipchat/google-talk/etc.)
-- https://writequit.org/articles/working-with-logs-in-emacs.html
-- https://caiorss.github.io/Emacs-Elisp-Programming/Eshell.html
-- http://www.wilfred.me.uk/blog/2018/01/06/the-emacs-guru-guide-to-key-bindings/
+** https://emacs.zeef.com/ehartc
+** http://emacs-fu.blogspot.com/2012/03/social-networking-with-bitlbee-and-erc.html
+*** guide to setup erc with bitlbee (to connect to hipchat/google-talk/etc.)
+** https://writequit.org/articles/working-with-logs-in-emacs.html
+** https://caiorss.github.io/Emacs-Elisp-Programming/Eshell.html
+** http://www.wilfred.me.uk/blog/2018/01/06/the-emacs-guru-guide-to-key-bindings/
 
 * Interesting emacs commands
 ** view-lossage
 
 * Ergodox layouts
-- https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
-- https://configure.ergodox-ez.com/keyboard_layouts/qanejd/edit: Added qwerty and cadet shift
-- https://configure.ergodox-ez.com/keyboard_layouts/kejzzo/edit: Simplify and put dash on the expected position
+** https://configure.ergodox-ez.com/keyboard_layouts/qbemdr/edit: My first layout
+** https://configure.ergodox-ez.com/keyboard_layouts/qanejd/edit: Added qwerty and cadet shift
+** https://configure.ergodox-ez.com/keyboard_layouts/kejzzo/edit: Simplify and put dash on the expected position
 
