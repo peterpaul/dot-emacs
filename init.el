@@ -24,44 +24,25 @@
 		    gc-cons-percentage gc-cons-percentage-backup
 		    file-name-handler-alist file-name-handler-alist-backup))))
 
-(require 'package) ;; You might already have this line
+;; install straight package manager
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(setq package-enable-at-startup nil)
-
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-		  (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-
-(package-initialize)
-
-(unless (package-installed-p 'quelpa)
-  (package-refresh-contents)
-  (package-install 'quelpa))
-(require 'quelpa)
-
-(setq quelpa-use-package-inhibit-loading-quelpa nil)
-
-(quelpa
- '(quelpa-use-package
-   :fetcher github
-   :repo "quelpa/quelpa-use-package"))
-(eval-when-compile
-  (require 'quelpa-use-package))
+;; install use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default 't)
 
 (setq use-package-verbose t)
-(setq use-package-always-ensure t)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -172,14 +153,14 @@
   :hook prog-mode)
 
 (use-package customize-modeline
+  :straight nil
   :load-path "lisp"
   )
 
 ;; Minimap
 (use-package minimap
   :if (display-graphic-p)
-  :quelpa
-  (minimap :fetcher github :repo "dengste/minimap")
+  :straight (minimap :type git :host github :repo "dengste/minimap")
   :config
   (global-set-key [f9] 'minimap-mode)
   :init
@@ -423,10 +404,7 @@
 (use-package restart-emacs)
 
 (use-package sunrise-commander
-  :quelpa
-  (sunrise-commander
-   :fetcher github
-   :repo "escherdragon/sunrise-commander")
+  :straight (sunrise-commander :type git :host github :repo "escherdragon/sunrise-commander")
   :config
   (when (display-graphic-p)
     (require 'sunrise-x-buttons)
@@ -458,7 +436,6 @@
     ))
 
 ;; (use-package docker
-;;   :ensure t
 ;;   )
 
 ;; (use-package symon
@@ -479,21 +456,25 @@
   )
 
 (use-package customize-eshell
+  :straight nil
   :load-path "lisp"
   )
 
 (use-package customize-move-lines
+  :straight nil
   :load-path "lisp"
   )
 
 (use-package macros
+  :straight nil
   :load-path "lisp"
   )
 
 (use-package x509-certificate-region
-  :quelpa
+  :straight
   (x509-certificate-region
-   :fetcher github
+   :tpe git
+   :host github
    :repo "peterpaul/x509-certificate-region.el")
   :bind (("C-x x x" . x509-view-xml-element-as-x509-certificate)
          ("C-x x r" . x509-view-region-as-x509-certificate))

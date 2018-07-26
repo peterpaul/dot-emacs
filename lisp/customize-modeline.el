@@ -15,19 +15,16 @@
   (defvar use-fancy-spaceline nil)
 
   (use-package spaceline
-    :ensure t
     :config
     (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main)))))
 
-  (use-package spaceline-config
-    :ensure
-    spaceline
-    :config
-    (unless use-fancy-spaceline
-      ;;(spaceline-spacemacs-theme)
-      (spaceline-emacs-theme)
-      )
-    )
+  ;; (use-package spaceline-config
+  ;;   :config
+  ;;   (unless use-fancy-spaceline
+  ;;     ;;(spaceline-spacemacs-theme)
+  ;;     (spaceline-emacs-theme)
+  ;;     )
+  ;;   )
 
   (when use-fancy-spaceline
     (use-package spaceline-all-the-icons
