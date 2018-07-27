@@ -354,6 +354,10 @@
     ;;  Don't forget to setenv TERM xterm-256color
     ))
 
+(use-package eshell-git-prompt
+  :config
+  (eshell-git-prompt-use-theme 'powerline))
+
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
 (use-package markdown-toc)
@@ -504,10 +508,10 @@
     (setq shell-pop-universal-key "C-c t"))
   )
 
-(use-package customize-eshell
-  :straight nil
-  :load-path "lisp"
-  )
+;; (use-package customize-eshell
+;;   :straight nil
+;;   :load-path "lisp"
+;;   )
 
 (use-package customize-move-lines
   :straight nil
