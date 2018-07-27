@@ -19,6 +19,9 @@ tramp
 /eshell/history
 /eshell/lastdir
 
+# straight
+/straight/
+
 # elpa packages
 /elpa/
 
@@ -29,8 +32,8 @@ tramp
 /auto/
 
 # cask packages
-.cask/
-dist/
+/.cask/
+/dist/
 
 # Flycheck
 flycheck_*.el
@@ -40,10 +43,11 @@ flycheck_*.el
 
 # projectiles files
 .projectile
+projectile-bookmarks.eld
 
 # directory configuration
 .dir-locals.el
-
+/.cache/
 .last-package-update-day
 
 # dashboard files
