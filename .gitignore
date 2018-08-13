@@ -56,6 +56,9 @@ recentf
 # multiple cursors
 /.mc-lists.el
 
+# customizations
+/custom.el
+
 # JDEE files and directories
 /jdee-server/
 /jdee-server-src/
