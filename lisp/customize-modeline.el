@@ -23,7 +23,7 @@
 
   (use-package airline-themes
     :config
-    (load-theme 'airline-doom-one)
+    (load-theme 'airline-solarized-gui)
     )
   
   ;; (defvar use-fancy-spaceline (y-or-n-p-with-timeout "Use fancy spaceline-all-the-icons?" 3 nil))
