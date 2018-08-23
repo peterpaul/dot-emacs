@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# this makes it work in Ubuntu
+xhost +SI:localuser:$USER
+
+# Make Java applications aware this is a non-reparenting window manager.
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# Themes, etc
+gnome-settings-daemon &
+
+# Set fallback cursor
+xsetroot -cursor_name left_ptr
+
+# Set keyboard repeat rate
+xset r rate 200 60
+
+# If Emacs is started in server mode, `emacsclient` is a convenient way to edit
+# files in place (used by e.g. `git commit`)
+export VISUAL=emacsclient
+export EDITOR="$VISUAL"
+
+# Finally launch emacs and enable exwm
+XLIB_SKIP_ARGB_VISUALS=1 exec dbus-launch --exit-with-session emacs --eval "(exwm-enable)"
