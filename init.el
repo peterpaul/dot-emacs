@@ -418,11 +418,14 @@
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
+;; First install rust language server with:
+;;
+;; $ rustup component add rls-preview rust-analysis rust-src
 (use-package lsp-rust
   :config
   (progn
     (with-eval-after-load 'lsp-mode
-      (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+      (setq lsp-rust-rls-command '("rls"))
       (require 'lsp-rust))
     (add-hook 'rust-mode-hook #'lsp-rust-enable)
     (add-hook 'rust-mode-hook #'flycheck-mode)
@@ -473,21 +476,14 @@
 
 (use-package x509-mode)
 
-(use-package jdee
-  :config
-  (setq jdee-server-dir "~/.emacs.d/jdee-server")
-  )
+;; (use-package jdee
+;;   :config
+;;   (setq jdee-server-dir "~/.emacs.d/jdee-server")
+;;   )
 
 (use-package 2048-game)
 
-(use-package exwm
-  :if (and (display-graphic-p)
-	 (y-or-n-p-with-timeout "Start EXWM?" 3 nil))
-  :config
-  (progn
-    (require 'exwm-config)
-    (exwm-config-default)
-    ))
+(use-package exwm)
 
 ;; (use-package docker
 ;;   )
@@ -527,12 +523,11 @@
 (use-package x509-certificate-region
   :straight
   (x509-certificate-region
-   :tpe git
+   :type git
    :host github
    :repo "peterpaul/x509-certificate-region.el")
   :bind (("C-x x x" . x509-view-xml-element-as-x509-certificate)
-         ("C-x x r" . x509-view-region-as-x509-certificate))
-  )
+         ("C-x x r" . x509-view-region-as-x509-certificate)))
 
 ;; Start server if not running
 (load "server")
