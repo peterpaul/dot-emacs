@@ -1,3 +1,4 @@
+alias lpl lpass login $*
 alias apti sudo apt install $*
 alias aptuu sudo apt update && sudo apt upgrade
 alias s02up nmcli con up id s02
@@ -16,3 +17,4 @@ alias mvnci mvn clean install $*
 alias mvnwc ./mvnw clean $*
 alias mvnwci ./mvnw clean install $*
 alias hglp hgl --update --rebase && hgp
+alias hgpp hglp
