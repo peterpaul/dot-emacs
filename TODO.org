@@ -35,6 +35,7 @@
 * Interesting tools
 ** editorconfig: http://editorconfig.org/
 ** keysnail: emacs keybindings for Firefox: https://github.com/mooz/keysnail/wiki
+** http://ditaa.sourceforge.net/
 
 * Interesting emacs sites
 ** https://emacs.zeef.com/ehartc
@@ -43,6 +44,9 @@
 ** https://writequit.org/articles/working-with-logs-in-emacs.html
 ** https://caiorss.github.io/Emacs-Elisp-Programming/Eshell.html
 ** http://www.wilfred.me.uk/blog/2018/01/06/the-emacs-guru-guide-to-key-bindings/
+** http://www.alvinsim.com/diagrams-with-plantuml-and-emacs/
+** https://www.onwebsecurity.com/configuration/use-emacs-to-create-oauth-2-0-uml-sequence-diagrams.html
+** https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-ditaa.html
 
 * Interesting emacs commands
 ** view-lossage
