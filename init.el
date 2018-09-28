@@ -247,6 +247,11 @@
 	 (global-set-key "\C-cb" 'org-iswitchb))
   )
 
+;; large file support
+(use-package vlf
+  :config
+  (require 'vlf-setup))
+
 ;; yasnippet
 (use-package yasnippet
   :config
