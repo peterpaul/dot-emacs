@@ -152,6 +152,8 @@
 (use-package guru-mode
   :hook prog-mode)
 
+(use-package feature-mode)
+
 (use-package customize-modeline
   :straight nil
   :load-path "lisp"
