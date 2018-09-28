@@ -43,6 +43,8 @@
 ** https://writequit.org/articles/working-with-logs-in-emacs.html
 ** https://caiorss.github.io/Emacs-Elisp-Programming/Eshell.html
 ** http://www.wilfred.me.uk/blog/2018/01/06/the-emacs-guru-guide-to-key-bindings/
+** https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
+** https://emacs.cafe/emacs/javascript/setup/2017/05/09/emacs-setup-javascript-2.html
 
 * Interesting emacs commands
 ** view-lossage

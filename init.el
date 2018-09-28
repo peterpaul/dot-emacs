@@ -364,6 +364,12 @@
   :config
   (eshell-git-prompt-use-theme 'powerline))
 
+(use-package js2-mode
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)))
+
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
 (use-package markdown-toc)
