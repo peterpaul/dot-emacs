@@ -1,20 +1,21 @@
-alias lpl lpass login $*
-alias apti sudo apt install $*
-alias aptuu sudo apt update && sudo apt upgrade
-alias s02up nmcli con up id s02
-alias s02down nmcli con down id s02
-alias s01up nmcli con up id s01
-alias s01down nmcli con down id s01
-alias hglp hgl --update --rebase && hgp
-alias hgs hg status $*
-alias hgc rm .hgignore; hg clean; hg revert -a
-alias hgp hg push $*
-alias hgl hg pull $*
-alias la ls -al $*
-alias ll ls -l $*
-alias mvnc mvn clean $*
-alias mvnci mvn clean install $*
-alias mvnwc ./mvnw clean $*
-alias mvnwci ./mvnw clean install $*
-alias hglp hgl --update --rebase && hgp
+alias hgstrip hg strip --keep --rev .
 alias hgpp hglp
+alias hglp hgl --update --rebase && hgp
+alias mvnwci ./mvnw clean install $*
+alias mvnwc ./mvnw clean $*
+alias mvnci mvn clean install $*
+alias mvnc mvn clean $*
+alias ll ls -l $*
+alias la ls -al $*
+alias hgl hg pull $*
+alias hgp hg push $*
+alias hgc rm .hgignore; hg clean; hg revert -a
+alias hgs hg status $*
+alias hglp hgl --update --rebase && hgp
+alias s01down nmcli con down id s01
+alias s01up nmcli con up id s01
+alias s02down nmcli con down id s02
+alias s02up nmcli con up id s02
+alias aptuu sudo apt update && sudo apt upgrade
+alias apti sudo apt install $*
+alias lpl lpass login $*
