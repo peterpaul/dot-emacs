@@ -96,6 +96,7 @@
   (interactive)
   (setq *calculate-sum* (calculate-new-sum (list 1 23 456 6789)))
   (setq *calculate-index* 0)
+  (calculate-set-value *calculate-index* "?")
   (calculate-render))
 
 (define-derived-mode calculate-mode special-mode "calculate"
@@ -114,6 +115,9 @@
 (defun calculate-set-entered-value (v)
   (when (not (calculate-finishedp))
     (calculate-set-value *calculate-index* v)
+    (condition-case nil
+	(calculate-set-value (+ 1 *calculate-index*) "?")
+      (error nil))
     (setq *calculate-index* (+ 1 *calculate-index*))
     (calculate-render)))
 
