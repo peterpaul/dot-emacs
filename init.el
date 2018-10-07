@@ -49,19 +49,6 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(use-package auto-compile
-  :config (auto-compile-on-load-mode))
-
-(setq load-prefer-newer t)
-
-;; Checks for package update
-(use-package auto-package-update
-  :config
-  (progn (auto-package-update-maybe)
-	 (setq auto-package-update-interval 1)
-	 (setq auto-package-update-prompt-before-update t)
-	 (setq auto-package-update-delete-old-versions t)))
-
 ;; Set default font
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
