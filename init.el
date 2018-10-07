@@ -334,8 +334,7 @@
   )
 
 ;; Multi terminal emulation
-(use-package multi-term
-  :config (require 'multi-term))
+(use-package multi-term)
 
 (use-package xterm-color
   :config
@@ -379,7 +378,7 @@
 
 ;; Bash completion setup
 (use-package bash-completion
-  :config (require 'bash-completion)
+  :config
   (bash-completion-setup))
 
 (use-package discover-my-major
