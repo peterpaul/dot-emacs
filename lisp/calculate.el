@@ -75,12 +75,12 @@
   (let ((expected (reduce '+ (nth 0 *calculate-sum*))))
     (= expected r)))
 
-(defun calculate ()
+(defun calculate (times)
   "Start a sum"
-  (interactive)
+  (interactive "nSom grootte: ")
   (switch-to-buffer "calculate")
   (calculate-mode)
-  (calculate-init))
+  (calculate-init times))
 
 (defun calculate-get-result ()
   (let* ((m (nth 1 *calculate-sum*))
@@ -92,9 +92,10 @@
                              0))))
     r))
 
-(defun calculate-init ()
-  (interactive)
-  (setq *calculate-sum* (calculate-new-sum (list 1 23 456 6789)))
+(defun calculate-init (times)
+  (interactive "nSom grootte: ")
+  (setq *calculate-sum* (calculate-new-sum (mapcar (lambda (x) (random 10000))
+                                                   (number-sequence 1 times))))
   (setq *calculate-index* 0)
   (calculate-set-value *calculate-index* "?")
   (calculate-render))
