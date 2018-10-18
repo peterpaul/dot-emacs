@@ -66,7 +66,7 @@
       (if (oddp *calculate-index*)
           (insert "Hoeveel onthouden?\n\n")
         (insert "Hoeveel opschrijven?\n\n")))
-    (insert "r - Begin opnieuw\nq - Stop rekensom\n")))
+    (insert "b - Ga terug\nr - Begin opnieuw\nq - Stop rekensom\n")))
 
 (defun calculate-finishedp ()
   (> *calculate-index* (calculate-max-index)))
@@ -111,7 +111,16 @@
   (define-key calculate-mode-map (kbd "7") 'calculate-set-7)
   (define-key calculate-mode-map (kbd "8") 'calculate-set-8)
   (define-key calculate-mode-map (kbd "9") 'calculate-set-9)
-  (define-key calculate-mode-map (kbd "r") 'calculate-init))
+  (define-key calculate-mode-map (kbd "r") 'calculate-init)
+  (define-key calculate-mode-map (kbd "b") 'calculate-back))
+
+(defun calculate-back ()
+  (interactive)
+  (when (> *calculate-index* 0)
+    (calculate-set-value *calculate-index* nil)
+    (setq *calculate-index* (- *calculate-index* 1))
+    (calculate-set-value *calculate-index* "?"))
+  (calculate-render))
 
 (defun calculate-set-entered-value (v)
   (when (not (calculate-finishedp))
