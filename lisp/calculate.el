@@ -66,7 +66,7 @@
       (if (oddp *calculate-index*)
           (insert "Hoeveel onthouden?\n\n")
         (insert "Hoeveel opschrijven?\n\n")))
-    (insert "r - Begin opnieuw\nq - Stop rekensom\n")))
+    (insert "b - Ga terug\nr - Begin opnieuw\nq - Stop rekensom\n")))
 
 (defun calculate-finishedp ()
   (> *calculate-index* (calculate-max-index)))
@@ -75,12 +75,12 @@
   (let ((expected (reduce '+ (nth 0 *calculate-sum*))))
     (= expected r)))
 
-(defun calculate ()
+(defun calculate (times)
   "Start a sum"
-  (interactive)
+  (interactive "nSom grootte: ")
   (switch-to-buffer "calculate")
   (calculate-mode)
-  (calculate-init))
+  (calculate-init times))
 
 (defun calculate-get-result ()
   (let* ((m (nth 1 *calculate-sum*))
@@ -92,9 +92,10 @@
                              0))))
     r))
 
-(defun calculate-init ()
-  (interactive)
-  (setq *calculate-sum* (calculate-new-sum (list 1 23 456 6789)))
+(defun calculate-init (times)
+  (interactive "nSom grootte: ")
+  (setq *calculate-sum* (calculate-new-sum (mapcar (lambda (x) (random 10000))
+                                                   (number-sequence 1 times))))
   (setq *calculate-index* 0)
   (calculate-set-value *calculate-index* "?")
   (calculate-render))
@@ -110,7 +111,16 @@
   (define-key calculate-mode-map (kbd "7") 'calculate-set-7)
   (define-key calculate-mode-map (kbd "8") 'calculate-set-8)
   (define-key calculate-mode-map (kbd "9") 'calculate-set-9)
-  (define-key calculate-mode-map (kbd "r") 'calculate-init))
+  (define-key calculate-mode-map (kbd "r") 'calculate-init)
+  (define-key calculate-mode-map (kbd "b") 'calculate-back))
+
+(defun calculate-back ()
+  (interactive)
+  (when (> *calculate-index* 0)
+    (calculate-set-value *calculate-index* nil)
+    (setq *calculate-index* (- *calculate-index* 1))
+    (calculate-set-value *calculate-index* "?"))
+  (calculate-render))
 
 (defun calculate-set-entered-value (v)
   (when (not (calculate-finishedp))
