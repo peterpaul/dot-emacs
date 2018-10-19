@@ -457,6 +457,8 @@
 
 (use-package vagrant)
 
+(use-package restclient)
+
 (use-package restart-emacs)
 
 (use-package sunrise-commander
