@@ -117,7 +117,9 @@
 (defun calculate-back ()
   (interactive)
   (when (> *calculate-index* 0)
-    (calculate-set-value *calculate-index* nil)
+    (condition-case nil
+        (calculate-set-value *calculate-index* nil)
+      (error nil))
     (setq *calculate-index* (- *calculate-index* 1))
     (calculate-set-value *calculate-index* "?"))
   (calculate-render))
