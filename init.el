@@ -508,7 +508,9 @@
 
 (use-package 2048-game)
 
-(use-package exwm)
+(use-package exwm
+  :if (display-graphic-p)
+  )
 
 ;; (use-package docker
 ;;   )
