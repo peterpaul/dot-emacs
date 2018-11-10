@@ -18,10 +18,11 @@
   (let ((head (car l))
         (tail (cdr l))
         (len  (length l)))
-    (message "explode %d" len)
-    (if (> len 2)
-        (explode-two head (explode tail) 'cons)
-      (explode-two head (cadr l)))))
+    (pcase len
+      (0 ())
+      (1 head)
+      (2 (explode-two head (explode tail)))
+      (_ (explode-two head (explode tail) 'cons)))))
 
 (defun list-comprehension (list condition &optional collect)
   "Poor mans list comprehension"
