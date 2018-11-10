@@ -24,45 +24,23 @@
 		    gc-cons-percentage gc-cons-percentage-backup
 		    file-name-handler-alist file-name-handler-alist-backup))))
 
-(setq package-enable-at-startup nil)
+;; install straight package manager
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(require 'package) ;; You might already have this line
-
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                  (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-
-(package-initialize)
-
-(unless (package-installed-p 'quelpa)
-  (package-refresh-contents)
-  (package-install 'quelpa))
-(require 'quelpa)
-
-(setq quelpa-use-package-inhibit-loading-quelpa nil)
-
-(quelpa
- '(quelpa-use-package
-   :fetcher github
-   :repo "quelpa/quelpa-use-package"))
-(eval-when-compile
-  (require 'quelpa-use-package))
-
-(setq use-package-verbose t)
-(setq use-package-always-ensure t)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
+;; install use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default 't)
 
 (setq use-package-verbose t)
 
@@ -164,14 +142,14 @@
 (use-package feature-mode)
 
 (use-package customize-modeline
+  :straight nil
   :load-path "lisp"
   )
 
 ;; Minimap
 (use-package minimap
   :if (display-graphic-p)
-  :quelpa
-  (minimap :fetcher github :repo "dengste/minimap")
+  :straight (minimap :type git :host github :repo "dengste/minimap")
   :config
   (global-set-key [f9] 'minimap-mode)
   :init
@@ -241,10 +219,10 @@
   (require 'dashboard)
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((recents  . 5)
-                          (bookmarks . 5)
-                          (projects . 5)
-                          (agenda . 5)
-                          (registers . 5)))
+                        (bookmarks . 5)
+                        (projects . 5)
+                        (agenda . 5)
+                        (registers . 5)))
   )
 
 (use-package lastpass)
@@ -484,15 +462,13 @@
 (use-package restart-emacs)
 
 (use-package sunrise-commander
-  :quelpa
-  (sunrise-commander
-   :fetcher github
-   :repo "escherdragon/sunrise-commander")
+  :straight (sunrise-commander :type git :host github :repo "escherdragon/sunrise-commander")
   :config
   (when (display-graphic-p)
     (require 'sunrise-x-buttons)
     (require 'sunrise-x-modeline)
-    ))
+    )
+  )
 
 (use-package diredfl
   :config
@@ -533,21 +509,25 @@
   )
 
 ;; (use-package customize-eshell
+;;   :straight nil
 ;;   :load-path "lisp"
 ;;   )
 
 (use-package customize-move-lines
+  :straight nil
   :load-path "lisp"
   )
 
 (use-package macros
+  :straight nil
   :load-path "lisp"
   )
 
 (use-package x509-certificate-region
-  :quelpa
+  :straight
   (x509-certificate-region
-   :fetcher github
+   :type git
+   :host github
    :repo "peterpaul/x509-certificate-region.el")
   :bind (("C-x x x" . x509-view-xml-element-as-x509-certificate)
          ("C-x x r" . x509-view-region-as-x509-certificate)
