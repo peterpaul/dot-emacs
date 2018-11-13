@@ -219,7 +219,13 @@
 
 (use-package monky)
 
-(use-package flycheck)
+(use-package flycheck
+  :after (intero)
+  :config
+  (progn
+    (setq flycheck-check-syntax-automatically '(save new-line))
+    (flycheck-add-next-checker 'intero '(warning . haskell-hlint))))
+
 ;;(use-package flycheck-rust)
 
 (use-package counsel)
@@ -378,6 +384,14 @@
     ))
 
 (use-package cargo)
+
+(use-package haskell-mode)
+
+(use-package haskell-emacs)
+
+(use-package intero
+  :config
+  (add-hook 'haskell-mode-hook 'intero-mode))
 
 (use-package expand-region)
 
