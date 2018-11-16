@@ -442,6 +442,8 @@
   (diredfl-global-mode)
   )
 
+(use-package visual-regexp)
+
 (use-package x509-mode)
 
 ;; (use-package jdee
