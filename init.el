@@ -411,7 +411,13 @@
 (use-package projectile-ripgrep)
 (use-package term-projectile)
 
-(use-package ansible)
+(use-package ansible
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '(".*inventory.*/group_vars/.*\\'" . yaml-mode))
+    (add-to-list 'auto-mode-alist '(".*inventory.*/host_vars/.*\\'" . yaml-mode))
+    ))
+
 (use-package ansible-doc)
 (use-package ansible-vault)
 (use-package yaml-mode)
