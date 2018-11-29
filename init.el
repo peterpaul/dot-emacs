@@ -22,7 +22,7 @@
 	      (message "Restored original settings")
 	      (setq gc-cons-threshold gc-cons-threshold-backup
 		    gc-cons-percentage gc-cons-percentage-backup
-		    file-name-handler-alist file-name-handler-alist-backup))))
+		    file-name-handler-alist (append file-name-handler-alist-backup file-name-handler-alist)))))
 
 ;; install straight package manager
 (defvar bootstrap-version)
@@ -88,6 +88,7 @@
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
+(use-package nord-theme)
 
 ;; Use custom theme
 (use-package doom-themes
