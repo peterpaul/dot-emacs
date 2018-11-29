@@ -84,7 +84,9 @@
 (use-package all-the-icons
   :if (display-graphic-p))
 (use-package all-the-icons-dired
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 
 ;; Use custom theme
@@ -258,6 +260,11 @@
     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
     ))
 
+(use-package all-the-icons-ivy
+  :if (display-graphic-p)
+  :config
+  (all-the-icons-ivy-setup))
+
 (use-package avy
   :bind (("C-:" . avy-goto-char)
 	 ("C-'" . avy-goto-char2)
@@ -267,10 +274,6 @@
 	 ("C-c C-j" . avy-resume))
   :config
   (avy-setup-default)
-  )
-
-(use-package all-the-icons-ivy
-  :if (display-graphic-p)
   )
 
 ;; Multi terminal emulation
