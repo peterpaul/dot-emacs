@@ -58,3 +58,18 @@
 ** https://configure.ergodox-ez.com/keyboard_layouts/qanejd/edit: Added qwerty and cadet shift
 ** https://configure.ergodox-ez.com/keyboard_layouts/kejzzo/edit: Simplify and put dash on the expected position
 ** https://configure.ergodox-ez.com/layouts/ra7J/latest/0: Put ctrl under shift, alt only accessible as modifier keys under caps and enter
+
+* Movements keybindings
+** C-M-f:  fwd s-exp
+** C-M-b:  bck s-exp
+** C-M-d:  down into a list
+** C-M-u:  move out of list
+** C-M-k:  kill s-exp
+** C-M-n:  fwd next list
+** C-M-p:  bck prev list
+** M-}:    fwd paragraph
+** M-{:    bck paragraph
+** M-a:    begin sentence
+** M-e:    end sentence
+** C-M-a:  beg of defun
+** C-M-e:  end of defun
