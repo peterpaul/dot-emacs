@@ -368,6 +368,8 @@
 ;; Nice package to automatically disassemble java .class files
 (use-package autodisass-java-bytecode)
 
+(use-package logview)
+
 (use-package lsp-mode)
 
 (use-package lsp-ui
