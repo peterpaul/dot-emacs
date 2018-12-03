@@ -430,6 +430,15 @@
 
 (use-package restclient)
 
+;; Reference Guide: http://plantuml.com/PlantUML_Language_Reference_Guide.pdf
+;; Download from: https://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+(use-package plantuml-mode
+         :config
+         (progn
+           (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
+           (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+           ))
+
 (use-package restart-emacs)
 
 (use-package sunrise-commander
