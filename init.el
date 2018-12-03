@@ -498,6 +498,8 @@
     (setq shell-pop-universal-key "C-c t"))
   )
 
+(use-package origami)
+
 ;; (use-package customize-eshell
 ;;   :straight nil
 ;;   :load-path "lisp"
