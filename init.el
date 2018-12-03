@@ -142,6 +142,12 @@
 (use-package guru-mode
   :hook prog-mode)
 
+(use-package aggressive-indent
+  :config
+  (progn
+    (global-aggressive-indent-mode 1)
+    (add-to-list 'aggressive-indent-excluded-modes 'java-mode)))
+
 (use-package feature-mode)
 
 (use-package customize-modeline
@@ -169,10 +175,10 @@
   (require 'dashboard)
   (dashboard-setup-startup-hook)
   (setq dashboard-items '((recents  . 5)
-                        (bookmarks . 5)
-                        (projects . 5)
-                        (agenda . 5)
-                        (registers . 5)))
+                          (bookmarks . 5)
+                          (projects . 5)
+                          (agenda . 5)
+                          (registers . 5)))
   )
 
 (use-package lastpass)
@@ -367,6 +373,8 @@
 
 ;; Nice package to automatically disassemble java .class files
 (use-package autodisass-java-bytecode)
+
+(use-package logview)
 
 (use-package lsp-mode)
 

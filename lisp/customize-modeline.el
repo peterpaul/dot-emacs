@@ -1,48 +1,38 @@
 ;;; -*- lexical-binding: t; -*-
 
-(when (display-graphic-p)
-  ;; (use-package smart-mode-line
-  ;;   :config
-  ;;   (sml/setup)
-  ;;   )
-
-  ;; (use-package powerline
-  ;;   :config
-  ;;   (progn
-  ;;     (setq powerline-utf-8-separator-left        #xe0b0
-  ;;           powerline-utf-8-separator-right       #xe0b2
-  ;;           airline-utf-glyph-separator-left      #xe0b0
-  ;;           airline-utf-glyph-separator-right     #xe0b2
-  ;;           airline-utf-glyph-subseparator-left   #xe0b1
-  ;;           airline-utf-glyph-subseparator-right  #xe0b3
-  ;;           airline-utf-glyph-branch              #xe0a0
-  ;;           airline-utf-glyph-readonly            #xe0a2
-  ;;           airline-utf-glyph-linenumber          #xe0a1)
-  ;;     (powerline-default-theme)
-  ;;     ))
-
-  ;; (use-package airline-themes
-  ;;   :config
-  ;;   (load-theme 'airline-solarized-gui)
-  ;;   )
-  
-  ;; (defvar use-fancy-spaceline (y-or-n-p-with-timeout "Use fancy spaceline-all-the-icons?" 3 nil))
-  (defvar use-fancy-spaceline 't)
-
-  (use-package spaceline
-    :config
-      (spaceline-emacs-theme))
-
-  (use-package spaceline-all-the-icons
-    :after spaceline
-    :config
-    (progn
-      (require 'package)
-      (spaceline-all-the-icons-theme)
-      (spaceline-all-the-icons--setup-package-updates) ;; Enable package update indicator
-      (spaceline-all-the-icons--setup-git-ahead)       ;; Enable # of commits ahead of upstream in git
-      (spaceline-all-the-icons--setup-neotree)         ;; Enable Neotree mode line
-  )))
+(use-package doom-modeline
+  :config
+  (progn
+    ;; How tall the mode-line should be (only respected in GUI Emacs).
+    (setq doom-modeline-height 25)
+    ;; How wide the mode-line bar should be (only respected in GUI Emacs).
+    (setq doom-modeline-bar-width 3)
+    ;; Determines the style used by `doom-modeline-buffer-file-name'.
+    ;;
+    ;; Given ~/Projects/FOSS/emacs/lisp/comint.el
+    ;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
+    ;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
+    ;;   truncate-with-project => emacs/l/comint.el
+    ;;   truncate-except-project => ~/P/F/emacs/l/comint.el
+    ;;   truncate-upto-root => ~/P/F/e/lisp/comint.el
+    ;;   truncate-all => ~/P/F/e/l/comint.el
+    ;;   relative-from-project => emacs/lisp/comint.el
+    ;;   relative-to-project => lisp/comint.el
+    ;;   file-name => comint.el
+    ;;   buffer-name => comint.el<2> (uniquify buffer name)
+    ;;
+    ;; If you are experiencing the laggy issue, especially while editing remote files
+    ;; with tramp, please try `file-name' style.
+    ;; Please refer to https://github.com/bbatsov/projectile/issues/657.
+    (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+    ;; What executable of Python will be used (if nil nothing will be showed).
+    (setq doom-modeline-python-executable "python")
+    ;; Whether show `all-the-icons' or not (if nil nothing will be showed).
+    ;; The icons may not be showed correctly on Windows. Disable to make it work.
+    (setq doom-modeline-icon t)
+    ;; Whether show the icon for major mode. It should respect `doom-modeline-icon'.
+    (setq doom-modeline-major-mode-icon t))
+  :hook (after-init . doom-modeline-init))
 
 (provide 'customize-modeline)
 ;;; customize-modeline ends here
