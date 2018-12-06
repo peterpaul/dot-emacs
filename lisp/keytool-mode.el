@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 (require 'origami)
+(require 's)
 
 (setq keytool-syntax-constants
       '(
@@ -78,10 +79,12 @@
 
 (define-derived-mode keytool-mode special-mode "keytool"
   (define-key keytool-mode-map (kbd "<tab>") 'origami-recursively-toggle-node)
-  (define-key keytool-mode-map (kbd "d") 'keytool-render)
+  (define-key keytool-mode-map (kbd "g") 'keytool-render)
   (define-key keytool-mode-map (kbd "v") 'keytool-render-verbose)
   (define-key keytool-mode-map (kbd "r") 'keytool-render-rfc)
   (define-key keytool-mode-map (kbd "q") 'kill-this-buffer)
+  (define-key keytool-mode-map (kbd "i") 'keytool-importcert)
+  (define-key keytool-mode-map (kbd "d") 'keytool-delete)
   (setq font-lock-defaults '(keytool-highlights)))
 
 (map-put origami-parser-alist 'keytool-mode (origami-markers-parser "-----BEGIN CERTIFICATE-----" "-----END CERTIFICATE-----"))
@@ -155,4 +158,31 @@
                                        cert-alias)))
     (keytool-render)))
 
-(provide 'keytool-mode)
+(defun keytool--parse-alias-from-line-at-pos (pos)
+  "Try to parse an aliase from the line at POS.
+
+This function changes the position of the point, so wrap calls to this in `save-excursion'"
+  (let* ((beg (progn (beginning-of-line) (point)))
+         (end (progn (end-of-line) (point)))
+         (line (buffer-substring-no-properties beg end)))
+    (if (s-starts-with? "Alias name: " line)
+        (s-replace-regexp "Alias name: " "" line)
+      (if (s-contains? "," line)
+          (substring line 0 (s-index-of "," line))
+        nil))))
+
+(defun keytool-delete (pos)
+  "Delete the keystore entry at point POS."
+  (interactive "d")
+  (save-excursion
+    (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
+                     (error "Current line does not contain an alias")))
+           (keystore-pass (keytool-get-passphrase-with-prompt (format "Enter password to delete certificate '%s'"
+                                                                      alias))))
+      (shell-command (format "keytool -delete -keystore '%s' -storepass '%s' -alias '%s'"
+                             keystore-filename
+                             keystore-pass
+                             alias))
+      (keytool-render))))
+
+  (provide 'keytool-mode)
