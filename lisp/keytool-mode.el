@@ -79,12 +79,13 @@
 
 (define-derived-mode keytool-mode special-mode "keytool"
   (define-key keytool-mode-map (kbd "<tab>") 'origami-recursively-toggle-node)
-  (define-key keytool-mode-map (kbd "g") 'keytool-render)
-  (define-key keytool-mode-map (kbd "v") 'keytool-render-verbose)
-  (define-key keytool-mode-map (kbd "r") 'keytool-render-rfc)
-  (define-key keytool-mode-map (kbd "q") 'kill-this-buffer)
-  (define-key keytool-mode-map (kbd "i") 'keytool-importcert)
+  (define-key keytool-mode-map (kbd "c") 'keytool-changealias)
   (define-key keytool-mode-map (kbd "d") 'keytool-delete)
+  (define-key keytool-mode-map (kbd "g") 'keytool-list)
+  (define-key keytool-mode-map (kbd "i") 'keytool-importcert)
+  (define-key keytool-mode-map (kbd "q") 'kill-this-buffer)
+  (define-key keytool-mode-map (kbd "r") 'keytool-list-rfc)
+  (define-key keytool-mode-map (kbd "v") 'keytool-list-verbose)
   (setq font-lock-defaults '(keytool-highlights)))
 
 (map-put origami-parser-alist 'keytool-mode (origami-markers-parser "-----BEGIN CERTIFICATE-----" "-----END CERTIFICATE-----"))
@@ -100,7 +101,7 @@
   (make-local-variable 'keystore-passphrase)
   (setq keystore-passphrase nil)
   (origami-mode)
-  (keytool-render))
+  (keytool-list))
 
 (defun keytool-get-passphrase-with-prompt (prompt)
   (read-passwd (format "%s (%s): "
@@ -113,7 +114,7 @@
           (keytool-get-passphrase-with-prompt "Keystore Passphrase")))
   keystore-passphrase)
 
-(defun keytool-render-style (style)
+(defun keytool-list-style (style)
   (when keystore-filename
     (let ((inhibit-read-only t)
           (keystore-password (keytool-get-passphrase-lazy)))
@@ -130,17 +131,17 @@
       (goto-char (point-min))
       (origami-close-all-nodes (get-buffer keystore-filename)))))
 
-(defun keytool-render ()
+(defun keytool-list ()
   (interactive)
-  (keytool-render-style ""))
+  (keytool-list-style ""))
 
-(defun keytool-render-verbose ()
+(defun keytool-list-verbose ()
   (interactive)
-  (keytool-render-style "-v"))
+  (keytool-list-style "-v"))
 
-(defun keytool-render-rfc ()
+(defun keytool-list-rfc ()
   (interactive)
-  (keytool-render-style "-rfc"))
+  (keytool-list-style "-rfc"))
 
 (defun keytool-importcert (cert-buffer cert-alias)
   "Import certificate from CERT-BUFFER with alias CERT-ALIAS."
@@ -156,7 +157,7 @@
                                        keystore-file
                                        keystore-pass
                                        cert-alias)))
-    (keytool-render)))
+    (keytool-list)))
 
 (defun keytool--parse-alias-from-line-at-pos (pos)
   "Try to parse an aliase from the line at POS.
@@ -183,6 +184,22 @@ This function changes the position of the point, so wrap calls to this in `save-
                              keystore-filename
                              keystore-pass
                              alias))
-      (keytool-render))))
+      (keytool-list))))
 
-  (provide 'keytool-mode)
+(defun keytool-changealias (pos destalias)
+  "Move an existing keystore entry from the line at POS to DESTALIAS."
+  (interactive "d\nsDestination alias: ")
+  (save-excursion
+    (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
+                     (error "Current line does not contain an alias")))
+           (keystore-pass (keytool-get-passphrase-with-prompt (format "Enter password to change alias '%s' to '%s'"
+                                                                      alias
+                                                                      destalias))))
+      (shell-command (format "keytool -changealias -keystore '%s' -storepass '%s' -alias '%s' -destalias '%s'"
+                             keystore-filename
+                             keystore-pass
+                             alias
+                             destalias))
+      (keytool-list))))
+
+(provide 'keytool-mode)
