@@ -2,7 +2,7 @@
 (require 'origami)
 (require 's)
 
-(setq keytool-syntax-constants
+(setq keytool-syntax-keywords
       '(
         "Alias name"
         "AuthorityInfoAccess"
@@ -10,8 +10,8 @@
         "BasicConstraints"
         "CRLDistributionPoints"
         "Certificate chain length"
-        "Certificate fingerprint"
         "Certificate fingerprints"
+        "Certificate fingerprint"
         "CertificatePolicies"
         "CertificatePolicyId"
         "Certificate"
@@ -43,11 +43,11 @@
         "until"
         ))
 
-(setq keytool-syntax-keywords
+(setq keytool-syntax-constants
       '(
         "[0-9A-F][0-9A-F]\\(:[0-9A-F][0-9A-F]\\)+"
         "[0-9]+\\([\\.][0-9]+\\)+"
-        "[0-9]+:\\( +[0-9A-F][0-9A-F]\\)+.*$"
+        "[0-9A-F]+:\\( +[0-9A-F][0-9A-F]\\)+.*$"
         "caIssuers"
         "ocsp"
         "serverAuth"
@@ -109,7 +109,7 @@
 (defun keytool-get-passphrase-lazy ()
   (when (not keystore-passphrase)
     (setq keystore-passphrase
-          (read-passwd (format "Keystore Passphrase (%s)" keystore-filename))))
+          (read-passwd (format "Enter keystore passphrase of '%s': " keystore-filename))))
   keystore-passphrase)
 
 (defun keytool-list-style (style)
@@ -145,8 +145,9 @@
   "Import certificate from CERT-BUFFER with alias CERT-ALIAS."
   (interactive "bBuffer with certificate to import: \nsSet alias for certificate: ")
   (let ((keystore-file keystore-filename)
-        (keystore-pass (read-passwd (format "Enter password to import certificate from '%s'"
-                                            cert-buffer))))
+        (keystore-pass (read-passwd (format "Enter keystore passphrase to import certificate from '%s' to '%s': "
+                                            cert-buffer
+                                            keystore-filename))))
     (save-excursion
       (set-buffer cert-buffer)
       (shell-command-on-region (point-min)
@@ -176,8 +177,9 @@ This function changes the position of the point, so wrap calls to this in `save-
   (save-excursion
     (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
                      (error "Current line does not contain an alias")))
-           (keystore-pass (read-passwd (format "Enter password to delete certificate '%s'"
-                                               alias))))
+           (keystore-pass (read-passwd (format "Enter keystore passphrase to delete certificate '%s' from '%s': "
+                                               alias
+                                               keystore-filename))))
       (shell-command (format "keytool -delete -keystore '%s' -storepass '%s' -alias '%s'"
                              keystore-filename
                              keystore-pass
@@ -202,9 +204,10 @@ This function changes the position of the point, so wrap calls to this in `save-
   (save-excursion
     (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
                      (error "Current line does not contain an alias")))
-           (keystore-pass (read-passwd (format "Enter password to change alias '%s' to '%s'"
+           (keystore-pass (read-passwd (format "Enter keystore passphrase to change alias '%s' to '%s' in '%s': "
                                                alias
-                                               destalias))))
+                                               destalias
+                                               keystore-filename))))
       (shell-command (format "keytool -changealias -keystore '%s' -storepass '%s' -alias '%s' -destalias '%s'"
                              keystore-filename
                              keystore-pass
@@ -227,8 +230,8 @@ This function changes the position of the point, so wrap calls to this in `save-
 (defun keytool-importkeystore (srckeystore)
   "Import an entire keystore into this one."
   (interactive "fKeystore to import: ")
-  (let ((srcstorepass (read-passwd (format "Enter keystore password of '%s': " srckeystore)))
-        (deststorepass (read-passwd (format "Enter keystore password of '%s': " keystore-filename))))
+  (let ((srcstorepass (read-passwd (format "Enter keystore passphrase of '%s': " srckeystore)))
+        (deststorepass (read-passwd (format "Enter keystore passphrase of '%s': " keystore-filename))))
     (shell-command (format "keytool -importkeystore -srckeystore '%s' -srcstorepass '%s' -destkeystore '%s' -deststorepass '%s' -noprompt"
                            srckeystore
                            srcstorepass
