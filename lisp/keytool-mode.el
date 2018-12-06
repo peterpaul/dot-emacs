@@ -81,8 +81,11 @@
   (define-key keytool-mode-map (kbd "<tab>") 'origami-recursively-toggle-node)
   (define-key keytool-mode-map (kbd "c") 'keytool-changealias)
   (define-key keytool-mode-map (kbd "d") 'keytool-delete)
+  (define-key keytool-mode-map (kbd "D") 'keytool-delete-force)
+  (define-key keytool-mode-map (kbd "e") 'keytool-exportcert)
   (define-key keytool-mode-map (kbd "g") 'keytool-list)
   (define-key keytool-mode-map (kbd "i") 'keytool-importcert)
+  (define-key keytool-mode-map (kbd "I") 'keytool-importkeystore)
   (define-key keytool-mode-map (kbd "q") 'kill-this-buffer)
   (define-key keytool-mode-map (kbd "r") 'keytool-list-rfc)
   (define-key keytool-mode-map (kbd "v") 'keytool-list-verbose)
@@ -103,15 +106,10 @@
   (origami-mode)
   (keytool-list))
 
-(defun keytool-get-passphrase-with-prompt (prompt)
-  (read-passwd (format "%s (%s): "
-                       prompt
-                       keystore-filename)))
-
 (defun keytool-get-passphrase-lazy ()
   (when (not keystore-passphrase)
     (setq keystore-passphrase
-          (keytool-get-passphrase-with-prompt "Keystore Passphrase")))
+          (read-passwd (format "Keystore Passphrase (%s)" keystore-filename))))
   keystore-passphrase)
 
 (defun keytool-list-style (style)
@@ -147,8 +145,8 @@
   "Import certificate from CERT-BUFFER with alias CERT-ALIAS."
   (interactive "bBuffer with certificate to import: \nsSet alias for certificate: ")
   (let ((keystore-file keystore-filename)
-        (keystore-pass (keytool-get-passphrase-with-prompt (format "Enter password to import certificate from '%s'"
-                                                                   cert-buffer))))
+        (keystore-pass (read-passwd (format "Enter password to import certificate from '%s'"
+                                            cert-buffer))))
     (save-excursion
       (set-buffer cert-buffer)
       (shell-command-on-region (point-min)
@@ -178,11 +176,23 @@ This function changes the position of the point, so wrap calls to this in `save-
   (save-excursion
     (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
                      (error "Current line does not contain an alias")))
-           (keystore-pass (keytool-get-passphrase-with-prompt (format "Enter password to delete certificate '%s'"
-                                                                      alias))))
+           (keystore-pass (read-passwd (format "Enter password to delete certificate '%s'"
+                                               alias))))
       (shell-command (format "keytool -delete -keystore '%s' -storepass '%s' -alias '%s'"
                              keystore-filename
                              keystore-pass
+                             alias))
+      (keytool-list))))
+
+(defun keytool-delete-force (pos)
+  "Delete the keystore entry at point POS."
+  (interactive "d")
+  (save-excursion
+    (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
+                     (error "Current line does not contain an alias"))))
+      (shell-command (format "keytool -delete -keystore '%s' -storepass '%s' -alias '%s'"
+                             keystore-filename
+                             keystore-passphrase
                              alias))
       (keytool-list))))
 
@@ -192,14 +202,38 @@ This function changes the position of the point, so wrap calls to this in `save-
   (save-excursion
     (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
                      (error "Current line does not contain an alias")))
-           (keystore-pass (keytool-get-passphrase-with-prompt (format "Enter password to change alias '%s' to '%s'"
-                                                                      alias
-                                                                      destalias))))
+           (keystore-pass (read-passwd (format "Enter password to change alias '%s' to '%s'"
+                                               alias
+                                               destalias))))
       (shell-command (format "keytool -changealias -keystore '%s' -storepass '%s' -alias '%s' -destalias '%s'"
                              keystore-filename
                              keystore-pass
                              alias
                              destalias))
       (keytool-list))))
+
+(defun keytool-exportcert (pos)
+  "Export the certificate from the line at POS."
+  (interactive "d")
+  (save-excursion
+    (let* ((alias (or (keytool--parse-alias-from-line-at-pos pos)
+                     (error "Current line does not contain an alias")))
+           (cert-buffer (get-buffer-create (format "%s.pem" alias))))
+      (shell-command (format "keytool -exportcert -keystore '%s' -storepass '%s' -alias '%s' -rfc"
+                             keystore-filename
+                             keystore-passphrase
+                             alias) cert-buffer))))
+
+(defun keytool-importkeystore (srckeystore)
+  "Import an entire keystore into this one."
+  (interactive "fKeystore to import: ")
+  (let ((srcstorepass (read-passwd (format "Enter keystore password of '%s': " srckeystore)))
+        (deststorepass (read-passwd (format "Enter keystore password of '%s': " keystore-filename))))
+    (shell-command (format "keytool -importkeystore -srckeystore '%s' -srcstorepass '%s' -destkeystore '%s' -deststorepass '%s' -noprompt"
+                           srckeystore
+                           srcstorepass
+                           keystore-filename
+                           deststorepass))
+    (keytool-list)))
 
 (provide 'keytool-mode)
