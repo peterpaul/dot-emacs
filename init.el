@@ -187,9 +187,9 @@
 (use-package org
   :config
   (progn (global-set-key "\C-cl" 'org-store-link)
-	 (global-set-key "\C-ca" 'org-agenda)
-	 (global-set-key "\C-cc" 'org-capture)
-	 (global-set-key "\C-cb" 'org-iswitchb))
+         (global-set-key "\C-ca" 'org-agenda)
+         (global-set-key "\C-cc" 'org-capture)
+         (global-set-key "\C-cb" 'org-iswitchb))
   )
 
 ;; large file support
@@ -290,10 +290,10 @@
   :config
   (progn
     (setq comint-output-filter-functions
-	  (remove 'ansi-color-process-output comint-output-filter-functions))
+          (remove 'ansi-color-process-output comint-output-filter-functions))
 
     (add-hook 'shell-mode-hook
-	      (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
+              (lambda () (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
     ;; Also set TERM accordingly (xterm-256color)
 
@@ -302,8 +302,8 @@
     (require 'eshell)
 
     (add-hook 'eshell-before-prompt-hook
-	      (lambda ()
-		(setq xterm-color-preserve-properties t)))
+              (lambda ()
+                (setq xterm-color-preserve-properties t)))
 
     (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
     (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
@@ -441,11 +441,11 @@
 ;; Reference Guide: http://plantuml.com/PlantUML_Language_Reference_Guide.pdf
 ;; Download from: https://sourceforge.net/projects/plantuml/files/plantuml.jar/download
 (use-package plantuml-mode
-         :config
-         (progn
-           (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
-           (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-           ))
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
+    (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+    ))
 
 (use-package restart-emacs)
 
