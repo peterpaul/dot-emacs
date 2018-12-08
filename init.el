@@ -465,6 +465,8 @@
 
 (use-package visual-regexp)
 
+(use-package package-lint)
+
 (use-package x509-mode)
 
 ;; (use-package jdee
