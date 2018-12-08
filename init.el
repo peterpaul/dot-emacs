@@ -526,6 +526,13 @@
          ("C-x x r" . x509-view-region-as-x509-certificate)
 	 ("C-x x p" . x509-view-paragraph-as-x509-certificate)))
 
+(use-package keytool-mode
+  :straight
+  (keytool-mode
+   :type git
+   :host github
+   :repo "peterpaul/keytool-mode.el"))
+
 ;; Start server if not running
 (load "server")
 (unless (server-running-p) (server-start))
