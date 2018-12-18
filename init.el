@@ -150,6 +150,10 @@
 
 (use-package feature-mode)
 
+(use-package smartparens
+  :config
+  (smartparens-global-mode 1))
+
 (use-package customize-modeline
   :straight nil
   :load-path "lisp"
