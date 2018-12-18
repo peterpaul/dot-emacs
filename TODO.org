@@ -36,6 +36,8 @@
 ** editorconfig: http://editorconfig.org/
 ** keysnail: emacs keybindings for Firefox: https://github.com/mooz/keysnail/wiki
 ** http://ditaa.sourceforge.net/
+** https://github.com/emacs-lsp/lsp-java: java support
+** https://github.com/eclipse/eclipse.jdt.ls: java support
 
 * Interesting emacs sites
 ** https://emacs.zeef.com/ehartc

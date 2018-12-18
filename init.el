@@ -212,15 +212,19 @@
   :config (add-hook 'after-init-hook 'global-company-mode))
 
 ;; Additional completion packages
-(use-package company-ansible)
+(use-package company-ansible
+  :after company)
 (use-package company-lsp
-  :after lsp-mode)
+  :after (company lsp-mode)
+  :init (add-to-list 'company-backends #'company-lsp)
+  :config (setq company-lsp-enable-snippet t
+                company-lsp-cache-candidates t))
+
 (use-package company-quickhelp
-  :config
-  (progn (company-quickhelp-mode 1)
-	 (with-eval-after-load 'company
-	   (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
-	 ))
+  :after (company)
+  :config (progn (company-quickhelp-mode 1)
+                 (with-eval-after-load 'company
+                   (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))))
 
 (use-package company-web)
 
@@ -379,8 +383,13 @@
 (use-package lsp-mode)
 
 (use-package lsp-ui
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  :after lsp-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :config (setq lsp-ui-sideline-enable t
+                lsp-ui-sideline-show-symbol t
+                lsp-ui-sideline-show-hover t
+                lsp-ui-sideline-showcode-actions t
+                lsp-ui-sideline-update-mode 'point))
 
 ;; First install rust language server with:
 ;;
@@ -396,6 +405,22 @@
     ))
 
 (use-package cargo)
+
+(use-package lsp-java
+  :defer 3
+  :init
+  (progn
+    (require 'lsp-ui-flycheck)
+    (require 'lsp-ui-sideline)
+    (add-hook 'java-mode-hook #'lsp-java-enable)
+    (add-hook 'java-mode-hook #'flycheck-mode)
+    (add-hook 'java-mode-hook #'company-mode)
+    (add-hook 'java-mode-hook (lambda () (lsp-ui-flycheck-enable t)))
+    (add-hook 'java-mode-hook #'lsp-ui-sideline-mode)))
+
+(use-package java-snippets
+  :after yasnippet
+  :init (add-hook 'java-mode-hook #'yas-minor-mode))
 
 (use-package haskell-mode)
 
