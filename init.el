@@ -292,7 +292,12 @@
   )
 
 ;; Multi terminal emulation
-(use-package multi-term)
+(use-package multi-term
+  :bind (("<f5>" . 'multi-term)
+         ("<C-next>" . 'multi-term-next)
+         ("<C-prior>" . 'multi-term-prev))
+  :custom
+  (multi-term-buffer-name "term"))
 
 (use-package xterm-color
   :config
@@ -318,6 +323,9 @@
 
     ;;  Don't forget to setenv TERM xterm-256color
     ))
+
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
 
 (use-package eshell-git-prompt
   :config
