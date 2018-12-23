@@ -38,6 +38,17 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(defun command-exists-p (command)
+  "Checks whether COMMAND exists on this system.
+
+The existence of COMMAND is checked using =which COMMAND=. So this function
+will only work on systems where the command =which= exists."
+  (let ((buf    (get-buffer-create "command-exists-buffer"))
+        (retval nil))
+    (setq retval (shell-command (format "which '%s'" command)))
+    (kill-buffer buf)
+    (eq retval 0)))
+
 ;; install use-package
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default 't)
@@ -184,7 +195,8 @@
                           (agenda . 5)
                           (registers . 5))))
 
-(use-package lastpass)
+(use-package lastpass
+  :if (command-exists-p "lpass"))
 
 ;; Org
 (use-package org
@@ -216,7 +228,9 @@
 
 ;; Additional completion packages
 (use-package company-ansible
+  :if (command-exists-p "ansible")
   :after company)
+
 (use-package company-lsp
   :after (company lsp-mode)
   :init (add-to-list 'company-backends #'company-lsp)
@@ -231,9 +245,11 @@
 
 (use-package company-web)
 
-(use-package magit)
+(use-package magit
+  :if (command-exists-p "git"))
 
-(use-package monky)
+(use-package monky
+  :if (command-exists-p "hg"))
 
 (use-package flycheck
   :after (intero)
@@ -242,12 +258,9 @@
     (setq flycheck-check-syntax-automatically '(save new-line))
     (flycheck-add-next-checker 'intero '(warning . haskell-hlint))))
 
-;;(use-package flycheck-rust)
-
 (use-package counsel)
 (use-package counsel-tramp
-  :after counsel
-  )
+  :after counsel)
 
 (use-package ivy
   :config
@@ -406,6 +419,7 @@
 ;;
 ;; $ rustup component add rls-preview rust-analysis rust-src
 (use-package lsp-rust
+  :if (command-exists-p "cargo")
   :config
   (progn
     (with-eval-after-load 'lsp-mode
@@ -415,9 +429,11 @@
     (add-hook 'rust-mode-hook #'flycheck-mode)
     ))
 
-(use-package cargo)
+(use-package cargo
+  :if (command-exists-p "cargo"))
 
 (use-package lsp-java
+  :if (command-exists-p "javac")
   :defer 3
   :init
   (progn
@@ -430,14 +446,18 @@
     (add-hook 'java-mode-hook #'lsp-ui-sideline-mode)))
 
 (use-package java-snippets
+  :if (command-exists-p "javac")
   :after yasnippet
   :init (add-hook 'java-mode-hook #'yas-minor-mode))
 
-(use-package haskell-mode)
+(use-package haskell-mode
+  :if (command-exists-p "stack"))
 
-(use-package haskell-emacs)
+(use-package haskell-emacs
+  :if (command-exists-p "stack"))
 
 (use-package intero
+  :if (command-exists-p "stack")
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
 
@@ -452,25 +472,33 @@
     (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
     ))
 
-(use-package ag)
-(use-package ripgrep)
-(use-package rg)
+(use-package ag
+  :if (command-exists-p "ag"))
+(use-package ripgrep
+  :if (command-exists-p "rg"))
+(use-package rg
+  :if (command-exists-p "rg"))
 (use-package projectile)
-(use-package projectile-ripgrep)
+(use-package projectile-ripgrep
+  :if (command-exists-p "rg"))
 (use-package term-projectile)
 
 (use-package ansible
+  :if (command-exists-p "ansible")
   :config
   (progn
     (add-to-list 'auto-mode-alist '(".*inventory.*/group_vars/.*\\'" . yaml-mode))
     (add-to-list 'auto-mode-alist '(".*inventory.*/host_vars/.*\\'" . yaml-mode))
     ))
 
-(use-package ansible-doc)
-(use-package ansible-vault)
+(use-package ansible-doc
+  :if (command-exists-p "ansible"))
+(use-package ansible-vault
+  :if (command-exists-p "ansible"))
 (use-package yaml-mode)
 
-(use-package vagrant)
+(use-package vagrant
+  :if (command-exists-p "vagrant"))
 
 (use-package restclient)
 
@@ -503,7 +531,8 @@
 
 (use-package package-lint)
 
-(use-package x509-mode)
+(use-package x509-mode
+  :if (command-exists-p "openssl"))
 
 ;; (use-package jdee
 ;;   :config
@@ -554,6 +583,7 @@
   )
 
 (use-package x509-certificate-region
+  :if (command-exists-p "openssl")
   :straight
   (x509-certificate-region
    :type git
@@ -565,6 +595,7 @@
 	 ("C-x x p" . x509-view-paragraph-as-x509-certificate)))
 
 (use-package keystore-mode
+  :if (command-exists-p "keytool")
   :straight
   (keystore-mode
    :type git
