@@ -161,10 +161,6 @@ will only work on systems where the command =which= exists."
 
 (use-package feature-mode)
 
-(use-package smartparens
-  :config
-  (smartparens-global-mode 1))
-
 (use-package customize-modeline
   :straight nil
   :load-path "lisp"
