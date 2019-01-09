@@ -12,10 +12,10 @@ alias hgp hg push $*
 alias hgc rm .hgignore; hg clean; hg revert -a
 alias hgs hg status $*
 alias hglp hgl --update --rebase && hgp
-alias s01down nmcli con down id s01
-alias s01up nmcli con up id s01
-alias s02down nmcli con down id s02
-alias s02up nmcli con up id s02
+alias dc01down nmcli con down id dc01 $*
+alias dc01up nmcli con up id dc01 $*
+alias dc02down nmcli con down id dc02 $*
+alias dc02up nmcli con up id dc02 $*
 alias aptuu sudo apt update && sudo apt upgrade
 alias apti sudo apt install $*
 alias lpl lpass login $*
