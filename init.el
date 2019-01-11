@@ -120,6 +120,10 @@ will only work on systems where the command =which= exists."
   (doom-themes-enable-italic t "Enable italics universally") ; if nil, italics is universally disabled
   )
 
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 (use-package org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
