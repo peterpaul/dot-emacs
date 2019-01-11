@@ -477,6 +477,8 @@ will only work on systems where the command =which= exists."
     (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
     ))
 
+(use-package iedit)
+
 (use-package ag
   :if (command-exists-p "ag"))
 (use-package ripgrep
