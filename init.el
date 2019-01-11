@@ -208,6 +208,11 @@ will only work on systems where the command =which= exists."
   :config
   (require 'vlf-setup))
 
+;; editorconfig
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
 ;; yasnippet
 (use-package yasnippet
   :config
