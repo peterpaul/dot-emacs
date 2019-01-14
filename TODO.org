@@ -51,6 +51,7 @@
 ** http://www.alvinsim.com/diagrams-with-plantuml-and-emacs/
 ** https://www.onwebsecurity.com/configuration/use-emacs-to-create-oauth-2-0-uml-sequence-diagrams.html
 ** https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-ditaa.html
+** http://rejeep.github.io/emacs/testing/cask/ecukes/2013/10/20/integration-testing-in-emacs.html
 
 * Interesting emacs commands
 ** view-lossage
