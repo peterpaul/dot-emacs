@@ -67,28 +67,29 @@ will only work on systems where the command =which= exists."
 
 (use-package pretty-mode
   :config
-  (progn (global-pretty-mode t)
-	 (global-prettify-symbols-mode 1)
+  (progn
+    ;; (global-pretty-mode t)
+    ;; (global-prettify-symbols-mode 1)
 
-	 ;; (pretty-deactivate-groups
-	 ;;  '(:equality :ordering :ordering-double :ordering-triple
-	 ;; 	       :arrows :arrows-twoheaded :punctuation
-	 ;; 	       :logic :sets))
+    ;; (pretty-deactivate-groups
+    ;;  '(:equality :ordering :ordering-double :ordering-triple
+    ;; 	       :arrows :arrows-twoheaded :punctuation
+    ;; 	       :logic :sets))
 
-	 (pretty-activate-groups
-	  '(:sub-and-superscripts
-	    :greek
-	    :arithmetic-nary
-	    :equality
-	    :ordering
-	    :ordering-double
-	    :ordering-triple
-	    :arrows
-	    :arrows-twoheaded
-	    :punctuation
-	    :logic
-	    :sets
-	    ))))
+    (pretty-activate-groups
+     '(:sub-and-superscripts
+       :greek
+       :arithmetic-nary
+       :equality
+       :ordering
+       :ordering-double
+       :ordering-triple
+       :arrows
+       :arrows-twoheaded
+       :punctuation
+       :logic
+       :sets
+       ))))
 
 ;; Enable all-the-icons
 ;; NOTE must run `M-x all-the-icons-install-fonts`
