@@ -76,3 +76,6 @@
 ** M-e:    end sentence
 ** C-M-a:  beg of defun
 ** C-M-e:  end of defun
+
+* Interesting LISP sites
+** http://rilouw.eu/article/the-programming-language-of-your-dreams-part-1
