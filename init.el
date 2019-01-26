@@ -238,6 +238,7 @@ will only work on systems where the command =which= exists."
 
 (use-package company-lsp
   :after (company lsp-mode)
+  :commands company-lsp
   :init (add-to-list 'company-backends #'company-lsp)
   :config (setq company-lsp-enable-snippet t
                 company-lsp-cache-candidates t))
@@ -409,10 +410,12 @@ will only work on systems where the command =which= exists."
 
 (use-package logview)
 
-(use-package lsp-mode)
+(use-package lsp-mode
+  :commands lsp)
 
 (use-package lsp-ui
   :after lsp-mode
+  :commands lsp-ui-mode
   :hook (lsp-mode . lsp-ui-mode)
   :config (setq lsp-ui-sideline-enable t
                 lsp-ui-sideline-show-symbol t
