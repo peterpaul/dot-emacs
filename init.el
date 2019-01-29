@@ -208,6 +208,8 @@ will only work on systems where the command =which= exists."
          (global-set-key "\C-cb" 'org-iswitchb))
   )
 
+(use-package org-preview-html)
+
 ;; large file support
 (use-package vlf
   :config
