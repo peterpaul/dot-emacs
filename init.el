@@ -183,6 +183,13 @@ will only work on systems where the command =which= exists."
   (minimap-active-region-background ((t (:background "#4C566A"))))
   (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440")))))
 
+(use-package beacon
+  :config (beacon-mode 1))
+
+(use-package highlight-defined
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'highlight-defined-mode))
+
 (use-package neotree
   :config (global-set-key [f8] 'neotree-toggle))
 
