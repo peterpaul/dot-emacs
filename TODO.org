@@ -2,7 +2,7 @@
 ** ag
 ** aggressive-indent-mode: https://github.com/Malabarba/aggressive-indent-mode
 ** aHg
-** anzu: 
+** anzu: Better isearch
 ** boon: ergonomics, modal editing package: https://github.com/jyp/boon
 ** company-box: https://github.com/sebastiencs/company-box
 ** company-mode
