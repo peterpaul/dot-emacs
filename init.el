@@ -274,11 +274,20 @@ will only work on systems where the command =which= exists."
     (setq flycheck-check-syntax-automatically '(save new-line))
     (flycheck-add-next-checker 'intero '(warning . haskell-hlint))))
 
-(use-package counsel)
+(use-package ido
+  :config
+  (progn
+    (ido-mode 1)
+    (setq ido-everywhere t)
+    (setq ido-enable-flex-matching t)))
+
+(use-package counsel
+  :after ido)
 (use-package counsel-tramp
   :after counsel)
 
 (use-package ivy
+  :after ido
   :config
   (progn
     (ivy-mode 1)
