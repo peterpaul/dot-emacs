@@ -570,6 +570,8 @@ will only work on systems where the command =which= exists."
 
 (use-package 2048-game)
 
+(use-package anzu)
+
 (use-package exwm
   :if (display-graphic-p)
   :config
