@@ -445,19 +445,19 @@ will only work on systems where the command =which= exists."
 ;; First install rust language server with:
 ;;
 ;; $ rustup component add rls-preview rust-analysis rust-src
-(use-package lsp-rust
-  :if (command-exists-p "cargo")
-  :config
-  (progn
-    (with-eval-after-load 'lsp-mode
-      (setq lsp-rust-rls-command '("rls"))
-      (require 'lsp-rust))
-    (add-hook 'rust-mode-hook #'lsp-rust-enable)
-    (add-hook 'rust-mode-hook #'flycheck-mode)
-    ))
+;; (use-package lsp-rust
+;;   :if (command-exists-p "cargo")
+;;   :config
+;;   (progn
+;;     (with-eval-after-load 'lsp-mode
+;;       (setq lsp-rust-rls-command '("rls"))
+;;       (require 'lsp-rust))
+;;     (add-hook 'rust-mode-hook #'lsp-rust-enable)
+;;     (add-hook 'rust-mode-hook #'flycheck-mode)
+;;     ))
 
-(use-package cargo
-  :if (command-exists-p "cargo"))
+;; (use-package cargo
+;;   :if (command-exists-p "cargo"))
 
 (use-package lsp-java
   :if (command-exists-p "javac")
