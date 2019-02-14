@@ -61,6 +61,7 @@
 ** https://configure.ergodox-ez.com/keyboard_layouts/qanejd/edit: Added qwerty and cadet shift
 ** https://configure.ergodox-ez.com/keyboard_layouts/kejzzo/edit: Simplify and put dash on the expected position
 ** https://configure.ergodox-ez.com/layouts/ra7J/latest/0: Put ctrl under shift, alt only accessible as modifier keys under caps and enter
+** https://configure.ergodox-ez.com/layouts/qeNZ/latest/0: Replace CAPS by ESC, add dual-function keys left and right alt on Home and right arrow
 
 * Movements keybindings
 ** C-M-f:  fwd s-exp
