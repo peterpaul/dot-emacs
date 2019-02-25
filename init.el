@@ -542,6 +542,8 @@ will only work on systems where the command =which= exists."
 
 (use-package restart-emacs)
 
+(use-package system-packages)
+
 (use-package sunrise-commander
   :straight (sunrise-commander :type git :host github :repo "escherdragon/sunrise-commander")
   :config
