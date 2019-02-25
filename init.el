@@ -526,6 +526,10 @@ will only work on systems where the command =which= exists."
   :if (command-exists-p "ansible"))
 (use-package yaml-mode)
 
+(use-package docker
+  :if (command-exists-p "docker")
+  :bind ("C-c d" . docker))
+
 (use-package vagrant
   :if (command-exists-p "vagrant"))
 
