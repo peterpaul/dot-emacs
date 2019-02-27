@@ -697,26 +697,18 @@ will only work on systems where the command =which= exists."
 
     ;; RandR
     (require 'exwm-randr)
-    (defun exwm-change-screen-hook ()
-      (let ((xrandr-output-regexp "\n\\([^ ]+\\) connected ")
-            default-output)
-        (with-temp-buffer
-          (call-process "xrandr" nil t nil)
-          (goto-char (point-min))
-          (re-search-forward xrandr-output-regexp nil 'noerror)
-          (setq default-output (match-string 1))
-          (forward-line)
-          (if (not (re-search-forward xrandr-output-regexp nil 'noerror))
-              (call-process "xrandr" nil nil nil "--output" default-output "--auto")
-            (call-process
-             "xrandr" nil nil nil
-             "--output" (match-string 1) "--primary" "--auto"
-             "--output" default-output "--off")
-            (setq exwm-randr-workspace-output-plist (list 0 (match-string 1)))))))
-    (setq exwm-randr-workspace-output-plist '(0 "VGA1"))
-    (add-hook 'exwm-randr-screen-change-hook #'exwm-change-screen-hook)
+    ;; (setq exwm-randr-workspace-monitor-plist '(1 "HDMI-1" 2 "HDMI-2"))
+    ;; (add-hook 'exwm-randr-screen-change-hook
+    ;;           (lambda ()
+    ;;             (start-process-shell-command
+    ;;              "xrandr" nil "xrandr --output eDP-1 --off --output HDMI-2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-3 --off --output DP-2 --off --output DP-1 --off")))
     (exwm-randr-enable)
-    ))
+
+    ;; System tray
+    (require 'exwm-systemtray)
+    (exwm-systemtray-enable)
+    )
+  )
 
 ;; (use-package docker
 ;;   )
