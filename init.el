@@ -60,11 +60,6 @@ will only work on systems where the command =which= exists."
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;; Set default font
-(set-face-attribute 'default nil
-                    :family "Source Code Pro"
-                    )
-
 (use-package pretty-mode
   :config
   (progn
