@@ -324,6 +324,10 @@ will only work on systems where the command =which= exists."
   (avy-setup-default)
   )
 
+(add-to-list 'load-path "~/projects/3pp/emacs-libvterm/")
+(let (vterm-install)
+  (require 'vterm))
+
 ;; Multi terminal emulation
 (use-package multi-term
   :bind (("<f5>" . 'multi-term)
