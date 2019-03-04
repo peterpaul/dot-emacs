@@ -588,10 +588,6 @@ will only work on systems where the command =which= exists."
     ;; You may also want to call `exwm-config-ido' later (see below).
     (ido-mode 1)
 
-    ;; Emacs server is not required to run EXWM but it has some interesting uses
-    ;; (see next section).
-    (server-start)
-
 ;;;; Below are configurations for EXWM.
 
     ;; Add paths (not required if EXWM is installed from GNU ELPA).
