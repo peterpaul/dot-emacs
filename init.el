@@ -324,10 +324,6 @@ will only work on systems where the command =which= exists."
   (avy-setup-default)
   )
 
-(add-to-list 'load-path "~/projects/3pp/emacs-libvterm/")
-(let (vterm-install)
-  (require 'vterm))
-
 ;; Multi terminal emulation
 (use-package multi-term
   :bind (("<f5>" . 'multi-term)
@@ -363,6 +359,10 @@ will only work on systems where the command =which= exists."
 
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
+
+(add-to-list 'load-path "~/projects/3pp/emacs-libvterm/")
+(let (vterm-install)
+  (require 'vterm))
 
 (use-package eshell-git-prompt
   :config
@@ -752,8 +752,17 @@ PARAMS progress report notification data."
     )
   )
 
-;; (use-package docker
-;;   )
+(defun peterpaulk/xrandr-desk ()
+  (interactive)
+  (start-process-shell-command "xrandr" nil "--output eDP-1 --off --output HDMI-2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-3 --off --output DP-2 --off --output DP-1 --off")
+  (setq exwm-randr-workspace-monitor-plist '(1 "HDMI-1" 2 "HDMI-2"))
+  (exwm-randr-refresh))
+
+(defun peterpaulk/xrandr-laptop ()
+  (interactive)
+  (start-process-shell-command "xrandr" nil "--output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2 --off --output DP-1 --off")
+  (setq exwm-randr-workspace-monitor-plist '(1 "eDP-1"))
+  (exwm-randr-refresh))
 
 ;; (use-package symon
 ;;   :config
