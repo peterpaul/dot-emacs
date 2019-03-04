@@ -264,6 +264,7 @@ will only work on systems where the command =which= exists."
 
 (use-package flycheck
   :after (intero)
+  :hook (prog-mode . flycheck-mode)
   :config
   (progn
     (setq flycheck-check-syntax-automatically '(save new-line))
@@ -425,7 +426,8 @@ will only work on systems where the command =which= exists."
 (use-package logview)
 
 (use-package lsp-mode
-  :commands lsp)
+  :commands lsp
+  :config (require 'lsp-clients))
 
 (use-package lsp-ui
   :after lsp-mode
@@ -436,6 +438,47 @@ will only work on systems where the command =which= exists."
                 lsp-ui-sideline-show-hover t
                 lsp-ui-sideline-showcode-actions t
                 lsp-ui-sideline-update-mode 'point))
+
+(use-package toml-mode)
+
+(use-package lsp-mode
+  :config
+  (setq lsp-print-io t)
+  (setq lsp-rust-rls-command '("rls"))
+  ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+  ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly-2018-12-06" "rls"))
+  (setenv "RUST_BACKTRACE" "full")
+  (setenv "RUST_LOG" "rls::=debug")
+
+  ;; Fix problem seems to be caused by upgrading lsp-mode package to v3.
+  (unless (fboundp 'lsp-rust-enable)
+    (defun diabolo-lsp-rust-window-progress (_workspace params)
+      "Progress report handling.
+PARAMS progress report notification data."
+      ;; Minimal implementation - we could show the progress as well.
+      (setq id (gethash "id" params))
+      (setq title (gethash "title" params))
+      (setq msg (gethash "message" params))
+      (setq done (gethash "done" params))
+      (message "RLS: %s%s%s"
+               title
+               (if msg (format " \"%s\"" msg) "")
+               (if done " done" "")))
+
+    (defun lsp-rust-enable ()
+      (require 'lsp-clients)
+      ;; We don't realy need lsp-rust-rls-command for now, but we will support it
+      (when (boundp 'lsp-rust-rls-command)
+        (lsp-register-client
+         (make-lsp-client :new-connection (lsp-stdio-connection lsp-rust-rls-command)
+                          :major-modes '(rust-mode)
+                          :server-id 'rls
+                          :notification-handlers (lsp-ht ("window/progress" 'diabolo-lsp-rust-window-progress)))))
+      (lsp))))
+
+;; (use-package rust-mode
+;;   :if (command-exists-p "rustc")
+;;   :hook (rust-mode . lsp))
 
 ;; First install rust language server with:
 ;;
@@ -451,8 +494,12 @@ will only work on systems where the command =which= exists."
 ;;     (add-hook 'rust-mode-hook #'flycheck-mode)
 ;;     ))
 
-;; (use-package cargo
-;;   :if (command-exists-p "cargo"))
+(use-package cargo
+  :if (command-exists-p "cargo")
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package flycheck-rust
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package lsp-java
   :if (command-exists-p "javac")
