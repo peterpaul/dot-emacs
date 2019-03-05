@@ -24,19 +24,52 @@
 		    gc-cons-percentage gc-cons-percentage-backup
 		    file-name-handler-alist (append file-name-handler-alist-backup file-name-handler-alist)))))
 
-;; install straight package manager
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
+
+(require 'package) ;; You might already have this line
+
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (when no-ssl
+    (warn "\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+1. Install an Emacs version that does support SSL and be safe.
+2. Remove this warning from your init file so you won't see it again."))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+
+(package-initialize)
+
+(unless (package-installed-p 'quelpa)
+  (package-refresh-contents)
+  (package-install 'quelpa))
+(require 'quelpa)
+
+(setq quelpa-use-package-inhibit-loading-quelpa nil)
+
+(quelpa
+ '(quelpa-use-package
+   :fetcher git
+   :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
+(eval-when-compile
+  (require 'quelpa-use-package))
+
+(setq use-package-verbose t)
+(setq use-package-always-ensure t)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
 
 (defun command-exists-p (command)
   "Checks whether COMMAND exists on this system.
@@ -48,10 +81,6 @@ will only work on systems where the command =which= exists."
     (setq retval (shell-command (format "which '%s'" command)))
     (kill-buffer buf)
     (eq retval 0)))
-
-;; install use-package
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default 't)
 
 (setq use-package-verbose t)
 
@@ -162,14 +191,13 @@ will only work on systems where the command =which= exists."
 (use-package feature-mode)
 
 (use-package customize-modeline
-  :straight nil
   :load-path "lisp"
   )
 
 ;; Minimap
 (use-package minimap
   :if (display-graphic-p)
-  :straight (minimap :type git :host github :repo "dengste/minimap")
+  :quelpa (minimap :fetcher github :repo "dengste/minimap")
   :config
   (global-set-key [f9] 'minimap-mode)
   :init
@@ -595,7 +623,7 @@ PARAMS progress report notification data."
 (use-package system-packages)
 
 (use-package sunrise-commander
-  :straight (sunrise-commander :type git :host github :repo "escherdragon/sunrise-commander")
+  :quelpa (sunrise-commander :fetcher github :repo "escherdragon/sunrise-commander")
   :config
   (when (display-graphic-p)
     (require 'sunrise-x-buttons)
@@ -764,46 +792,32 @@ PARAMS progress report notification data."
   (setq exwm-randr-workspace-monitor-plist '(1 "eDP-1"))
   (exwm-randr-refresh))
 
-;; (use-package symon
-;;   :config
-;;   (symon-mode)
-;;   )
-
-;; (use-package popwin
-;;   :config
-;;   (popwin-mode 1)
-;;   )
+(use-package popwin
+  :config
+  (popwin-mode 1))
 
 (use-package shell-pop
   :config
   (progn
     (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
-    (setq shell-pop-universal-key "C-c t"))
-  )
+    (setq shell-pop-universal-key "C-c t")))
 
 (use-package origami)
 
 ;; (use-package customize-eshell
-;;   :straight nil
-;;   :load-path "lisp"
-;;   )
+;;   :load-path "lisp")
 
 (use-package customize-move-lines
-  :straight nil
-  :load-path "lisp"
-  )
+  :load-path "lisp")
 
 (use-package macros
-  :straight nil
-  :load-path "lisp"
-  )
+  :load-path "lisp")
 
 (use-package x509-certificate-region
   :if (command-exists-p "openssl")
-  :straight
+  :quelpa
   (x509-certificate-region
-   :type git
-   :host github
+   :fetcher github
    :repo "peterpaul/x509-certificate-region.el")
   :bind (("C-x x c" . x509-view-certificate)
          ("C-x x x" . x509-view-xml-element-as-x509-certificate)
@@ -811,12 +825,7 @@ PARAMS progress report notification data."
 	 ("C-x x p" . x509-view-paragraph-as-x509-certificate)))
 
 (use-package keystore-mode
-  :if (command-exists-p "keytool")
-  :straight
-  (keystore-mode
-   :type git
-   :host github
-   :repo "peterpaul/keystore-mode"))
+  :if (command-exists-p "keytool"))
 
 ;; Start server if not running
 (load "server")
