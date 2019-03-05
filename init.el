@@ -82,12 +82,13 @@ will only work on systems where the command =which= exists."
     (kill-buffer buf)
     (eq retval 0)))
 
-(setq use-package-verbose t)
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (when (file-exists-p custom-file)
   (load custom-file))
+
+(use-package auto-package-update
+  :config (auto-package-update-maybe))
 
 (use-package pretty-mode
   :config
