@@ -244,7 +244,7 @@ will only work on systems where the command =which= exists."
 
 ;; Use custom theme
 (use-package doom-themes
-  :after (neotree)
+  :after (treemacs)
   :config
   (progn
     ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
@@ -252,8 +252,8 @@ will only work on systems where the command =which= exists."
     (load-theme 'doom-nord t)
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
-    ;; Enable custom neotree theme
-    (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+    ;; Enable custom treemacs theme
+    (doom-themes-treemacs-config)  ; all-the-icons fonts must be installed!
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
   :custom
@@ -267,8 +267,8 @@ will only work on systems where the command =which= exists."
 
 (use-package feature-mode)
 
-(use-package neotree
-  :config (global-set-key [f8] 'neotree-toggle))
+(use-package treemacs
+  :config (global-set-key [f8] 'treemacs))
 
 (use-package lastpass
   :if (command-exists-p "lpass"))
@@ -509,6 +509,12 @@ will only work on systems where the command =which= exists."
                 lsp-ui-sideline-showcode-actions t
                 lsp-ui-sideline-update-mode 'point))
 
+(use-package dap-mode
+  :ensure t :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
+
 (use-package toml-mode)
 
 (use-package lsp-mode
@@ -578,12 +584,13 @@ PARAMS progress report notification data."
 
   (use-package lsp-java
     :if (command-exists-p "javac")
+    :after (lsp-mode)
     :defer 3
     :init
     (progn
       (require 'lsp-ui-flycheck)
       (require 'lsp-ui-sideline)
-      (add-hook 'java-mode-hook #'lsp-java-enable)
+      (add-hook 'java-mode-hook #'lsp)
       (add-hook 'java-mode-hook #'flycheck-mode)
       (add-hook 'java-mode-hook #'company-mode)
       (add-hook 'java-mode-hook (lambda () (lsp-ui-flycheck-enable t)))
@@ -592,7 +599,11 @@ PARAMS progress report notification data."
   (use-package java-snippets
     :if (command-exists-p "javac")
     :after yasnippet
-    :init (add-hook 'java-mode-hook #'yas-minor-mode)))
+    :init (add-hook 'java-mode-hook #'yas-minor-mode))
+
+  ;; (use-package dap-java :after (lsp-java))
+  ;; (use-package lsp-java-treemacs :after (treemacs))
+  )
 
 (when my-init-haskell
   (use-package haskell-mode
