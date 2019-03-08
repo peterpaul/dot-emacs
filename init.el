@@ -24,51 +24,89 @@
 		    gc-cons-percentage gc-cons-percentage-backup
 		    file-name-handler-alist (append file-name-handler-alist-backup file-name-handler-alist)))))
 
-(setq package-enable-at-startup nil)
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-(require 'package) ;; You might already have this line
+(when (file-exists-p custom-file)
+  (load custom-file))
 
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl
-    (warn "\
+(defcustom my-init-use-straight nil
+  "Control whether to use `straight' or `quelpa'."
+  :group 'init
+  :type 'boolean)
+
+(if my-init-use-straight
+    (defmacro my-init-straight-or-quelpa (straight-body quelpa-body)
+      `(,@straight-body))
+  (defmacro my-init-straight-or-quelpa (straight-body quelpa-body)
+    `(,@quelpa-body)))
+
+(my-init-straight-or-quelpa
+ (progn
+   ;; install straight package manager
+   (defvar bootstrap-version)
+   (let ((bootstrap-file
+	  (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	 (bootstrap-version 5))
+     (unless (file-exists-p bootstrap-file)
+       (with-current-buffer
+           (url-retrieve-synchronously
+            "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+            'silent 'inhibit-cookies)
+	 (goto-char (point-max))
+	 (eval-print-last-sexp)))
+     (load bootstrap-file nil 'nomessage))
+   ;; install use-package
+   (straight-use-package 'use-package)
+   (setq straight-use-package-by-default 't)
+
+   (setq use-package-verbose t))
+ (progn
+   (setq package-enable-at-startup nil)
+
+   (require 'package) ;; You might already have this line
+
+   (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+		       (not (gnutls-available-p))))
+	  (proto (if no-ssl "http" "https")))
+     (when no-ssl
+       (warn "\
 Your version of Emacs does not support SSL connections,
 which is unsafe because it allows man-in-the-middle attacks.
 There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
 2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+     ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+     (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+     ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+     (when (< emacs-major-version 24)
+       ;; For important compatibility libraries like cl-lib
+       (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 
-(package-initialize)
+   (package-initialize)
 
-(unless (package-installed-p 'quelpa)
-  (package-refresh-contents)
-  (package-install 'quelpa))
-(require 'quelpa)
+   (unless (package-installed-p 'quelpa)
+     (package-refresh-contents)
+     (package-install 'quelpa))
+   (require 'quelpa)
 
-(setq quelpa-use-package-inhibit-loading-quelpa nil)
+   (setq quelpa-use-package-inhibit-loading-quelpa nil)
 
-(quelpa
- '(quelpa-use-package
-   :fetcher git
-   :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
-(eval-when-compile
-  (require 'quelpa-use-package))
+   (quelpa
+    '(quelpa-use-package
+      :fetcher git
+      :url "https://framagit.org/steckerhalter/quelpa-use-package.git"))
+   (eval-when-compile
+     (require 'quelpa-use-package))
 
-(setq use-package-verbose t)
+   (setq use-package-verbose t)
+   (setq use-package-always-ensure t)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+   (unless (package-installed-p 'use-package)
+     (package-refresh-contents)
+     (package-install 'use-package))
 
-(eval-when-compile
-  (require 'use-package))
+   (eval-when-compile
+     (require 'use-package))))
 
 (defun command-exists-p (command)
   "Checks whether COMMAND exists on this system.
@@ -80,11 +118,6 @@ will only work on systems where the command =which= exists."
     (setq retval (shell-command (format "which '%s'" command)))
     (kill-buffer buf)
     (eq retval 0)))
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-(when (file-exists-p custom-file)
-  (load custom-file))
 
 ;; Customizations
 (defgroup init nil
@@ -174,8 +207,14 @@ will only work on systems where the command =which= exists."
     :if (display-graphic-p)
     :config
     (all-the-icons-ivy-setup))
-  (use-package customize-modeline
-    :load-path "lisp")
+  (my-init-straight-or-quelpa
+   (eval-when-compile
+     (use-package customize-modeline
+       :straight nil
+       :load-path "lisp"))
+   (eval-when-compile
+     (use-package customize-modeline
+       :load-path "lisp")))
   (use-package org-bullets
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
@@ -213,16 +252,30 @@ will only work on systems where the command =which= exists."
                               (agenda . 5)
                               (registers . 5)))))
   ;; Minimap
-  (use-package minimap
-    :if (display-graphic-p)
-    :quelpa (minimap :fetcher github :repo "dengste/minimap")
-    :config
-    (global-set-key [f9] 'minimap-mode)
-    :init
-    (setq minimap-window-location 'right)
-    :custom-face
-    (minimap-active-region-background ((t (:background "#4C566A"))))
-    (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))))
+  (my-init-straight-or-quelpa
+   (eval-when-compile
+     (use-package minimap
+       :if (display-graphic-p)
+       :straight (minimap :type git :host github :repo "dengste/minimap")
+       :config
+       (global-set-key [f9] 'minimap-mode)
+       :init
+       (setq minimap-window-location 'right)
+       :custom-face
+       (minimap-active-region-background ((t (:background "#4C566A"))))
+       (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))))
+   (eval-when-compile
+     (use-package minimap
+       :if (display-graphic-p)
+       :quelpa (minimap :fetcher github :repo "dengste/minimap")
+       :config
+       (global-set-key [f9] 'minimap-mode)
+       :init
+       (setq minimap-window-location 'right)
+       :custom-face
+       (minimap-active-region-background ((t (:background "#4C566A"))))
+       (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440")))))))
+  )
 
 (when my-init-pretty-heavy
   (use-package aggressive-indent
@@ -678,14 +731,21 @@ PARAMS progress report notification data."
 
 (use-package system-packages)
 
-(use-package sunrise-commander
-  :quelpa (sunrise-commander :fetcher github :repo "escherdragon/sunrise-commander")
-  :config
-  (when (display-graphic-p)
-    (require 'sunrise-x-buttons)
-    (require 'sunrise-x-modeline)
-    )
-  )
+(my-init-straight-or-quelpa
+ (eval-when-compile
+   (use-package sunrise-commander
+     :straight (sunrise-commander :type git :host github :repo "escherdragon/sunrise-commander")
+     :config
+     (when (display-graphic-p)
+       (require 'sunrise-x-buttons)
+       (require 'sunrise-x-modeline))))
+ (eval-when-compile
+   (use-package sunrise-commander
+     :quelpa (sunrise-commander :fetcher github :repo "escherdragon/sunrise-commander")
+     :config
+     (when (display-graphic-p)
+       (require 'sunrise-x-buttons)
+       (require 'sunrise-x-modeline)))))
 
 (use-package visual-regexp)
 
@@ -863,21 +923,46 @@ PARAMS progress report notification data."
 ;; (use-package customize-eshell
 ;;   :load-path "lisp")
 
-(use-package customize-move-lines
-  :load-path "lisp")
+(my-init-straight-or-quelpa
+ (eval-when-compile
+   (use-package customize-move-lines
+     :straight nil
+     :load-path "lisp"))
+ (eval-when-compile
+   (use-package customize-move-lines
+     :load-path "lisp")))
 
-(use-package macros
-  :load-path "lisp")
+(my-init-straight-or-quelpa
+ (eval-when-compile
+   (use-package macros
+     :straight nil
+     :load-path "lisp"))
+ (eval-when-compile
+   (use-package macros
+     :load-path "lisp")))
 
-(use-package x509-certificate-region
-  :if (command-exists-p "openssl")
-  :quelpa (x509-certificate-region
-           :fetcher github
-           :repo "peterpaul/x509-certificate-region.el")
-  :bind (("C-x x c" . x509-view-certificate)
-         ("C-x x x" . x509-view-xml-element-as-x509-certificate)
-         ("C-x x r" . x509-view-region-as-x509-certificate)
-	 ("C-x x p" . x509-view-paragraph-as-x509-certificate)))
+(my-init-straight-or-quelpa
+ (eval-when-compile
+   (use-package x509-certificate-region
+     :if (command-exists-p "openssl")
+     :straight (x509-certificate-region
+		:type git
+		:host github
+		:repo "peterpaul/x509-certificate-region.el")
+     :bind (("C-x x c" . x509-view-certificate)
+            ("C-x x x" . x509-view-xml-element-as-x509-certificate)
+            ("C-x x r" . x509-view-region-as-x509-certificate)
+	    ("C-x x p" . x509-view-paragraph-as-x509-certificate))))
+ (eval-when-compile
+   (use-package x509-certificate-region
+     :if (command-exists-p "openssl")
+     :quelpa (x509-certificate-region
+              :fetcher github
+              :repo "peterpaul/x509-certificate-region.el")
+     :bind (("C-x x c" . x509-view-certificate)
+            ("C-x x x" . x509-view-xml-element-as-x509-certificate)
+            ("C-x x r" . x509-view-region-as-x509-certificate)
+	    ("C-x x p" . x509-view-paragraph-as-x509-certificate)))))
 
 (use-package keystore-mode
   :if (command-exists-p "keytool"))
