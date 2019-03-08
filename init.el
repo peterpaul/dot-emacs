@@ -62,7 +62,6 @@ There are two things you can do about this warning:
   (require 'quelpa-use-package))
 
 (setq use-package-verbose t)
-(setq use-package-always-ensure t)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
