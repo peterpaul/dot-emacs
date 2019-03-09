@@ -29,6 +29,51 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;; Customizations
+(defgroup init nil
+  "Customizations of the configurations in init.el."
+  :group 'environment)
+
+(defcustom my-init-pretty t
+  "Enable pretty options in the configuration. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-pretty-heavy nil
+  "Enable pretty options that are heavy for older computers. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-java nil
+  "Enable java programming language support. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-haskell nil
+  "Enable haskell programming language support. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-rust nil
+  "Enable rust programming language support. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-ansible nil
+  "Enable ansible support. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-javascript nil
+  "Enable javascript programming language support. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
+(defcustom my-init-exwm t
+  "Enable exwm window manager support. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
 (defcustom my-init-use-straight nil
   "Control whether to use `straight' or `quelpa'."
   :group 'init
@@ -118,51 +163,6 @@ will only work on systems where the command =which= exists."
     (setq retval (shell-command (format "which '%s'" command)))
     (kill-buffer buf)
     (eq retval 0)))
-
-;; Customizations
-(defgroup init nil
-  "Customizations of the configurations in init.el."
-  :group 'environment)
-
-(defcustom my-init-pretty t
-  "Enable pretty options in the configuration. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-pretty-heavy nil
-  "Enable pretty options that are heavy for older computers. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-java nil
-  "Enable java programming language support. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-haskell nil
-  "Enable haskell programming language support. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-rust nil
-  "Enable rust programming language support. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-ansible nil
-  "Enable ansible support. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-javascript nil
-  "Enable javascript programming language support. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
-
-(defcustom my-init-exwm t
-  "Enable exwm window manager support. Note that a change requires a restart of Emacs."
-  :group 'init
-  :type 'boolean)
 
 (use-package auto-package-update
   :config (auto-package-update-maybe))
