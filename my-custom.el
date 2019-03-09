@@ -7,7 +7,6 @@
  '(delete-old-versions t)
  '(doom-themes-enable-bold t)
  '(doom-themes-enable-italic t)
- '(global-linum-mode t)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(neo-window-fixed-size nil)

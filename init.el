@@ -167,6 +167,8 @@ will only work on systems where the command =which= exists."
 (use-package auto-package-update
   :config (auto-package-update-maybe))
 
+(add-hook 'prog-mode-hook #'linum-mode)
+
 (when my-init-pretty
   (use-package pretty-mode
     :config
