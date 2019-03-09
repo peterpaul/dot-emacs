@@ -361,10 +361,6 @@ will only work on systems where the command =which= exists."
   :config (add-hook 'after-init-hook 'global-company-mode))
 
 ;; Additional completion packages
-(use-package company-ansible
-  :if (command-exists-p "ansible")
-  :after company)
-
 (use-package company-lsp
   :after (company lsp-mode)
   :commands company-lsp
@@ -695,7 +691,6 @@ PARAMS progress report notification data."
 
 (when my-init-ansible
   (use-package ansible
-    :if (command-exists-p "ansible")
     :config
     (progn
       (add-to-list 'auto-mode-alist '(".*inventory.*/group_vars/.*\\'" . yaml-mode))
@@ -703,11 +698,12 @@ PARAMS progress report notification data."
       ))
 
   (use-package ansible-doc
-    :if (command-exists-p "ansible"))
+    :after (ansible))
   (use-package ansible-vault
-    :if (command-exists-p "ansible")))
-
-(use-package yaml-mode)
+    :after (ansible))
+  (use-package company-ansible
+    :after (ansible company))
+  (use-package yaml-mode))
 
 (use-package docker
   :if (command-exists-p "docker")
