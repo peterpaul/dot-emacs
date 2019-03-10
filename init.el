@@ -151,7 +151,10 @@ There are two things you can do about this warning:
      (package-install 'use-package))
 
    (eval-when-compile
-     (require 'use-package))))
+     (require 'use-package))
+
+   (use-package auto-package-update
+     :config (auto-package-update-maybe))))
 
 (defun command-exists-p (command)
   "Checks whether COMMAND exists on this system.
@@ -163,9 +166,6 @@ will only work on systems where the command =which= exists."
     (setq retval (shell-command (format "which '%s'" command)))
     (kill-buffer buf)
     (eq retval 0)))
-
-(use-package auto-package-update
-  :config (auto-package-update-maybe))
 
 (add-hook 'prog-mode-hook #'linum-mode)
 
