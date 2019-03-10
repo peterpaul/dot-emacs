@@ -276,8 +276,7 @@ will only work on systems where the command =which= exists."
        (setq minimap-window-location 'right)
        :custom-face
        (minimap-active-region-background ((t (:background "#4C566A"))))
-       (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440")))))))
-  )
+       (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))))))
 
 (when my-init-pretty-heavy
   (use-package aggressive-indent
@@ -333,8 +332,7 @@ will only work on systems where the command =which= exists."
   (progn (global-set-key "\C-cl" 'org-store-link)
          (global-set-key "\C-ca" 'org-agenda)
          (global-set-key "\C-cc" 'org-capture)
-         (global-set-key "\C-cb" 'org-iswitchb))
-  )
+         (global-set-key "\C-cb" 'org-iswitchb)))
 
 (use-package org-preview-html)
 
@@ -427,8 +425,7 @@ will only work on systems where the command =which= exists."
     (global-set-key (kbd "C-c k") 'counsel-ag)
     (global-set-key (kbd "C-x l") 'counsel-locate)
     (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-    ))
+    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)))
 
 (use-package avy
   :bind (("C-:" . avy-goto-char)
@@ -438,8 +435,7 @@ will only work on systems where the command =which= exists."
 	 ("M-g e" . avy-goto-word-0)
 	 ("C-c C-j" . avy-resume))
   :config
-  (avy-setup-default)
-  )
+  (avy-setup-default))
 
 ;; Multi terminal emulation
 (use-package multi-term
@@ -486,22 +482,22 @@ will only work on systems where the command =which= exists."
   :config
   (eshell-git-prompt-use-theme 'powerline))
 
-(when my-init-javascript
-  (use-package js2-mode
-    :config
-    (progn
-      (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-      (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))))
+;; Bash completion setup
+(use-package bash-completion
+  :config
+  (bash-completion-setup))
 
 (use-package markdown-mode)
 (use-package markdown-preview-mode)
 (use-package markdown-toc)
 (use-package json-mode)
 
-;; Bash completion setup
-(use-package bash-completion
-  :config
-  (bash-completion-setup))
+(when my-init-javascript
+  (use-package js2-mode
+    :config
+    (progn
+      (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+      (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))))
 
 (use-package discover-my-major
   :config
@@ -513,8 +509,7 @@ will only work on systems where the command =which= exists."
 
 (use-package which-key
   :config
-  (which-key-mode)
-  )
+  (which-key-mode))
 
 (use-package helpful
   :config
