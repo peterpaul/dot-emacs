@@ -293,7 +293,7 @@ will only work on systems where the command =which= exists."
     :config
     (add-hook 'emacs-lisp-mode-hook 'highlight-defined-mode)))
 
-(use-package nord-theme)
+;; (use-package nord-theme)
 
 ;; Use custom theme
 (use-package doom-themes
@@ -911,7 +911,7 @@ PARAMS progress report notification data."
     (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell)))))
     (setq shell-pop-universal-key "C-c t")))
 
-(use-package origami)
+;; (use-package origami)
 
 ;; (use-package customize-eshell
 ;;   :load-path "lisp")
