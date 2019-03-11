@@ -555,7 +555,7 @@ will only work on systems where the command =which= exists."
                 lsp-ui-sideline-update-mode 'point))
 
 (use-package dap-mode
-  :ensure t :after lsp-mode
+  :after lsp-mode
   :config
   (dap-mode t)
   (dap-ui-mode t))
