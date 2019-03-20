@@ -700,7 +700,15 @@ PARAMS progress report notification data."
     :after (ansible))
   (use-package company-ansible
     :after (ansible company))
-  (use-package yaml-mode))
+  (use-package yaml-mode)
+  (my-init-straight-or-quelpa
+   (eval-when-compile
+     (use-package ansible-vault-string
+       :straight nil
+       :load-path "lisp"))
+   (eval-when-compile
+     (use-package ansible-vault-string
+       :load-path "lisp"))))
 
 (use-package docker
   :if (command-exists-p "docker")
