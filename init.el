@@ -648,7 +648,8 @@ PARAMS progress report notification data."
 
   ;; (use-package dap-java :after (lsp-java))
   ;; (use-package lsp-java-treemacs :after (treemacs))
-  )
+
+  (use-package kotlin-mode))
 
 (when my-init-haskell
   (use-package haskell-mode
