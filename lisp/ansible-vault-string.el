@@ -15,16 +15,24 @@ This customization variable can be used to integrate
   "Prompt user to enter vault password."
   (read-passwd "Vault password: "))
 
+(defun ansible-vault-string--find-file-up (file-name &optional directory)
+  "Search for FILE-NAME in DIRECTORY and parent directories.
+Returns the first match found, i.e. the one closest to DIRECTORY, or nil."
+  (let ((cwd (or directory
+                 default-directory)))
+    (while (and (not (file-exists-p (expand-file-name file-name cwd)))
+                (not (f-root-p cwd)))
+      (message "%s" (expand-file-name file-name cwd))
+      (setq cwd (file-name-directory (directory-file-name cwd))))
+    (when (file-exists-p (expand-file-name file-name cwd))
+      (expand-file-name file-name cwd))))
+
 (defun ansible-vault-string--password-from-file ()
   "Read password from password file."
-  (let ((cwd default-directory))
-    (while (and (not (file-exists-p (expand-file-name ".vault-password" cwd)))
-                (not (f-root-p cwd)))
-      (message "%s" (expand-file-name ".vault-password" cwd))
-      (setq cwd (file-name-directory (directory-file-name cwd))))
-    (if (file-exists-p (expand-file-name ".vault-password" cwd))
+  (let ((password-file (ansible-vault-string--find-file-up ".vault-password")))
+    (if password-file
         (with-temp-buffer
-          (insert-file-contents (expand-file-name ".vault-password" cwd))
+          (insert-file-contents password-file)
           (buffer-string))
       (error (format "Vault password file '%s' not found" ".vault-password")))))
 
