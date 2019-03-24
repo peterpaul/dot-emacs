@@ -15,6 +15,17 @@ This customization variable can be used to integrate
   "Prompt user to enter vault password."
   (read-passwd "Vault password: "))
 
+(defun ansible-vault-string--mark-yaml-value ()
+  "Marks the current yaml value."
+  (interactive)
+  (end-of-line)
+  (search-backward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
+  (search-forward-regexp ":[[:space:]]*")
+  (set-mark (point))
+  (search-forward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
+  (beginning-of-line)
+  (backward-char))
+
 (defun ansible-vault-string--find-file-up (file-name &optional directory)
   "Search for FILE-NAME in DIRECTORY and parent directories.
 Returns the first match found, i.e. the one closest to DIRECTORY, or nil."
