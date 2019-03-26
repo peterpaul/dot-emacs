@@ -16,7 +16,7 @@ This customization variable can be used to integrate
   (read-passwd "Vault password: "))
 
 (defun ansible-vault-string--mark-yaml-value ()
-  "Marks the current yaml value."
+  "Mark the current yaml value."
   (interactive)
   (end-of-line)
   (search-backward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
@@ -25,6 +25,16 @@ This customization variable can be used to integrate
   (search-forward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
   (beginning-of-line)
   (backward-char))
+
+(defun ansible-vault-string--region-vault-var? (beg end)
+  "Return t when the region contains an encrypted value."
+  (interactive
+   (list (region-beginning) (region-end)))
+  (save-mark-and-excursion
+    (progn
+      (goto-char end)
+      (equal (search-backward "!vault |" beg t)
+             beg))))
 
 (defun ansible-vault-string--find-file-up (file-name &optional directory)
   "Search for FILE-NAME in DIRECTORY and parent directories.
@@ -79,16 +89,22 @@ Returns the result as string."
       (when (file-exists-p vault-var-file)
         (delete-file vault-var-file)))))
 
+(defun ansible-vault-string--remove-vault-header (encrypted-string)
+  "Remove vault header \"!vault |\" from ENCRYPTED-STRING."
+  (replace-regexp-in-string "\\(!vault |
+\\).*" "" encrypted-string nil nil 1))
+
 (defun ansible-vault-string-decrypt-region (beg end vault-password)
   "Decrypt the region using `ansible-vault`."
   (interactive
    (list (region-beginning)
          (region-end)
          (apply ansible-vault-string-password-provider nil)))
-  (let* ((string-to-decrypt (buffer-substring beg end))
+  (let* ((string-to-decrypt (ansible-vault-string--remove-vault-header (buffer-substring beg end)))
          (decrypted-string (ansible-vault-string--command "decrypt" string-to-decrypt vault-password)))
     (kill-region beg end)
-    (insert decrypted-string)))
+    (set-mark (point))
+    (insert (s-trim decrypted-string))))
 
 (defun ansible-vault-string-encrypt-region (beg end vault-password)
   "Encrypt the region using `ansible-vault`."
@@ -99,7 +115,23 @@ Returns the result as string."
   (let* ((string-to-encrypt (buffer-substring beg end))
          (encrypted-string (ansible-vault-string--command "encrypt" string-to-encrypt vault-password)))
     (kill-region beg end)
-    (insert encrypted-string)))
+    (set-mark (point))
+    (insert "!vault |\n")
+    (insert (s-trim encrypted-string))
+    (indent-region (region-beginning) (region-end))))
+
+(defun ansible-vault-string-toggle-encryption (vault-password)
+  "Mark the current yaml value, and encrypt or decrypt the value using VALUE-PASSWORD.
+Note that this could be a dangerous operation when detection of the yaml value failed."
+  (interactive
+   (list (apply ansible-vault-string-password-provider nil)))
+  (ansible-vault-string--mark-yaml-value)
+  (let ((beg (region-beginning))
+        (end (region-end)))
+    (unless (equal beg end)
+      (if (ansible-vault-string--region-vault-var? beg end)
+          (ansible-vault-string-decrypt-region beg end vault-password)
+        (ansible-vault-string-encrypt-region beg end vault-password)))))
 
 (provide 'ansible-vault-string)
 ;;; ansible-vault ends here
