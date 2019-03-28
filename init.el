@@ -357,21 +357,21 @@ will only work on systems where the command =which= exists."
   :after (yasnippet))
 
 ;; Code completion
-(use-package company
+(use-package company-mode
   :config (add-hook 'after-init-hook 'global-company-mode))
 
 ;; Additional completion packages
 (use-package company-lsp
-  :after (company lsp-mode)
+  :after (company-mode lsp-mode)
   :commands company-lsp
   :init (add-to-list 'company-backends #'company-lsp)
   :config (setq company-lsp-enable-snippet t
                 company-lsp-cache-candidates t))
 
 (use-package company-quickhelp
-  :after (company)
+  :after (company-mode)
   :config (progn (company-quickhelp-mode 1)
-                 (with-eval-after-load 'company
+                 (with-eval-after-load 'company-mode
                    (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))))
 
 (use-package company-web)
@@ -700,7 +700,7 @@ PARAMS progress report notification data."
   (use-package ansible-vault
     :after (ansible))
   (use-package company-ansible
-    :after (ansible company))
+    :after (ansible company-mode))
   (use-package yaml-mode)
   (my-init-straight-or-quelpa
    (eval-when-compile
