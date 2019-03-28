@@ -22,9 +22,12 @@ This customization variable can be used to integrate
   (search-backward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
   (search-forward-regexp ":[[:space:]]*")
   (set-mark (point))
-  (search-forward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
-  (beginning-of-line)
-  (backward-char))
+  (condition-case nil
+      (progn
+        (search-forward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
+        (beginning-of-line)
+        (backward-char))
+    (error (goto-char (point-max)))))
 
 (defun ansible-vault-string--region-vault-var? (beg end)
   "Return t when the region contains an encrypted value."
