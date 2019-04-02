@@ -393,7 +393,7 @@ will only work on systems where the command =which= exists."
 (use-package company-quickhelp
   :after (company)
   :config (progn (company-quickhelp-mode 1)
-                 (with-eval-after-load 'company
+                 (with-eval-after-load 'company-mode
                    (define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))))
 
 (use-package company-web)
