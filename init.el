@@ -168,6 +168,7 @@ will only work on systems where the command =which= exists."
     (eq retval 0)))
 
 (add-hook 'prog-mode-hook #'linum-mode)
+(put 'narrow-to-region 'disabled nil)
 
 (when my-init-pretty
   (use-package pretty-mode
@@ -335,6 +336,27 @@ will only work on systems where the command =which= exists."
          (global-set-key "\C-cb" 'org-iswitchb)))
 
 (use-package org-preview-html)
+
+(use-package epresent
+  :after (org))
+
+(use-package org-present
+  :after (org)
+  :config
+  (eval-after-load "org-present"
+    '(progn
+       (add-hook 'org-present-mode-hook
+                 (lambda ()
+                   (org-present-big)
+                   (org-display-inline-images)
+                   (org-present-hide-cursor)
+                   (org-present-read-only)))
+       (add-hook 'org-present-mode-quit-hook
+                 (lambda ()
+                   (org-present-small)
+                   (org-remove-inline-images)
+                   (org-present-show-cursor)
+                   (org-present-read-write))))))
 
 ;; large file support
 (use-package vlf
@@ -803,7 +825,7 @@ PARAMS progress report notification data."
       ;; some advice on this topic:
       ;; + Always use `exwm-workspace-rename-buffer` to avoid naming conflict.
       ;; + For applications with multiple windows (e.g. GIMP), the class names of
-                                        ;    all windows are probably the same.  Using window titles for them makes
+      ;;   all windows are probably the same.  Using window titles for them makes
       ;;   more sense.
       ;; In the following example, we use class names for all windows expect for
       ;; Java applications and GIMP.
