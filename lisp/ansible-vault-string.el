@@ -1,3 +1,4 @@
+;;; ansible-vault-string.el --- Easy variable decryption for ansible vars
 ;;; -*- lexical-binding: t; -*-
 
 (defgroup ansible-vault-string nil
@@ -138,4 +139,4 @@ Note that this could be a dangerous operation when detection of the yaml value f
         (ansible-vault-string-encrypt-region beg end vault-password)))))
 
 (provide 'ansible-vault-string)
-;;; ansible-vault ends here
+;;; ansible-vault-string.el ends here
