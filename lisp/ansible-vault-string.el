@@ -26,7 +26,8 @@ This customization variable can be used to integrate
       (progn
         (search-forward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
         (beginning-of-line)
-        (backward-char))
+        (re-search-backward "[^[:space:]\n]")
+        (forward-char))
     (error (goto-char (point-max)))))
 
 (defun ansible-vault-string--region-vault-var? (beg end)
