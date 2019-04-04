@@ -29,7 +29,9 @@ This customization variable can be used to integrate
         (beginning-of-line)
         (re-search-backward "[^[:space:]\n]")
         (forward-char))
-    (error (goto-char (point-max)))))
+    (error (goto-char (point-max))))
+  (when (>= (mark) (point))
+    (error "Could not select yaml variable value")))
 
 (defun ansible-vault-string--region-vault-var? (beg end)
   "Return t when the region contains an encrypted value."
