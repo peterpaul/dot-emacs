@@ -2,7 +2,14 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("elisp tutorial"
+(("elisp"
+ (front-context-string . "\n4.1 String and ")
+ (rear-context-string . " and Characters\n")
+ (position . 210712)
+ (filename . "/home/peterpaul/local/remacs/share/info/elisp")
+ (info-node . "String Basics")
+ (handler . Info-bookmark-jump))
+("elisp tutorial"
  (front-context-string . "File: eintr.info")
  (rear-context-string)
  (position . 252168)

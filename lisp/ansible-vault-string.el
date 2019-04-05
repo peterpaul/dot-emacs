@@ -1,3 +1,4 @@
+;;; ansible-vault-string.el --- Easy variable decryption for ansible vars
 ;;; -*- lexical-binding: t; -*-
 
 (defgroup ansible-vault-string nil
@@ -26,8 +27,11 @@ This customization variable can be used to integrate
       (progn
         (search-forward-regexp "^[[:blank:]-]*[a-zA-Z0-9_]+[[:blank:]]*:[[:blank:]]*")
         (beginning-of-line)
-        (backward-char))
-    (error (goto-char (point-max)))))
+        (re-search-backward "[^[:space:]\n]")
+        (forward-char))
+    (error (goto-char (point-max))))
+  (when (>= (mark) (point))
+    (error "Could not select yaml variable value")))
 
 (defun ansible-vault-string--region-vault-var? (beg end)
   "Return t when the region contains an encrypted value."
@@ -137,4 +141,4 @@ Note that this could be a dangerous operation when detection of the yaml value f
         (ansible-vault-string-encrypt-region beg end vault-password)))))
 
 (provide 'ansible-vault-string)
-;;; ansible-vault ends here
+;;; ansible-vault-string.el ends here
