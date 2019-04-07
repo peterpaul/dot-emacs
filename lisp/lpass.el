@@ -16,6 +16,9 @@
                        (choice (boolean :tag "Sort by value?")
                                (function :tag "Sorting predicate")))))
 
+(defvar-local lpass-current-group nil
+  "Current selected group.")
+
 (defun lpass-status ()
   "Checks whether a user is logged in.
 Return t when a user is logged in, nil otherwise."
@@ -27,7 +30,7 @@ Return t when a user is logged in, nil otherwise."
   "Login LPASS-USER."
   (interactive (list (read-string "Lastpass user email: ")))
   (unless (lpass-status)
-    (async-shell-command (format "lpass login %s" lpass-user))))
+    (async-shell-command (format "lpass login %s" (shell-quote-argument lpass-user)))))
 
 (defun lpass-logout ()
   "Logout."
@@ -54,11 +57,14 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (interactive)
   (unless (lpass-status)
     (error "Not logged in"))
-  (with-temp-buffer
-    (shell-command "lpass ls"
-                   (current-buffer)
-                   "*lpass errors*")
-    (lpass-list--entries (current-buffer))))
+  (let ((cmd (format "lpass ls %s"
+                     (shell-quote-argument (or lpass-current-group
+                                               "")))))
+    (with-temp-buffer
+      (shell-command cmd
+                     (current-buffer)
+                     "*lpass errors*")
+      (lpass-list--entries (current-buffer)))))
 
 (define-derived-mode lpass-mode tabulated-list-mode "lpass"
   "\\<keystore-mode-map>
@@ -69,6 +75,20 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (setq-local tabulated-list-sort-key (cons "Group" nil))
   (setq-local tabulated-list-entries #'lpass-list-entries)
   (tabulated-list-init-header))
+
+(defun lpass-list--limit-group (pos)
+  ""
+  (interactive "d")
+  (let* ((entry (tabulated-list-get-entry pos))
+         (group (elt entry 1)))
+    (setq-local lpass-current-group group))
+  (tabulated-list-revert))
+
+(defun lpass-list--reset-group ()
+  ""
+  (interactive)
+  (setq-local lpass-current-group nil)
+  (tabulated-list-revert))
 
 (defun lpass-list ()
   ""
