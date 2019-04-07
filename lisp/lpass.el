@@ -98,5 +98,15 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
     (tabulated-list-print t)
     (switch-to-buffer (current-buffer))))
 
+(defun lpass-show (pos)
+  ""
+  (interactive "d")
+  (let ((id (tabulated-list-get-id pos)))
+    (with-current-buffer (get-buffer-create "*lpass show*")
+      (shell-command (format "lpass show %s" (shell-quote-argument id))
+                     (current-buffer)
+                     "*lpass errors*")
+      (switch-to-buffer (current-buffer)))))
+
 (provide 'lpass)
 ;;; lpass.el ends here
