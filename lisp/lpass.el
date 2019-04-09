@@ -76,12 +76,14 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (setq-local tabulated-list-entries #'lpass-list-entries)
   (tabulated-list-init-header))
 
+(defun lpass-list--column-value (column-index)
+  "Return value column with COLUMN-INDEX for current line."
+  (elt (tabulated-list-get-entry (point)) column-index))
+
 (defun lpass-list--limit-group (pos)
   ""
   (interactive "d")
-  (let* ((entry (tabulated-list-get-entry pos))
-         (group (elt entry 1)))
-    (setq-local lpass-current-group group))
+  (setq-local lpass-current-group (lpass-list--column-value 1))
   (tabulated-list-revert))
 
 (defun lpass-list--reset-group ()
