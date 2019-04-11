@@ -36,7 +36,10 @@ Return t when a user is logged in, nil otherwise."
 (defun lpass-logout ()
   "Logout."
   (interactive)
-  (shell-command "lpass logout"))
+  (if (lpass-status)
+      (when (y-or-n-p "Are you sure you want to logout?")
+        (shell-command "lpass logout -f"))
+    (message "lpass: You're not logged in")))
 
 (defun lpass-list--entries (buffer)
   "Parse BUFFER and return a list of entries containing '(GROUP NAME ID)'.
