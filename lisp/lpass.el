@@ -8,7 +8,8 @@
 (defcustom lpass-list--format
   (list '("ID" 20 nil)
         '("Group" 16 t)
-        '("Name" 64 t))
+        '("Name" 64 t)
+        '("Username" 64 t))
   "Format for tabulated-list."
   :group 'lpass
   :type '(repeat (list (string :tag "Column name")
@@ -43,11 +44,12 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (let (entries)
     (with-current-buffer buffer
       (goto-char (point-max))
-      (while (re-search-backward "^\\(?1:[^/]+\\)/\\(?2:[^\[]+\\)\\[id: \\(?3:[0-9]+\\)\\]$" nil t)
-        (setq entries (cons (list (match-string 3)
-                                  (vector (match-string 3)
-                                          (match-string 1)
-                                          (s-trim (match-string 2))
+      (while (re-search-backward "^\\([^~]*\\)~\\([^~]*\\)~\\([^~]*\\)~\\([^~]*\\)$" nil t)
+        (setq entries (cons (list (match-string 1)
+                                  (vector (match-string 1)
+                                          (match-string 2)
+                                          (match-string 3)
+                                          (match-string 4)
                                           ))
                             entries))))
     entries))
@@ -57,7 +59,8 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (interactive)
   (unless (lpass-status)
     (error "Not logged in"))
-  (let ((cmd (format "lpass ls %s"
+  (let ((cmd (format "lpass ls --format=\"%s\" %s"
+                     "%ai~%ag~%an~%au"
                      (shell-quote-argument (or lpass-current-group
                                                "")))))
     (with-temp-buffer
