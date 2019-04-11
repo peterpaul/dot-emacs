@@ -118,11 +118,10 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (interactive "d")
   (let ((id (tabulated-list-get-id pos)))
     (with-temp-buffer
-      (shell-command (format "lpass show %s" (shell-quote-argument id))
+      (shell-command (format "lpass show --password %s" (shell-quote-argument id))
                      (current-buffer)
                      "*lpass errors*")
       (goto-char (point-min))
-      (search-forward "Password: ")
       (set-mark (point))
       (end-of-line)
       (kill-region (mark) (point)))))
