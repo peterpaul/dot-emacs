@@ -7,9 +7,9 @@
 
 (defcustom lpass-list--format
   (list '("ID" 20 nil)
-        '("Group" 16 t)
-        '("Name" 64 t)
-        '("Username" 64 t))
+        '("Group" 32 t)
+        '("Username" 32 t)
+        '("Name" 64 t))
   "Format for tabulated-list."
   :group 'lpass
   :type '(repeat (list (string :tag "Column name")
