@@ -967,6 +967,15 @@ PARAMS progress report notification data."
 
 (my-init-straight-or-quelpa
  (eval-when-compile
+   (use-package lpass
+     :straight nil
+     :load-path "lisp"))
+ (eval-when-compile
+   (use-package lpass
+     :load-path "lisp")))
+
+(my-init-straight-or-quelpa
+ (eval-when-compile
    (use-package x509-certificate-region
      :if (command-exists-p "openssl")
      :straight (x509-certificate-region
