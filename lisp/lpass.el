@@ -72,6 +72,13 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
                      "*lpass errors*")
       (lpass-list--entries (current-buffer)))))
 
+(defvar lpass-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map tabulated-list-mode-map)
+    (define-key map "w" #'lpass-copy-password)
+    map)
+  "Local keymap for `lpass-mode' buffers.")
+
 (define-derived-mode lpass-mode tabulated-list-mode "lpass"
   "\\<keystore-mode-map>
 \\{keystore-mode-map}"
