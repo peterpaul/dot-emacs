@@ -164,6 +164,7 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
       (shell-command (format "lpass show %s" (shell-quote-argument id))
                      (current-buffer)
                      "*lpass errors*")
+      (setq buffer-read-only t)
       (switch-to-buffer (current-buffer)))))
 
 (defun lpass-list-copy-password (pos)
