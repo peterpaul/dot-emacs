@@ -75,7 +75,7 @@ Return t when a user is logged in, nil otherwise."
         (shell-command "lpass logout -f"))
     (message "lpass: You're not logged in")))
 
-(defun lpass-list--entries (buffer)
+(defun lpass-list-parse-entries-from-buffer (buffer)
   "Parse BUFFER and return a list of entries containing '(GROUP NAME ID)'.
 BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass ls'."
   (let (entries)
@@ -110,7 +110,7 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
       (shell-command cmd
                      (current-buffer)
                      "*lpass errors*")
-      (lpass-list--entries (current-buffer)))))
+      (lpass-list-parse-entries-from-buffer (current-buffer)))))
 
 (defvar lpass-mode-map
   (let ((map (make-sparse-keymap)))
