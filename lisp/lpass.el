@@ -117,6 +117,8 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
     (set-keymap-parent map tabulated-list-mode-map)
     (define-key map "w" #'lpass-list-copy-password)
     (define-key map "i" #'lpass-list-show)
+    (define-key map "l" #'lpass-list-limit-group)
+    (define-key map "r" #'lpass-list-reset-group)
     map)
   "Local keymap for `lpass-mode' buffers.")
 
@@ -134,13 +136,13 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   "Return value column with COLUMN-INDEX for current line."
   (elt (tabulated-list-get-entry (point)) column-index))
 
-(defun lpass-list--limit-group (pos)
+(defun lpass-list-limit-group (pos)
   "Set `lpass-current-group' to the group for the account at POS."
   (interactive "d")
   (setq-local lpass-current-group (lpass-list--column-value 1))
   (tabulated-list-revert))
 
-(defun lpass-list--reset-group ()
+(defun lpass-list-reset-group ()
   "Clear `lpass-current-group'."
   (interactive)
   (setq-local lpass-current-group nil)
