@@ -132,6 +132,14 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (setq-local tabulated-list-entries #'lpass-list-entries)
   (tabulated-list-init-header))
 
+(defun lpass-list ()
+  "Open buffer with lastpass entries."
+  (interactive)
+  (with-current-buffer (get-buffer-create "*lpass list*")
+    (lpass-mode)
+    (tabulated-list-print t)
+    (switch-to-buffer (current-buffer))))
+
 (defun lpass-list--column-value (column-index)
   "Return value column with COLUMN-INDEX for current line."
   (elt (tabulated-list-get-entry (point)) column-index))
@@ -147,14 +155,6 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (interactive)
   (setq-local lpass-current-group nil)
   (tabulated-list-revert))
-
-(defun lpass-list ()
-  "Open buffer with lastpass entries."
-  (interactive)
-  (with-current-buffer (get-buffer-create "*lpass list*")
-    (lpass-mode)
-    (tabulated-list-print t)
-    (switch-to-buffer (current-buffer))))
 
 (defun lpass-list-show (pos)
   "Show details of lastpass account at POS."
