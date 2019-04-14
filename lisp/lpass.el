@@ -116,6 +116,7 @@ BUFFER can be a buffer or a buffer name, and should contain the output of 'lpass
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map tabulated-list-mode-map)
     (define-key map "w" #'lpass-list-copy-password)
+    (define-key map "i" #'lpass-list-show)
     map)
   "Local keymap for `lpass-mode' buffers.")
 
