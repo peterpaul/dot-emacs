@@ -84,10 +84,10 @@ Returns the result as string."
               (insert "\n")))
           (with-temp-file vault-passwd-file
             (insert vault-password))
-          (shell-command (format "ansible-vault \"%s\" --vault-password-file \"%s\" \"%s\""
-                                 vault-command
-                                 vault-passwd-file
-                                 vault-var-file))
+          (shell-command (format "ansible-vault %s --vault-password-file %s %s"
+                                 (shell-quote-argument vault-command)
+                                 (shell-quote-argument vault-passwd-file)
+                                 (shell-quote-argument vault-var-file)))
           (with-temp-buffer
             (insert-file-contents vault-var-file)
             (buffer-string)))
