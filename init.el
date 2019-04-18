@@ -468,6 +468,7 @@ will only work on systems where the command =which= exists."
   (multi-term-buffer-name "term"))
 
 (use-package xterm-color
+  :if nil
   :config
   (progn
     (setq comint-output-filter-functions
