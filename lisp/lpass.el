@@ -47,6 +47,11 @@ selected group are shown.")
   :group 'lpass
   :type lpass-identifiers-customize-choice)
 
+(defcustom lpass-user-account-list nil
+  "List of lastpass user accounts."
+  :group 'lpass
+  :type '(repeat (string)))
+
 (defun lpass-mode-format-string ()
   "Generate the format string for tabulated list from `lpass-list-format'."
   (vconcat (mapcar (lambda (x) (cons
@@ -63,7 +68,10 @@ Return t when a user is logged in, nil otherwise."
 
 (defun lpass-login (&optional lpass-user)
   "Login LPASS-USER."
-  (interactive (list (read-string "Lastpass user email: ")))
+  (interactive (list (completing-read "Lastpass user account: "
+                                      lpass-user-account-list
+                                      nil
+                                      'confirm)))
   (unless (lpass-status)
     (async-shell-command (format "lpass login %s" (shell-quote-argument lpass-user)))))
 
