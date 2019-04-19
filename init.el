@@ -287,6 +287,7 @@ will only work on systems where the command =which= exists."
       (add-to-list 'aggressive-indent-excluded-modes 'java-mode)))
   (use-package beacon
     :config (beacon-mode 1))
+  (use-package rainbow-mode)
   (use-package rainbow-delimiters
     :config
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
