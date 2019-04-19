@@ -487,7 +487,7 @@ will only work on systems where the command =which= exists."
               (lambda ()
                 (setq xterm-color-preserve-properties t)))
 
-    (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+    (add-to-list 'eshell-preoutput-filter-functions #'xterm-color-filter)
     (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
 
     ;;  Don't forget to setenv TERM xterm-256color
