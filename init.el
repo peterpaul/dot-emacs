@@ -977,11 +977,15 @@ PARAMS progress report notification data."
 (my-init-straight-or-quelpa
  (eval-when-compile
    (use-package lpass
-     :straight nil
-     :load-path "lisp"))
+     :straight (lpass
+		:type git
+		:host github
+		:repo "peterpaul/lpass")))
  (eval-when-compile
    (use-package lpass
-     :load-path "lisp")))
+     :quelpa (lpass
+              :fetcher github
+              :repo "peterpaul/lpass"))))
 
 (my-init-straight-or-quelpa
  (eval-when-compile
