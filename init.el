@@ -732,14 +732,12 @@ PARAMS progress report notification data."
   (my-init-straight-or-quelpa
    (eval-when-compile
      (use-package ansible-vault-string
-       :if (command-exists-p "ansible-vault")
        :straight (ansible-vault-string
 		  :type git
 		  :host github
 		  :repo "peterpaul/ansible-vault-string")))
    (eval-when-compile
      (use-package ansible-vault-string
-       :if (command-exists-p "ansible-vault")
        :quelpa (ansible-vault-string
                 :fetcher github
                 :repo "peterpaul/ansible-vault-string")))))
