@@ -1,6 +1,44 @@
 ;;; ansible-vault-string.el --- Easy variable decryption for ansible vars
 ;;; -*- lexical-binding: t; -*-
 
+;; Copyright (C) 2018,2019 Peterpaul Taekele Klein Haneveld
+
+;; Author: Peterpaul Taekele Klein Haneveld <pp.kleinhaneveld@gmail.com>
+;; URL: https://github.com/peterpaul/ansible-vault-string
+;; Version: 0.0.1
+;; Keywords: tools
+;; Package-Requires: ((emacs "24.3") (s "1.12.0"))
+
+;; This file is not part of GNU Emacs.
+
+;; MIT License
+;;
+;; Copyright (C) 2018,2019 Peterpaul Taekele Klein Haneveld
+;;
+;; Permission is hereby granted, free of charge, to any person obtaining a copy
+;; of this software and associated documentation files (the "Software"), to
+;; deal in the Software without restriction, including without limitation the
+;; rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+;; sell copies of the Software, and to permit persons to whom the Software is
+;; furnished to do so, subject to the following conditions:
+;;
+;; The above copyright notice and this permission notice shall be included in
+;; all copies or substantial portions of the Software.
+;;
+;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+;; AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+;; IN THE SOFTWARE.
+
+;;; Commentary:
+
+;; Functions for inline ansible variable encryption and decryption.
+
+;;; Code:
+
 (defgroup ansible-vault-string nil
   "Customizations for encrypted ansible variables."
   :group 'data)
@@ -34,7 +72,7 @@ This customization variable can be used to integrate
     (error "Could not select yaml variable value")))
 
 (defun ansible-vault-string--region-vault-var? (beg end)
-  "Return t when the region contains an encrypted value."
+  "Return t when the region denoted by BEG and END contains an encrypted value."
   (interactive
    (list (region-beginning) (region-end)))
   (save-mark-and-excursion
@@ -71,7 +109,7 @@ Returns the first match found, i.e. the one closest to DIRECTORY, or nil."
     (error (ansible-vault-string--password-prompt))))
 
 (defun ansible-vault-string--command (vault-command vault-string vault-password)
-  "Execute `ansible-vault' VAULT-COMMAND on file with VAULT-STRING, with VAULT-PASSWORD.
+  "Execute `ansible-vault' VAULT-COMMAND on VAULT-STRING, with VAULT-PASSWORD.
 VAULT-COMMAND should be either of `encrypt' or `decrypt'.
 Returns the result as string."
   (let ((vault-var-file "/tmp/ansible-vault.el~var")
@@ -102,7 +140,7 @@ Returns the result as string."
 \\).*" "" encrypted-string nil nil 1))
 
 (defun ansible-vault-string-decrypt-region (beg end vault-password)
-  "Decrypt the region using `ansible-vault`."
+  "Decrypt region denoted by BEG and END with VAULT-PASSWORD."
   (interactive
    (list (region-beginning)
          (region-end)
@@ -114,7 +152,7 @@ Returns the result as string."
     (insert (s-trim decrypted-string))))
 
 (defun ansible-vault-string-encrypt-region (beg end vault-password)
-  "Encrypt the region using `ansible-vault`."
+  "Encrypt region denoted by BEG and END with VAULT-PASSWORD."
   (interactive
    (list (region-beginning)
          (region-end)
@@ -128,7 +166,7 @@ Returns the result as string."
     (indent-region (region-beginning) (region-end))))
 
 (defun ansible-vault-string-toggle-encryption (vault-password)
-  "Mark the current yaml value, and encrypt or decrypt the value using VALUE-PASSWORD.
+  "Mark the current yaml value, and encrypt/decrypt using VAULT-PASSWORD.
 Note that this could be a dangerous operation when detection of the yaml value failed."
   (interactive
    (list (apply ansible-vault-string-password-provider nil)))
