@@ -729,11 +729,17 @@ PARAMS progress report notification data."
   (my-init-straight-or-quelpa
    (eval-when-compile
      (use-package ansible-vault-string
-       :straight nil
-       :load-path "lisp"))
+       :if (command-exists-p "ansible-vault")
+       :straight (ansible-vault-string
+		  :type git
+		  :host github
+		  :repo "peterpaul/ansible-vault-string")))
    (eval-when-compile
      (use-package ansible-vault-string
-       :load-path "lisp"))))
+       :if (command-exists-p "ansible-vault")
+       :quelpa (ansible-vault-string
+                :fetcher github
+                :repo "peterpaul/ansible-vault-string")))))
 
 (use-package docker
   :if (command-exists-p "docker")
