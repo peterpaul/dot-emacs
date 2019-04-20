@@ -422,6 +422,8 @@ will only work on systems where the command =which= exists."
 
 (use-package counsel
   :after ido)
+  :config (counsel-mode 1))
+
 (use-package counsel-tramp
   :after counsel)
 
@@ -432,7 +434,7 @@ will only work on systems where the command =which= exists."
     (ivy-mode 1)
     (setq ivy-use-virtual-buffers t)
     (setq enable-recursive-minibuffers t)
-    (setq ivy-count-format "%d/%d ")
+    (setq ivy-count-format "%d of %d - ")
     (global-set-key (kbd "C-S-s") 'swiper)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
     (global-set-key (kbd "<f6>") 'ivy-resume)
@@ -443,9 +445,10 @@ will only work on systems where the command =which= exists."
     (global-set-key (kbd "<f1> l") 'counsel-find-library)
     (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
     (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
     (global-set-key (kbd "C-c g") 'counsel-git)
     (global-set-key (kbd "C-c j") 'counsel-git-grep)
-    (global-set-key (kbd "C-c k") 'counsel-ag)
+    (global-set-key (kbd "C-c k") 'counsel-rg)
     (global-set-key (kbd "C-x l") 'counsel-locate)
     (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)))
