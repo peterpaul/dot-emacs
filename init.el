@@ -421,7 +421,7 @@ will only work on systems where the command =which= exists."
     (setq ido-enable-flex-matching t)))
 
 (use-package counsel
-  :after ido)
+  :after ido
   :config (counsel-mode 1))
 
 (use-package counsel-tramp
