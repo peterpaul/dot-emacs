@@ -317,8 +317,6 @@ will only work on systems where the command =which= exists."
   (doom-themes-enable-italic t "Enable italics universally") ; if nil, italics is universally disabled
   )
 
-(use-package ob-http)
-
 (use-package guru-mode
   :hook prog-mode)
 
