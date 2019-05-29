@@ -500,6 +500,13 @@ will only work on systems where the command =which= exists."
     ;;  Don't forget to setenv TERM xterm-256color
     ))
 
+(use-package ansi-color
+  :config
+  (progn
+    (defun colorize-compilation-buffer ()
+      (ansi-color-apply-on-region compilation-filter-start (point)))
+    (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)))
+
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
 
