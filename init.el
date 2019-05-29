@@ -581,7 +581,7 @@ will only work on systems where the command =which= exists."
   :config (setq lsp-ui-sideline-enable t
                 lsp-ui-sideline-show-symbol t
                 lsp-ui-sideline-show-hover t
-                lsp-ui-sideline-showcode-actions t
+                lsp-ui-sideline-show-code-actions t
                 lsp-ui-sideline-update-mode 'point))
 
 (use-package dap-mode
@@ -590,60 +590,19 @@ will only work on systems where the command =which= exists."
   (dap-mode t)
   (dap-ui-mode t))
 
-(use-package toml-mode)
-
+;; First install rust language server with:
+;;
+;; $ rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
+  :commands lsp
   :config
   (setq lsp-print-io t)
   (setq lsp-rust-rls-command '("rls"))
   ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
   ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly-2018-12-06" "rls"))
   (setenv "RUST_BACKTRACE" "full")
-  (setenv "RUST_LOG" "rls::=debug")
+  (setenv "RUST_LOG" "rls::=debug"))
 
-  ;; Fix problem seems to be caused by upgrading lsp-mode package to v3.
-  (unless (fboundp 'lsp-rust-enable)
-    (defun diabolo-lsp-rust-window-progress (_workspace params)
-      "Progress report handling.
-PARAMS progress report notification data."
-      ;; Minimal implementation - we could show the progress as well.
-      (setq id (gethash "id" params))
-      (setq title (gethash "title" params))
-      (setq msg (gethash "message" params))
-      (setq done (gethash "done" params))
-      (message "RLS: %s%s%s"
-               title
-               (if msg (format " \"%s\"" msg) "")
-               (if done " done" "")))
-
-    (defun lsp-rust-enable ()
-      (require 'lsp-clients)
-      ;; We don't realy need lsp-rust-rls-command for now, but we will support it
-      (when (boundp 'lsp-rust-rls-command)
-        (lsp-register-client
-         (make-lsp-client :new-connection (lsp-stdio-connection lsp-rust-rls-command)
-                          :major-modes '(rust-mode)
-                          :server-id 'rls
-                          :notification-handlers (lsp-ht ("window/progress" 'diabolo-lsp-rust-window-progress)))))
-      (lsp))))
-
-;; (use-package rust-mode
-;;   :if (command-exists-p "rustc")
-;;   :hook (rust-mode . lsp))
-
-;; First install rust language server with:
-;;
-;; $ rustup component add rls-preview rust-analysis rust-src
-;; (use-package lsp-rust
-;;   :if (command-exists-p "cargo")
-;;   :config
-;;   (progn
-;;     (with-eval-after-load 'lsp-mode
-;;       (setq lsp-rust-rls-command '("rls"))
-;;       (require 'lsp-rust))
-;;     (add-hook 'rust-mode-hook #'lsp-rust-enable)
-;;     (add-hook 'rust-mode-hook #'flycheck-mode)
-;;     ))
 
 (when my-init-rust
   (use-package cargo
@@ -651,7 +610,9 @@ PARAMS progress report notification data."
     :hook (rust-mode . cargo-minor-mode))
 
   (use-package flycheck-rust
-    :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+    :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+  (use-package toml-mode))
 
 (when my-init-java
   ;; Nice package to automatically disassemble java .class files
