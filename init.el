@@ -293,7 +293,10 @@ will only work on systems where the command =which= exists."
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
   (use-package highlight-defined
     :config
-    (add-hook 'emacs-lisp-mode-hook 'highlight-defined-mode)))
+    (add-hook 'emacs-lisp-mode-hook 'highlight-defined-mode))
+  (use-package smartparens
+    :config
+    (require 'smartparens-config)))
 
 ;; (use-package nord-theme)
 
