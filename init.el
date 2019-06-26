@@ -577,10 +577,6 @@ will only work on systems where the command =which= exists."
 
 (use-package logview)
 
-(use-package lsp-mode
-  :commands lsp
-  :config (require 'lsp-clients))
-
 (use-package lsp-ui
   :after lsp-mode
   :commands lsp-ui-mode
@@ -590,6 +586,9 @@ will only work on systems where the command =which= exists."
                 lsp-ui-sideline-show-hover t
                 lsp-ui-sideline-show-code-actions t
                 lsp-ui-sideline-update-mode 'point))
+
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode
   :after lsp-mode
@@ -601,6 +600,7 @@ will only work on systems where the command =which= exists."
 ;;
 ;; $ rustup component add rls rust-analysis rust-src
 (use-package lsp-mode
+  :hook (rust-mode . lsp)
   :commands lsp
   :config
   (setq lsp-print-io t)
