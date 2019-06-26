@@ -338,6 +338,8 @@ will only work on systems where the command =which= exists."
 
 (use-package org-preview-html)
 
+(use-package htmlize)
+
 (use-package epresent
   :after (org))
 
