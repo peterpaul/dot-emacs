@@ -66,3 +66,5 @@ recentf
 /semanticdb/
 /plantuml.jar
 /*.jar
+/kotlin-language-server/
+/eclipse.jdt.ls/
