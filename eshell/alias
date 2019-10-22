@@ -1,21 +1,22 @@
-alias hgstrip hg strip --keep --rev .
-alias hgpp hglp
-alias hglp hgl --update --rebase && hgp
-alias mvnwci ./mvnw clean install $*
-alias mvnwc ./mvnw clean $*
-alias mvnci mvn clean install $*
-alias mvnc mvn clean $*
-alias ll ls -l $*
-alias la ls -al $*
-alias hgl hg pull $*
-alias hgp hg push $*
-alias hgc rm .hgignore; hg clean; hg revert -a
-alias hgs hg status $*
-alias hglp hgl --update --rebase && hgp
+alias apti sudo apt install $*
+alias aptuu sudo apt update && sudo apt upgrade
 alias dc01down nmcli con down id dc01 $*
 alias dc01up nmcli con up id dc01 $*
 alias dc02down nmcli con down id dc02 $*
 alias dc02up nmcli con up id dc02 $*
-alias aptuu sudo apt update && sudo apt upgrade
-alias apti sudo apt install $*
+alias hgc rm .hgignore; hg clean; hg revert -a
+alias hgl hg pull $*
+alias hglp hgl --update --rebase && hgp
+alias hglp hgl --update --rebase && hgp
+alias hgp hg push $*
+alias hgpp hglp
+alias hgs hg status $*
+alias hgstrip hg strip --keep --rev .
+alias la ls -al $*
+alias ll ls -l $*
 alias lpl lpass login $*
+alias mvnc mvn clean $*
+alias mvnci mvn clean install $*
+alias mvnwc ./mvnw clean $*
+alias mvnwci ./mvnw clean install $*
+alias sudo eshell/sudo $*
