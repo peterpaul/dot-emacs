@@ -1,0 +1,3 @@
+* Troubleshooting
+** "not bookmark format"
+*** This signals a problem in the ~/.emacs.d/bookmarks file. Remove that file, and you're good to go
