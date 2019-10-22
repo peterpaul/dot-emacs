@@ -7,7 +7,11 @@ xhost +SI:localuser:$USER
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # Themes, etc
-gnome-settings-daemon &
+/usr/bin/systemctl --user import-environment DISPLAY
+/usr/lib/gnome-settings-daemon/gsd-xsettings &
+gnome-keyring-daemon
+gnome-screensaver &
+nm-applet &
 
 # Set fallback cursor
 xsetroot -cursor_name left_ptr
