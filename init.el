@@ -547,6 +547,25 @@ will only work on systems where the command =which= exists."
   (bash-completion-setup))
 
 (use-package markdown-mode)
+
+(defun markdown-backward-inner-block ()
+  "Navigate back to the beginning of this block."
+  (markdown-backward-block)
+  (forward-line))
+
+(defun markdown-forward-inner-block ()
+  "Navigate forward to the end of this block."
+  (markdown-forward-block)
+  (previous-line))
+
+(defun markdown-narrow-inner-block ()
+  "Make text inside current block visible.
+The current block is the one that contains point or follows point."
+  (interactive)
+  (let ((beginning-of-defun-function 'markdown-backward-inner-block)
+        (end-of-defun-function 'markdown-forward-inner-block))
+    (narrow-to-defun)))
+
 (use-package markdown-preview-mode)
 (use-package markdown-toc)
 (use-package json-mode)
