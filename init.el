@@ -74,6 +74,11 @@
   :group 'init
   :type 'boolean)
 
+(defcustom my-init-exwm-systemtray nil
+  "Enable exwm systemtray. Note that a change requires a restart of Emacs."
+  :group 'init
+  :type 'boolean)
+
 (defcustom my-init-use-straight nil
   "Control whether to use `straight' or `quelpa'."
   :group 'init
@@ -932,8 +937,9 @@ The current block is the one that contains point or follows point."
       (exwm-randr-enable)
 
       ;; System tray
-      (require 'exwm-systemtray)
-      (exwm-systemtray-enable)))
+      (when my-init-exwm-systemtray
+        (require 'exwm-systemtray)
+        (exwm-systemtray-enable))))
 
   (defun peterpaulk/xrandr-desk-3-window ()
     (interactive)
