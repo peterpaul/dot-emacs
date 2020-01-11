@@ -535,12 +535,7 @@ will only work on systems where the command =which= exists."
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
 
-(condition-case nil
-    (when (file-exists-p "~/projects/3pp/emacs-libvterm/")
-      (add-to-list 'load-path "~/projects/3pp/emacs-libvterm/")
-      (let (vterm-install)
-        (require 'vterm)))
-  (error nil))
+(use-package vterm)
 
 (use-package eshell-git-prompt
   :config
