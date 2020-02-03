@@ -936,6 +936,15 @@ The current block is the one that contains point or follows point."
         (require 'exwm-systemtray)
         (exwm-systemtray-enable))))
 
+  (defun peterpaul/screenlayout (layout)
+    (interactive
+     (list
+      (completing-read "Select the screenlayout: "
+                       (seq-filter (lambda (x) (s-ends-with? ".sh" x)) (directory-files "~/.screenlayout")))))
+    (let ((command (format "~/.screenlayout/%s" layout)))
+      (message "command: %s" command)
+      (start-process-shell-command "bash" nil command)))
+
   (defun peterpaulk/xrandr-desk-3-window ()
     (interactive)
     (start-process-shell-command "xrandr" nil "--output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-2 --mode 1920x1080 --pos 3840x0 --rotate normal --output HDMI-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-3 --off --output DP-2 --off --output DP-1 --off")
