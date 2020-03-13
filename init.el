@@ -726,6 +726,12 @@ The current block is the one that contains point or follows point."
   :if (command-exists-p "rg"))
 (use-package term-projectile)
 
+(use-package csv-mode
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+    ))
+
 (when my-init-ansible
   (use-package ansible
     :config
