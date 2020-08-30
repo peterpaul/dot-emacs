@@ -411,6 +411,9 @@ will only work on systems where the command =which= exists."
 (use-package company
   :config (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 ;; Additional completion packages
 (use-package company-lsp
   :after (company lsp-mode)
