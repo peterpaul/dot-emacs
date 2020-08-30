@@ -621,6 +621,13 @@ The current block is the one that contains point or follows point."
 
 (use-package logview)
 
+(use-package lsp-mode
+  :hook ((rust-mode . lsp)
+         (lsp-mode .  lsp-enable-which-key-integration))
+  :commands lsp
+  :config (progn
+            (setq lsp-rust-server 'rust-analyzer)))
+
 (use-package lsp-ui
   :after lsp-mode
   :commands lsp-ui-mode
@@ -631,6 +638,10 @@ The current block is the one that contains point or follows point."
                 lsp-ui-sideline-show-code-actions t
                 lsp-ui-sideline-update-mode 'point))
 
+(use-package lsp-ivy
+  :after lsp-mode
+  :commands lsp-ivy-workspace-symbol)
+
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
 
@@ -639,21 +650,6 @@ The current block is the one that contains point or follows point."
   :config
   (dap-mode t)
   (dap-ui-mode t))
-
-;; First install rust language server with:
-;;
-;; $ rustup component add rls rust-analysis rust-src
-(use-package lsp-mode
-  :hook (rust-mode . lsp)
-  :commands lsp
-  :config
-  (setq lsp-print-io t)
-  (setq lsp-rust-rls-command '("rls"))
-  ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
-  ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly-2018-12-06" "rls"))
-  (setenv "RUST_BACKTRACE" "full")
-  (setenv "RUST_LOG" "rls::=debug"))
-
 
 (when my-init-rust
   (use-package cargo
