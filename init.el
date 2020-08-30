@@ -345,7 +345,8 @@ will only work on systems where the command =which= exists."
   (progn (global-set-key "\C-cl" 'org-store-link)
          (global-set-key "\C-ca" 'org-agenda)
          (global-set-key "\C-cc" 'org-capture)
-         (global-set-key "\C-cb" 'org-iswitchb)))
+         ;; (global-set-key "\C-cb" 'org-iswitchb)
+         ))
 
 (use-package org-preview-html)
 
