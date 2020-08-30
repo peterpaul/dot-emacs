@@ -302,6 +302,11 @@ will only work on systems where the command =which= exists."
   (use-package highlight-defined
     :config
     (add-hook 'emacs-lisp-mode-hook 'highlight-defined-mode))
+  ;; (use-package sidebar
+  ;;   :straight (sidebar
+  ;;              :type git
+  ;;              :host github
+  ;;              :repo "sebastiencs/sidebar.el"))
   (use-package smartparens
     :config
     (require 'smartparens-config)))
