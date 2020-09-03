@@ -326,6 +326,7 @@ will only work on systems where the command =which= exists."
   ;; Global settings (defaults)
   (doom-themes-enable-bold t "Enable bold universally")    ; if nil, bold is universally disabled
   (doom-themes-enable-italic t "Enable italics universally") ; if nil, italics is universally disabled
+  (doom-themes-treemacs-theme "doom-colors" "Use the colorful treemacs theme") ; use the colorful treemacs theme
   )
 
 (use-package guru-mode
