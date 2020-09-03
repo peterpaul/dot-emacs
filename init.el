@@ -291,7 +291,7 @@ will only work on systems where the command =which= exists."
   (use-package aggressive-indent
     :config
     (progn
-      (global-aggressive-indent-mode 1)
+      (global-aggressive-indent-mode nil)
       (add-to-list 'aggressive-indent-excluded-modes 'java-mode)))
   (use-package beacon
     :config (beacon-mode 1))
