@@ -1059,6 +1059,24 @@ The current block is the one that contains point or follows point."
 (use-package keystore-mode
   :if (command-exists-p "keytool"))
 
+;; https://github.com/stsquad/emacs_chrome
+(use-package edit-server
+  :ensure t
+  :commands edit-server-start
+  :init (if after-init-time
+              (edit-server-start)
+            (add-hook 'after-init-hook
+                      #'(lambda() (edit-server-start))))
+  :config (setq edit-server-new-frame-alist
+                '((name . "Edit with Emacs FRAME")
+                  (top . 200)
+                  (left . 200)
+                  (width . 80)
+                  (height . 25)
+                  (minibuffer . t)
+                  (menu-bar-lines . t)
+                  (window-system . x))))
+
 ;; Start server if not running
 (load "server")
 (unless (server-running-p) (server-start))
