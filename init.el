@@ -1009,6 +1009,15 @@ The current block is the one that contains point or follows point."
 
 (my-init-straight-or-quelpa
  (eval-when-compile
+   (use-package my-lisp-mode
+     :straight nil
+     :load-path "lisp"))
+ (eval-when-compile
+   (use-package my-lisp-mode
+     :load-path "lisp")))
+
+(my-init-straight-or-quelpa
+ (eval-when-compile
    (use-package customize-move-lines
      :straight nil
      :load-path "lisp"))
