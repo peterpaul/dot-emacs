@@ -302,6 +302,11 @@ will only work on systems where the command =which= exists."
   (use-package highlight-defined
     :config
     (add-hook 'emacs-lisp-mode-hook 'highlight-defined-mode))
+  ;; (use-package sidebar
+  ;;   :straight (sidebar
+  ;;              :type git
+  ;;              :host github
+  ;;              :repo "sebastiencs/sidebar.el"))
   (use-package smartparens
     :config
     (require 'smartparens-config)))
@@ -354,7 +359,8 @@ will only work on systems where the command =which= exists."
   (progn (global-set-key "\C-cl" 'org-store-link)
          (global-set-key "\C-ca" 'org-agenda)
          (global-set-key "\C-cc" 'org-capture)
-         (global-set-key "\C-cb" 'org-iswitchb)))
+         ;; (global-set-key "\C-cb" 'org-iswitchb)
+         ))
 
 (use-package org-preview-html)
 
@@ -419,6 +425,9 @@ will only work on systems where the command =which= exists."
 ;; Code completion
 (use-package company
   :config (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 
 ;; Additional completion packages
 (use-package company-lsp
@@ -630,6 +639,13 @@ The current block is the one that contains point or follows point."
 
 (use-package logview)
 
+(use-package lsp-mode
+  :hook ((rust-mode . lsp)
+         (lsp-mode .  lsp-enable-which-key-integration))
+  :commands lsp
+  :config (progn
+            (setq lsp-rust-server 'rust-analyzer)))
+
 (use-package lsp-ui
   :after lsp-mode
   :commands lsp-ui-mode
@@ -640,6 +656,10 @@ The current block is the one that contains point or follows point."
                 lsp-ui-sideline-show-code-actions t
                 lsp-ui-sideline-update-mode 'point))
 
+(use-package lsp-ivy
+  :after lsp-mode
+  :commands lsp-ivy-workspace-symbol)
+
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
 
@@ -648,21 +668,6 @@ The current block is the one that contains point or follows point."
   :config
   (dap-mode t)
   (dap-ui-mode t))
-
-;; First install rust language server with:
-;;
-;; $ rustup component add rls rust-analysis rust-src
-(use-package lsp-mode
-  :hook (rust-mode . lsp)
-  :commands lsp
-  :config
-  (setq lsp-print-io t)
-  (setq lsp-rust-rls-command '("rls"))
-  ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
-  ;; (setq lsp-rust-rls-command '("rustup" "run" "nightly-2018-12-06" "rls"))
-  (setenv "RUST_BACKTRACE" "full")
-  (setenv "RUST_LOG" "rls::=debug"))
-
 
 (when my-init-rust
   (use-package cargo
@@ -1009,6 +1014,15 @@ The current block is the one that contains point or follows point."
      :load-path "lisp"))
  (eval-when-compile
    (use-package custom-commands
+     :load-path "lisp")))
+
+(my-init-straight-or-quelpa
+ (eval-when-compile
+   (use-package my-lisp-mode
+     :straight nil
+     :load-path "lisp"))
+ (eval-when-compile
+   (use-package my-lisp-mode
      :load-path "lisp")))
 
 (my-init-straight-or-quelpa
