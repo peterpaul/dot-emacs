@@ -262,30 +262,17 @@ will only work on systems where the command =which= exists."
                               (projects . 5)
                               (agenda . 5)
                               (registers . 5)))))
+
   ;; Minimap
-  (my-init-straight-or-quelpa
-   (eval-when-compile
-     (use-package minimap
-       :if (display-graphic-p)
-       :straight (minimap :type git :host github :repo "dengste/minimap")
-       :config
-       (global-set-key [f9] 'minimap-mode)
-       :init
-       (setq minimap-window-location 'right)
-       :custom-face
-       (minimap-active-region-background ((t (:background "#4C566A"))))
-       (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))))
-   (eval-when-compile
-     (use-package minimap
-       :if (display-graphic-p)
-       :quelpa (minimap :fetcher github :repo "dengste/minimap")
-       :config
-       (global-set-key [f9] 'minimap-mode)
-       :init
-       (setq minimap-window-location 'right)
-       :custom-face
-       (minimap-active-region-background ((t (:background "#4C566A"))))
-       (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))))))
+  (use-package minimap
+    :if (display-graphic-p)
+    :config
+    (global-set-key [f9] 'minimap-mode)
+    :init
+    (setq minimap-window-location 'right)
+    :custom-face
+    (minimap-active-region-background ((t (:background "#4C566A"))))
+    (minimap-current-line-face ((t (:background "#88C0D0" :foreground "#2E3440"))))))
 
 (when my-init-pretty-heavy
   (use-package aggressive-indent
