@@ -224,6 +224,7 @@ will only work on systems where the command =which= exists."
      (use-package customize-modeline
        :load-path "lisp")))
   (use-package org-bullets
+    :after (org)
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
   (use-package diff-hl
@@ -329,6 +330,9 @@ will only work on systems where the command =which= exists."
 (use-package treemacs
   :config (global-set-key [f8] 'treemacs))
 
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
 (use-package lastpass
   :if (command-exists-p "lpass"))
 
@@ -340,18 +344,56 @@ will only work on systems where the command =which= exists."
             (global-set-key (kbd "C-c J") 'string-inflection-java-style-cycle) ;; Cycle through Java styles
             ))
 
-;; Org
-(use-package org
-  :config
-  (progn (global-set-key "\C-cl" 'org-store-link)
-         (global-set-key "\C-ca" 'org-agenda)
-         (global-set-key "\C-cc" 'org-capture)
-         ;; (global-set-key "\C-cb" 'org-iswitchb)
-         ))
+;;______________________________________________________________________
+;;;;  Installing Org with straight.el
+;;; https://github.com/raxod502/straight.el/blob/develop/README.md#installing-org-with-straightel
+(require 'subr-x)
+(straight-use-package 'git)
 
-(use-package org-preview-html)
+(defun org-git-version ()
+  "The Git version of 'org-mode'.
+Inserted by installing 'org-mode' or when a release is made."
+  (require 'git)
+  (let ((git-repo (expand-file-name
+                   "straight/repos/org/" user-emacs-directory)))
+    (string-trim
+     (git-run "describe"
+              "--match=release\*"
+              "--abbrev=6"
+              "HEAD"))))
+
+(defun org-release ()
+  "The release version of 'org-mode'.
+Inserted by installing 'org-mode' or when a release is made."
+  (require 'git)
+  (let ((git-repo (expand-file-name
+                   "straight/repos/org/" user-emacs-directory)))
+    (string-trim
+     (string-remove-prefix
+      "release_"
+      (git-run "describe"
+               "--match=release\*"
+               "--abbrev=0"
+               "HEAD")))))
+
+(provide 'org-version)
+
+;; (straight-use-package 'org) ; or org-plus-contrib if desired
+
+(use-package org-plus-contrib
+  :mode (("\\.org$" . org-mode))
+  :bind
+  ("C-c l" . org-store-link)
+  ("C-c a" . org-agenda)
+  ("C-c c" . org-capture)
+  ;; (global-set-key "C-c b" org-iswitchb)
+  )
+
+(use-package org-preview-html
+  :after (org))
 
 (use-package org-brain
+  :after (org)
   :init
   (setq org-brain-path "~/Documents/brain")
   ;; For Evil users
@@ -367,6 +409,20 @@ will only work on systems where the command =which= exists."
   (setq org-brain-title-max-length 12))
 
 (use-package htmlize)
+
+(use-package gnuplot
+  :config
+  (progn
+    ;; these lines enable the use of gnuplot mode
+    (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+    (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+
+    ;; this line automatically causes all files with the .gp extension to be loaded into gnuplot mode
+    (setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+
+    ;; This line binds the function-9 key so that it opens a buffer into gnuplot mode
+    ;; (global-set-key [(f9)] 'gnuplot-make-buffer)
+    ))
 
 (use-package epresent
   :after (org))
@@ -965,6 +1021,12 @@ The current block is the one that contains point or follows point."
     (interactive)
     (start-process-shell-command "xrandr" nil "--output eDP-1 --off --output HDMI-2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-3 --off --output DP-2 --off --output DP-1 --off")
     (setq exwm-randr-workspace-monitor-plist '(0 "HDMI-1" 1 "HDMI-2"))
+    (exwm-randr-refresh))
+
+  (defun peterpaulk/xrandr-desk-home ()
+    (interactive)
+    (start-process-shell-command "xrandr" nil "--output eDP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-2 --off --output DP-3 --off --output DP-2 --off --output DP-1 --off")
+    (setq exwm-randr-workspace-monitor-plist '(0 "eDP-1" 1 "HDMI-1"))
     (exwm-randr-refresh))
 
   (defun peterpaulk/xrandr-laptop ()
