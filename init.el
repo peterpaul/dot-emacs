@@ -491,6 +491,10 @@ Inserted by installing 'org-mode' or when a release is made."
 (use-package magit
   :if (command-exists-p "git"))
 
+(use-package forge
+  :if (command-exists-p "git")
+  :after (magit))
+
 (use-package monky
   :if (command-exists-p "hg"))
 
