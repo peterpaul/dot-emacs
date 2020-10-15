@@ -597,7 +597,7 @@ Inserted by installing 'org-mode' or when a release is made."
   :config
   (progn
     (defun colorize-compilation-buffer ()
-      (ansi-color-apply-on-region compilation-filter-start (point)))
+      (ansi-color-apply-on-region compilation-filter-start (point-max)))
     (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)))
 
 (use-package eterm-256color
@@ -643,7 +643,17 @@ The current block is the one that contains point or follows point."
     :config
     (progn
       (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-      (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))))
+      (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)))
+
+  (use-package typescript-mode)
+
+  (use-package tide
+    :after (typescript-mode company flycheck)
+    :hook ((typescript-mode . tide-setup)
+           (typescript-mode . tide-hl-identifier-mode)
+           (before-save . tide-format-before-save)))
+
+  (use-package ts-comint))
 
 (use-package discover-my-major
   :config
