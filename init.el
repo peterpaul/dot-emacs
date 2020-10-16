@@ -348,7 +348,7 @@ will only work on systems where the command =which= exists."
 ;;;;  Installing Org with straight.el
 ;;; https://github.com/raxod502/straight.el/blob/develop/README.md#installing-org-with-straightel
 (require 'subr-x)
-(straight-use-package 'git)
+(use-package git)
 
 (defun org-git-version ()
   "The Git version of 'org-mode'.
@@ -378,16 +378,23 @@ Inserted by installing 'org-mode' or when a release is made."
 
 (provide 'org-version)
 
-;; (straight-use-package 'org) ; or org-plus-contrib if desired
-
-(use-package org-plus-contrib
-  :mode (("\\.org$" . org-mode))
-  :bind
-  ("C-c l" . org-store-link)
-  ("C-c a" . org-agenda)
-  ("C-c c" . org-capture)
-  ;; (global-set-key "C-c b" org-iswitchb)
-  )
+(my-init-straight-or-quelpa
+ (use-package org-plus-contrib
+   :mode (("\\.org$" . org-mode))
+   :bind
+   ("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)
+   ("C-c c" . org-capture)
+   ;; (global-set-key "C-c b" org-iswitchb)
+   )
+ (use-package org
+   :mode (("\\.org$" . org-mode))
+   :bind
+   ("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)
+   ("C-c c" . org-capture)
+   )
+ )
 
 (use-package org-preview-html
   :after (org))
